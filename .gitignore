@@ -1,0 +1,21 @@
+*.pyc
+.DS_Store
+*.psd
+
+# production files with secrets
+config.py
+
+# virtualenv directories
+env/
+venv/
+ENV/
+
+# extra project directories
+extras/
+node_modules/
+
+# komodo project stuff
+.komodotools
+*.komodoproject
+project/test.db
+*.ai
