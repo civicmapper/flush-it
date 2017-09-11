@@ -125,8 +125,8 @@ var messageControl = {
 		this.reset();
 	},
 	onTraceStart: function() {
-		$('#addressSearch').hide();
-		$('#msg-tracing').show();
+		$('#addressSearch').fadeOut();
+		$('#msg-tracing').fadeIn();
 	},
 	onTraceComplete: function() {
 		// populate values
@@ -137,25 +137,25 @@ var messageControl = {
 			$('#munihoods').append('<li>' + v + '</li>');
 		});
 		///turn on/off msgs
-		$('#msg-tracing').hide();
-		$('#msg-results').show();
-		$('#resetButton').show();
-		//$('.after-trace').show();
+		$('#msg-tracing').fadeOut();
+		$('#msg-results').fadeIn();
+		$('#resetButton').fadeIn();
+		//$('.after-trace').fadeIn();
 
 	},
 	onError: function(msg) {
 		$('#msg-error').html(msg);
-		$('#msg-tracing').hide();
-		$('#msg-error').show();
-		$('#resetButton').show();
+		$('#msg-tracing').fadeOut();
+		$('#msg-error').fadeIn();
+		$('#resetButton').fadeIn();
 	},
 	reset: function() {
-		$('#addressSearch').show();
-		$('#msg-tracing').hide();
-		$('#msg-results').hide();
-		$('#msg-error').hide();
-        $('#resetButton').hide();
-		//$('.after-trace').hide();
+		$('#addressSearch').fadeIn();
+		$('#msg-tracing').fadeOut();
+		$('#msg-results').fadeOut();
+		$('#msg-error').fadeOut();
+        $('#resetButton').fadeOut();
+		//$('.after-trace').fadeOut();
 	},
 };
 
@@ -745,9 +745,9 @@ $(document).on("ready", function() {
 	// clear the address search box, since on page refresh the text might be retained
 	$('#searchbox').val('');
 	// hide the loading screen (revealing the map)
-	$("#loadingScreen").hide();
+	$("#loadingScreen").fadeOut();
 	// show the message control
-	$('#messageControl').show();
+	$('#messageControl').fadeIn();
 
 	console.log("Ready to get flushing.");
 });
