@@ -1,59 +1,193 @@
-html,
+@import url('https://fonts.googleapis.com/css?family=Fjalla+One');
+
 body {
-    height: 100%;
-    width: 100%;
+	padding: 0;
+	margin: 0;
 }
-body {
-    margin: 0;
+
+html,body,#map,#loadingScreen {
+	height: 100%;
+	width: 100%;
+	font-family: 'Fjalla One', sans-serif;
 }
-#map {
-    width: 100%;
-    height: 450px;
+
+#loadingScreen {
+	z-index: 50000;
+	background-color: #000;
+	color: #fff;
 }
+
+#credits, #titleBlock, #msg-results {
+	margin-top: 20px;
+	margin-right: 10px;
+	padding: 10px;
+	background-color: rgba(25,25,25,0.7);
+	box-shadow: 5px 5px 10px rgba(25,25,25,0.9);
+}
+.credit-logos {
+	width: 200px;
+}
+
+#msg-results {
+	color:#fff;
+	text-shadow: 5px 5px 10px rgba(25,25,25,0.9);
+}
+
+#traceLength, #traceLengthMi, #inchMiles {
+	/*color: #B0BB01;*/
+	color: #48CBDB;
+}
+#munihoods {
+	color: #D36122;
+}
+
+/* cross-platform shadows for transparent pngs */
+.shadowed {
+	filter:"progid:DXImageTransform.Microsoft.Dropshadow(OffX=5, OffY=5,
+Color='#191919')";
+	filter: url(#drop-shadow);
+	-webkit-filter: drop-shadow(5px 5px 5px rgba(25,25,25,0.9));
+	filter: drop-shadow(5px 5px 5px rgba(25,25,25,0.9));
+}
+
+#title {
+	color: #fff;
+	text-shadow: 5px 5px 10px rgba(25,25,25,0.9);
+}
+#subtitle {
+	color: #fff;
+	font-size: 0.5em !important;
+	text-shadow: 5px 5px 10px rgba(25,25,25,0.9);
+}
+
+#addressSearch {
+	width: 100%%;
+}
+
+#messageControl {
+  position: absolute;
+  width: 50%;
+  top: 75%;
+  left: 25%;
+  transform: translateY(-75%); /* using the CSS3 Transform technique */
+  /*margin: -10px 0 0 -110px;*/
+  padding-top: 10px;
+  margin-bottom: 10px;
+  z-index: 20001;
+}
+
+#msg-loading {
+  position: absolute;
+  width: 50%;
+  top: 50%;
+  left: 25%;
+  transform: translateY(-50%); /* using the CSS3 Transform technique */
+  padding-top: 10px;
+  margin-bottom: 10px;
+  z-index: 30001;
+}
+
+.messages {
+	color:#fff;	
+}
+
+
+.leaflet-control-zoom, #resetButton, .twitter-typeahead {
+	box-shadow: 5px 5px 10px rgba(25,25,25,0.9);
+}
+
 
 /**
  * Typeahead
  */
 
 .tt-dropdown-menu {
-  background-color: #FFFFFF;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 4px 4px 4px 4px;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-  margin-top: 4px;
-  padding: 4px 0;
-  width: 100%;
-  max-height: 300px;
-  overflow: auto;
+	background-color: #FFFFFF;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	border-radius: 4px 4px 4px 4px;
+	box-shadow: 5px 5px 10px rgba(25,25,25,0.9);
+	margin-top: 4px;
+	padding: 4px 0;
+	width: 100%;
+	max-height: 300px;
+	overflow: auto;
+	z-index: 10000 !important;
 }
+
 .tt-suggestion {
-  font-size: 14px;
-  line-height: 20px;
-  padding: 3px 10px;
+	font-size: 14px;
+	line-height: 20px;
+	padding: 3px 10px;
 }
+
 .tt-suggestion.tt-cursor {
-  background-color: #0097CF;
-  color: #FFFFFF;
-  cursor: pointer;
+	background-color: #0097CF;
+	color: #FFFFFF;
+	cursor: pointer;
 }
+
 .tt-suggestion p {
-  margin: 0;
+	margin: 0;
 }
-.tt-suggestion + .tt-suggestion {
-  border-top: 1px solid #ccc;
+
+.tt-suggestion+.tt-suggestion {
+	border-top: 1px solid #ccc;
 }
+
 .typeahead-header {
-  margin: 0 5px 5px 5px;
-  padding: 3px 0;
-  border-bottom: 2px solid #333;
+	margin: 0 5px 5px 5px;
+	padding: 3px 0;
+	border-bottom: 2px solid #333;
 }
+
 .has-feedback .form-control-feedback {
-  position: absolute;
-  top: 0;
-  right: 0;
-  display: block;
-  width: 34px;
-  height: 34px;
-  line-height: 34px;
-  text-align: center;
+	position: absolute;
+	top: 0;
+	right: 0;
+	display: block;
+	width: 34px;
+	height: 34px;
+	line-height: 34px;
+	text-align: center;
 }
+
+
+/* Animated Line */
+
+/*svg {
+	position: relative;
+}*/
+
+/*path {
+	fill: yellow;
+	stroke-width: 2px;
+	stroke: red;
+	stroke-opacity: 1;
+}*/
+
+/*.travelMarker {
+	fill: yellow;
+	opacity: 0.75;
+}
+
+.waypoints {
+	fill: white;
+	opacity: 0;
+}
+
+}
+.drinks {
+	stroke: black;
+	fill: red;
+}
+.lineConnect {
+	fill: none;
+	stroke: yellow;
+	opacity: 1;
+}
+.locnames {
+	fill: white;
+	text-shadow: 1px 1px 1px #FFF, 3px 3px 5px #000;
+	font-weight: bold;
+	font-size: 13px;
+}*/
