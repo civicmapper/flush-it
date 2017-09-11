@@ -5,11 +5,6 @@
 var dissolve = require('geojson-dissolve');
 
 /** -------------------------------------------------------------------------
- * SETUP
- */
-//$('#messageControl').hide();
-
-/** -------------------------------------------------------------------------
  * GIS, geoprocessing, and services config
  */
 var atlas = {
@@ -54,6 +49,7 @@ var traceSummary = {
 
 /**
  * Message Div - shows instructions and status of analysis, overlaid on map
+ * (only parts of this are used; it will be cleaned up)
  */
 var messageControl = {
 	element: function() {
@@ -163,6 +159,7 @@ var messageControl = {
  */
 
 // layer styles
+
 var traceSourceStyle = {
 	fillColor: "#FFF",
 	fillOpacity: 0.8,
@@ -192,21 +189,14 @@ var traceResultStyle = {
 };
 
 // base map layers
-//var cartoDark = L.tileLayer("https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png", {
-//	maxZoom: 20,
-//	zIndex: 1,
-//	attribution: 'Basemap &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors & &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
-//});
+
 var basemap = L.tileLayer("https://api.mapbox.com/styles/v1/cbgthor624/cipq73zea0010brnl8jlui4dz/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2JndGhvcjYyNCIsImEiOiJzZ2NaNmo4In0.hbXzZPAvaCO5GLu45bptTw", {
 	maxZoom: 20,
 	zIndex: 1,
 	attribution: 'Basemap &copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a><span> and &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a></span>'
 });
-//var mapboxImagery = L.tileLayer("https://api.mapbox.com/styles/v1/civicmapper/citn32v7h002v2iprmp4xzjkr/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2l6cmdnaXc4MDExNTJ2b2F3NThkZm5wNiJ9.N8lpb_oxpIX22eTk1-hI2w", {
-//    maxZoom: 20,
-//    zIndex: 1,
-//    attribution: "&copy; Mapbox &copy; OpenStreetMap &copy; DigitalGlobe"
-//});
+
+// reference layers
 
 var serviceArea = L.esri.featureLayer({
 	url: 'https://services6.arcgis.com/dMKWX9NPCcfmaZl3/arcgis/rest/services/alcosan_basemap/FeatureServer/0',
@@ -244,6 +234,8 @@ muniLayer.query().where("MUNI_NAME IS NOT NULL").run(function(error, featureColl
 });
 
 
+// operational layers
+
 // geocoded address point
 var addressPoint = L.geoJSON(null, {
     pointToLayer: function(geoJsonPoint, latlng) {
@@ -270,34 +262,33 @@ var trwwTraceDestin = L.marker([40.474609776126599,-80.044474186387205], {
 // downstream trace result
 var trwwTraceResult = L.geoJSON(null, traceResultStyle);
 // downstream trace result (points)
-//var trwwTracePoints = L.geoJSON(null, {
-//	//style: traceResultStyle,
-//	onEachFeature: function(feature, layer) {
-//		if (feature.properties && feature.properties.time) {
-//			var p = L.popup().setContent("<h4>" + feature.properties.time + "</h4>");
-//			layer.bindPopup(p);
-//		}
-//	},
-//	pointToLayer: function(feature, latlng) {
-//		return L.circleMarker(
-//			latlng, {
-//				fillColor: "#FFF",
-//				fillOpacity: 0.8,
-//				radius: 4,
-//				stroke: true,
-//				color: "#00FFFF",
-//				weight: 4,
-//				opacity: 0.5
-//			}
-//		);
-//	}
-//});
+var trwwTracePoints = L.geoJSON(null, {
+	//style: traceResultStyle,
+	onEachFeature: function(feature, layer) {
+		if (feature.properties && feature.properties.time) {
+			var p = L.popup().setContent("<h4>" + feature.properties.time + "</h4>");
+			layer.bindPopup(p);
+		}
+	},
+	pointToLayer: function(feature, latlng) {
+		return L.circleMarker(
+			latlng, {
+				fillColor: "#FFF",
+				fillOpacity: 0.8,
+				radius: 4,
+				stroke: true,
+				color: "#00FFFF",
+				weight: 4,
+				opacity: 0.5
+			}
+		);
+	}
+});
 var trwwStructures = L.esri.dynamicMapLayer({
 	url: atlas.rsi_featurelayer.url,
 	layers: atlas.rsi_featurelayer.layers,
 	token: atlas.rsi_featurelayer.token.token,
     layerDefs: atlas.rsi_featurelayer.layerDefs
-	//proxy: atlas.proxy.url
 });
 
 /** -------------------------------------------------------------------------
@@ -331,8 +322,8 @@ serviceArea.query().bounds(function (error, latlngbounds) {
 });
 
 
-/**
- * Controls
+/** -------------------------------------------------------------------------
+ * MAP CONTROLS
  */
 
 L.control.custom({
@@ -342,27 +333,12 @@ L.control.custom({
     content: '<h1 id="title">Flush the Toilet!<br><span id="subtitle">See where your wastewater goes when you flush!</span></h1>'
 }).addTo(map);
 
-//L.control.custom({
-//    id:'addressSearch',
-//    position: 'topleft',
-//    content : '<div id="searchbox-container"><form role="search"><div class="form-group has-feedback"><input id="searchbox" class="searchbox form-control"type="text" placeholder="Enter an address" data-content="Search by Address."><span id="searchicon" class="fa fa-search form-control-feedback"></span></div></form></div>',
-//    style: {
-//        width: '250px',
-//        //margin: '10px',
-//        //padding: '0px 0 0 0'
-//        //cursor: 'pointer',
-//    }
-//}).addTo(map);
-
 L.control.custom({
 	id: 'credits',
 	position: 'topright',
 	content: '<img class="credit-logos" src="resources/logo_alcosan.png"/><br><br><img class="credit-logos" src="resources/logo_3rww.png"/><br><br><img class="credit-logos" src="resources/logo_civicmapper.png"/>',
 	style: {
 		width: '220px',
-		//margin: '10px',
-		//padding: '0px 0 0 0'
-		//cursor: 'pointer',
 	}
 }).addTo(map);
 
@@ -389,10 +365,9 @@ map.on("layeradd", function(e) {
  * SEWER DATA QUERY
  */
 
-var found;
 /**
- * from a point (as L.latlng) find the nearest sewer structure
- * this is made to work with a the Sewer Atlas map service.
+ * From a point (as L.latlng) find the nearest sewer structure.
+ * This is made to work with a the Sewer Atlas map service.
  */
 function findNearestStructure(latlng) {
 	var searchDistance = 1320;
@@ -407,7 +382,6 @@ function findNearestStructure(latlng) {
 				console.log(error);
 			} else {
 				if (featureCollection.features.length > 0) {
-					found = true;
 					console.log("trwwStructures.query():", response);
 					//returns[searchDistance] = featureCollection;
 					var nearest = turf.nearest(targetPoint, featureCollection);
@@ -439,18 +413,26 @@ function clearNetworkTrace() {
 	trwwTraceResult.clearLayers();
 }
 
-
+/**
+ * display message when trace is running
+ */
 function traceRunning() {
 	console.log("Trace initialized...");
 	messageControl.onTraceStart();
 }
 
+/**
+ * display error when trace fails
+ */
 function traceError(error) {
 	msg = "Trace: " + error.message + "(code: " + error.code + ")";
 	console.log(msg);
 	messageControl.onError("<p>There was an error with the trace:<br>" + msg + "<p>");
 }
 
+/**
+ * do things when trace is complete
+ */
 function traceSuccess() {
 	messageControl.onTraceComplete();
 	msg = "Trace Complete";
@@ -476,11 +458,16 @@ function traceSummarize(featureCollection, summaryGeography) {
 	console.log(traceSummary);
 }
 
+/**
+ * given an input feature (geojson point), trace downstream on the 3RWW Sewer
+ * Atlas network dataset.
+ */
 function traceExecute(inputFeature) {
 
-	traceRunning();
+	// display "flushing" message
+    traceRunning();
 
-	// create a Terraformer Primitive to be passed to the GP tool
+	// create a Terraformer Primitive from input (passed to the GP tool)
 	var source = new Terraformer.Point({
 		type: "Point",
 		coordinates: [
@@ -526,9 +513,8 @@ function traceExecute(inputFeature) {
 				console.log("There was an error: ", error);
 				traceError(error);
 			} else {
-
 				/**
-				 * Draw the Line
+				 * Derive a simplified trace from the GP results for display
 				 */
 				// convert ESRI Web Mercator to Leaflet Web Mercator
 				console.log("reprojecting results...");
@@ -545,7 +531,7 @@ function traceExecute(inputFeature) {
 				map.fitBounds(trwwTraceResult.getBounds());
 
 				/**
-				 * generate summaries
+				 * Generate Summaries
 				 */
 				traceSummarize(fc1, muniFC);
 
@@ -557,16 +543,28 @@ function traceExecute(inputFeature) {
 				// animate
 				//traceAnimate(tracePoints);
 
+                // Display completion messages, results, etc.
 				traceSuccess();
-
 				console.log("Trace Results:", gc1);
 			}
 		});
 	});
 }
 
+/**
+ * NETWORK TRACE button click - run the trace once address has been identified (this could be accessed from the address pop-up)
+ */
+$(document).on("click", "#networkTrace", function() {
+	// clear previous traces
+	clearNetworkTrace();
+    // get the geojson from the layer
+	var nearest = trwwTraceSource.toGeoJSON();
+	// run the GP using the geojson
+	traceExecute(nearest);
+});
+
 /** 
- * click event for reseting the analysis function
+ * click event to reset the analysis function
  */
 $(document).on("click", '#' + messageControl.messages.reset.id, function() {
 	console.log("Resetting the trace.");
@@ -581,19 +579,7 @@ $(document).on("click", '#' + messageControl.messages.reset.id, function() {
 	resetAddressSearch();
 });
 
-/**
- * NETWORK TRACE button click - run the trace once address has been identified (this could be accessed from the address pop-up)
- */
-$(document).on("click", "#networkTrace", function() {
-	// clear previous traces
-	clearNetworkTrace();
-    // get the geojson from the layer
-	var nearest = trwwTraceSource.toGeoJSON();
-	// run the GP using the geojson
-	traceExecute(nearest);
-});
-
-/****************************************************************************
+/**--------------------------------------------------------------------------
  * Typeahead search functionality
  */
 
@@ -735,8 +721,8 @@ function geojson_set(array, property) {
 	return unique;
 }
 
-/****************************************************************************
- * Document set-up
+/**---------------------------------------------------------------------------
+ * DOCUMENT INITIALIZATION
  */
 
 messageControl.init(map);
@@ -749,7 +735,7 @@ $(document).on("ready", function() {
 	// show the message control
 	$('#messageControl').show();
 
-	console.log("ready");
+	console.log("Ready to get flushing.");
 });
 },{"geojson-dissolve":4}],2:[function(require,module,exports){
 module.exports = {
