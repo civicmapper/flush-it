@@ -1,49 +1,206 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-/**
- * Steps:
- * 
- * 1. Search Address via Typeahead / Bloodhound. Once found, user presses button
- * to trace. Result from search initiates.
- * 2. Search for the nearest structure. When nearest structure is found...
- * 3. Run a Trace from the structure. When the trace completes...
- * 4. Post-process the trace results into a single line, and then split the line evenly.
- * 5  Animate the addition of the line to the map.
- */
-
 /** -------------------------------------------------------------------------
  * DEPENDENCIES
  */
-
 var dissolve = require('geojson-dissolve');
+
+/** -------------------------------------------------------------------------
+ * SETUP
+ */
+//$('#messageControl').hide();
 
 /** -------------------------------------------------------------------------
  * GIS, geoprocessing, and services config
  */
-var atlas = {};
-atlas.rsi_featurelayer = {
-    url : 'http://geo.civicmapper.com/arcgis/rest/services/rsi_featurelayer/MapServer',
-    token : {"token":"OjzT3H7TCdHjiGgsdijn8N07tv2eyTa8hsvJ6dkiPryevQ0dlCi0oQFvHNBNV8G_","expires":1503271905287},
-    layers: 'all:0,2,3,4'
-};
-atlas.rsi_networktrace = {
-    url : 'https://arcgis4.roktech.net/arcgis/rest/services/rsi/NetworkTrace/GPServer/NetworkTrace/',
-    token : {"token":"y2ldVKK-LXvwGBPpX_pKx9CQlMrGg3_mbJFFOY76HQF-XwzH6Dg78xB31rysl_ut","expires":1505783943513}
-};
-atlas.proxy = {
-    url : 'https://mds.3riverswetweather.org/atlas/proxy/proxy.ashx'
+var atlas = {
+	rsi_featurelayer: {
+		url: 'http://geo.civicmapper.com/arcgis/rest/services/rsi_featurelayer/MapServer',
+		token: {
+			"token": "Y23ZSLB9QDcPqedTywkiRbIXRIgnoNMsf3M5mNzMnXi3pGtiuqyhrfDFMS0Nvd0n",
+			"expires": 1505162076379
+		},
+		layers: [0,2,3,4,5],
+        layerDefs: {0:"LBS_TAG='LBs_1319249'"}
+	},
+	rsi_networktrace: {
+		url: 'https://arcgis4.roktech.net/arcgis/rest/services/rsi/NetworkTrace/GPServer/NetworkTrace/',
+		token: {
+			"token": "yTefrE0LSM8sq0acoMNA9mzK94dyzgOsRuMOoXRyrFeM9Ly6X4TfZIIXDA_Jx-d2",
+			"expires": 1505161995581
+		}
+	},
+	proxy: {
+		url: 'https://mds.3riverswetweather.org/atlas/proxy/proxy.ashx'
+	}
 };
 
-//var searchDistances = [10,20,40,80,160,320,640];
+/**
+ * trace results summary object
+ */
+var traceSummary = {
+	length: 0,
+	inchmiles: 0,
+	places: [],
+    datum: {},
+	reset: function() {
+		// reset values
+		this.length = 0;
+		this.inchmiles = 0;
+		this.munihoods = [];
+        this.datum = {};
+		$('.traceResults').empty();
+	}
+};
+
+/**
+ * Message Div - shows instructions and status of analysis, overlaid on map
+ */
+var messageControl = {
+	element: function() {
+		return $('#messageControl');
+	},
+	messages: {
+		loading: {
+			id: 'msg-loading',
+			text: '<span id="msg-loading"><i class="fa fa-cog fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span></span>',
+			setMsg: $('#messageControl').html(this.text),
+		},
+		instructions: {
+			id: 'msg-instructions',
+			text: '<h3>Enter an address <i class="fa fa-map-marker"></i><h3>',
+			setMsg: $('#messageControl').html(this.text),
+		},
+		tracing: {
+			id: 'msg-tracing',
+			text: '<div id="msg-tracing">Flushing...<i class="fa fa-cog fa-spin fa-3x fa-fw"></i><span class="sr-only">Tracing...</span></div>',
+			setMsg: $('#' + this.id).html(this.text),
+		},
+		results: {
+			traceLength: {
+				id: "traceLength",
+				text: '<h3>Distance to Plant:<br><span id="traceLength"></span> feet</h3>'
+			},
+			inchMiles: {
+				id: "inchMiles",
+				text: '<h3>Inch-Miles (a proxy for capacity):<br><span id="inchMiles"></span></h3>'
+			},
+			munihoods: {
+				id: "munihoods",
+				text: '<h3>Municipalities & Pittsburgh Neighborhoods Passed Through:</h3><ul id="munihoods"></ul>'
+			}
+		},
+		reset: {
+			id: 'resetButton',
+			text: '<button id="resetButton" type="button" class="btn btn-default btn-lg btn-block">Start Over</button>',
+			setMsg: $('#' + this.id).html(this.text)
+		},
+		error: {
+
+		}
+	},
+	init: function(leafletMap) {
+
+		L.control.custom({
+			id: 'msg-results',
+			classes: 'after-trace',
+			position: 'topleft',
+			content: '<h4>Distance to Plant:<br><span id="traceLength" class="traceResults"></span> feet (<span id="traceLengthMi" class="traceResults"></span> miles)</h4>' + '<h4>Inch-Miles (a proxy for capacity):<br><span id="inchMiles" class="traceResults"></span></h4>' + '<h4>Municipalities/Neighborhoods Passed:</h4><ul id="munihoods" class="traceResults"></ul>',
+			style: {
+				width: '300px',
+			}
+		}).addTo(leafletMap);
+
+		L.control.custom({
+			id: '#' + this.messages.reset.id,
+			classes: 'after-trace',
+			position: 'bottomright',
+			content: this.messages.reset.text,
+			style: {
+				width: '250px',
+			}
+		}).addTo(leafletMap);
+
+		// then set it its initial visibility and content state
+		this.reset();
+	},
+	onTraceStart: function() {
+		$('#addressSearch').hide();
+		$('#msg-tracing').show();
+	},
+	onTraceComplete: function() {
+		// populate values
+		$('#traceLength').html(traceSummary.length.toFixed(2));
+        $('#traceLengthMi').html((traceSummary.length * 0.0001893939).toFixed(2));
+		$('#inchMiles').html(traceSummary.inchmiles.toFixed(2));
+		$.each(traceSummary.places, function(i, v) {
+			$('#munihoods').append('<li>' + v + '</li>');
+		});
+		///turn on/off msgs
+		$('#msg-tracing').hide();
+		$('#msg-results').show();
+		$('#resetButton').show();
+		//$('.after-trace').show();
+
+	},
+	onError: function(msg) {
+		$('#msg-error').html(msg);
+		$('#msg-tracing').hide();
+		$('#msg-error').show();
+		$('#resetButton').show();
+	},
+	reset: function() {
+		$('#addressSearch').show();
+		$('#msg-tracing').hide();
+		$('#msg-results').hide();
+		$('#msg-error').hide();
+        $('#resetButton').hide();
+		//$('.after-trace').hide();
+	},
+};
 
 /** ---------------------------------------------------------------------------
  * MAP LAYERS
  */
 
+// layer styles
+var traceSourceStyle = {
+	fillColor: "#FFF",
+	fillOpacity: 0.8,
+	radius: 5,
+	stroke: true,
+	color: "#00FFFF",
+	weight: 5,
+	opacity: 0.5
+};
+var addressStyle = {
+	fillColor: "#FFF",
+	fillOpacity: 0.8,
+	radius: 10,
+	stroke: true,
+	color: "#00FFFF",
+	weight: 10,
+	opacity: 0.5
+};
+var traceResultStyle = {
+	fillColor: "#FFF",
+	fillOpacity: 0.7,
+	radius: 8,
+	stroke: true,
+	color: "#00FFFF",
+	weight: 12,
+	opacity: 0.75
+};
+
 // base map layers
-var cartoDark = L.tileLayer("https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png", {
-    maxZoom: 20,
-    zIndex: 1,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
+//var cartoDark = L.tileLayer("https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png", {
+//	maxZoom: 20,
+//	zIndex: 1,
+//	attribution: 'Basemap &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors & &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
+//});
+var basemap = L.tileLayer("https://api.mapbox.com/styles/v1/cbgthor624/cipq73zea0010brnl8jlui4dz/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2JndGhvcjYyNCIsImEiOiJzZ2NaNmo4In0.hbXzZPAvaCO5GLu45bptTw", {
+	maxZoom: 20,
+	zIndex: 1,
+	attribution: 'Basemap &copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a><span> and &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a></span>'
 });
 //var mapboxImagery = L.tileLayer("https://api.mapbox.com/styles/v1/civicmapper/citn32v7h002v2iprmp4xzjkr/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2l6cmdnaXc4MDExNTJ2b2F3NThkZm5wNiJ9.N8lpb_oxpIX22eTk1-hI2w", {
 //    maxZoom: 20,
@@ -51,62 +208,96 @@ var cartoDark = L.tileLayer("https://cartodb-basemaps-{s}.global.ssl.fastly.net/
 //    attribution: "&copy; Mapbox &copy; OpenStreetMap &copy; DigitalGlobe"
 //});
 
-// layer styles
-var highlightStyle = {
-    stroke: true,
-    color: "#00FFFF",
-    fillColor: "#00FFFF",
-    fillOpacity: 0.7,
-    radius: 12,
-    weight: 10
-};
-var traceSourceStyle = {
-    fillColor: "#FFF",
-    fillOpacity: 0.8,
-    radius: 10,
-    stroke: true,
-    color: "#00FFFF",
-    weight: 10,
-    opacity: 0.5
-};
-var traceResultStyle = {
-    fillColor: "#FFF",
-    fillOpacity: 0.7,
-    radius: 8,
-    stroke: true,
-    color: "#00FFFF",
-    weight: 14,
-    opacity: 0.4
-};
-
-// make layers
-var highlight = L.geoJson(null,highlightStyle);
-var trwwTraceSource = L.circleMarker(null, traceSourceStyle);
-var trwwTraceResult = L.geoJson(null,traceResultStyle);
-var trwwTracePoints = L.geoJson(null,{
-    style: traceResultStyle,
-    pointToLayer: function(feature, latlng) {
-        return L.circleMarker(
-            latlng,
-            {
-                fillColor: "#FFF",
-                fillOpacity: 0.8,
-                radius: 4,
-                stroke: true,
-                color: "#00FFFF",
-                weight: 4,
-                opacity: 0.5
-            }
-        );
-    }
-}).bindPopup(function (layer) {
-    return layer.feature.properties;
+var serviceArea = L.esri.featureLayer({
+	url: 'https://services6.arcgis.com/dMKWX9NPCcfmaZl3/arcgis/rest/services/alcosan_basemap/FeatureServer/0',
+	ignoreRenderer: true,
+	style: {
+        color: '#DBDBDB',
+        weight: 8,
+        opacity: 0.25,
+        fillOpacity: 0.1
+	}
 });
+
+var muniLayer = L.esri.featureLayer({
+	url: 'https://services6.arcgis.com/dMKWX9NPCcfmaZl3/arcgis/rest/services/alcosan_munis_v2/FeatureServer/1',
+	ignoreRenderer: true,
+	style: {
+        fillColor: "#D46323",
+		color: '#D46323',
+		weight: 0.75,
+		opacity: 0.5,
+		fillOpacity: 0
+	},
+	onEachFeature: function(feature, layer) {
+		if (feature.properties && feature.properties.LABEL) {
+			var p = L.popup().setContent("<h4>" + feature.properties.LABEL + "</h4>");
+			layer.bindPopup(p);
+		}
+	},
+});
+
+// get a geojson of the loaded feature layer for trace summary (used by Turf)
+var muniFC;
+muniLayer.query().where("MUNI_NAME IS NOT NULL").run(function(error, featureCollection) {
+	muniFC = featureCollection;
+});
+
+
+// geocoded address point
+var addressPoint = L.geoJSON(null, {
+    pointToLayer: function(geoJsonPoint, latlng) {
+        return L.circleMarker(latlng, addressStyle);
+    },
+    onEachFeature: function(feature, layer) {
+        //if (feature.properties && feature.properties.name) {
+        layer.bindPopup("<h4>" + feature.properties.name + "</h4><p>" + feature.geometry.coordinates[0]+ ", " + feature.geometry.coordinates[1] + "</p>").openPopup();
+        //}
+    }
+});
+// point on structure at start of trace
+var trwwTraceSource = L.geoJSON(null, {
+    pointToLayer: function(geoJsonPoint, latlng) {
+        return L.circleMarker(latlng, traceSourceStyle);
+    }
+});
+var trwwTraceDestin = L.marker([40.474609776126599,-80.044474186387205], {
+    icon: L.icon({
+        iconUrl: 'resources/marker-alcosan.png',
+        iconSize: [50, 50],
+    }),
+}).bindPopup("<h4>ALCOSAN Plant</h4>");
+// downstream trace result
+var trwwTraceResult = L.geoJSON(null, traceResultStyle);
+// downstream trace result (points)
+//var trwwTracePoints = L.geoJSON(null, {
+//	//style: traceResultStyle,
+//	onEachFeature: function(feature, layer) {
+//		if (feature.properties && feature.properties.time) {
+//			var p = L.popup().setContent("<h4>" + feature.properties.time + "</h4>");
+//			layer.bindPopup(p);
+//		}
+//	},
+//	pointToLayer: function(feature, latlng) {
+//		return L.circleMarker(
+//			latlng, {
+//				fillColor: "#FFF",
+//				fillOpacity: 0.8,
+//				radius: 4,
+//				stroke: true,
+//				color: "#00FFFF",
+//				weight: 4,
+//				opacity: 0.5
+//			}
+//		);
+//	}
+//});
 var trwwStructures = L.esri.dynamicMapLayer({
-    url: atlas.rsi_featurelayer.url,
-    layers: atlas.rsi_featurelayer.layers,
-    token : atlas.rsi_featurelayer.token.token
-    //proxy: atlas.proxy.url
+	url: atlas.rsi_featurelayer.url,
+	layers: atlas.rsi_featurelayer.layers,
+	token: atlas.rsi_featurelayer.token.token,
+    layerDefs: atlas.rsi_featurelayer.layerDefs
+	//proxy: atlas.proxy.url
 });
 
 /** -------------------------------------------------------------------------
@@ -115,64 +306,122 @@ var trwwStructures = L.esri.dynamicMapLayer({
 
 // make the map
 var map = L.map("map", {
-    zoom: 13,
-    center: [40.443, -79.992],
-    layers: [
-        cartoDark
-    ]
+	zoom: 8,
+	center: [40.443, -79.992],
+	layers: [
+		basemap
+	],
+	zoomControl: false,
+    attributionControl: false
 });
 
 // add layers to map
-highlight.addTo(map);
+serviceArea.addTo(map);
+muniLayer.addTo(map);
+//trwwStructures.addTo(map);
 trwwTraceResult.addTo(map);
-trwwTracePoints.addTo(map);
+//trwwTracePoints.addTo(map);
+trwwTraceSource.addTo(map);
+addressPoint.addTo(map);
+trwwTraceDestin.addTo(map);
 
-// set up the D3 SVG pane for the animation
+// set map view to the service area layer extents
+serviceArea.query().bounds(function (error, latlngbounds) {
+    map.fitBounds(latlngbounds);
+});
 
-var svg = d3.select(map.getPanes().overlayPane).append("svg");
-var g = svg.append("g").attr("class", "leaflet-zoom-hide");
+
+/**
+ * Controls
+ */
+
+L.control.custom({
+    id: 'titleBlock',
+	position: 'topleft',
+	style: { width: '100%'},
+    content: '<h1 id="title">Flush the Toilet!<br><span id="subtitle">See where your wastewater goes when you flush!</span></h1>'
+}).addTo(map);
+
+//L.control.custom({
+//    id:'addressSearch',
+//    position: 'topleft',
+//    content : '<div id="searchbox-container"><form role="search"><div class="form-group has-feedback"><input id="searchbox" class="searchbox form-control"type="text" placeholder="Enter an address" data-content="Search by Address."><span id="searchicon" class="fa fa-search form-control-feedback"></span></div></form></div>',
+//    style: {
+//        width: '250px',
+//        //margin: '10px',
+//        //padding: '0px 0 0 0'
+//        //cursor: 'pointer',
+//    }
+//}).addTo(map);
+
+L.control.custom({
+	id: 'credits',
+	position: 'topright',
+	content: '<img class="credit-logos" src="resources/logo_alcosan.png"/><br><br><img class="credit-logos" src="resources/logo_3rww.png"/><br><br><img class="credit-logos" src="resources/logo_civicmapper.png"/>',
+	style: {
+		width: '220px',
+		//margin: '10px',
+		//padding: '0px 0 0 0'
+		//cursor: 'pointer',
+	}
+}).addTo(map);
+
+L.control.zoom({position: 'bottomleft'}).addTo(map);
+L.control.attribution({prefix: "Built by <a href='http://www.civicmapper.com'>CivicMapper</a>"})
+    .addAttribution("Powered by <a href='http://leafletjs.com'>Leaflet</a> w/ <a href='http://esri.github.io/esri-leaflet/'>Esri-Leaflet</a>, Geocoding via <a href='https://mapzen.com/'>Mapzen</a>")
+    .addTo(map);
+
+
 
 /** -------------------------------------------------------------------------
  * MISC. MAP AND DOM EVENT LISTENERS
  */
 
-// Clear feature highlight when map is clicked
-//map.on("click", function(e) {
-//    highlight.clearLayers(); 
-//});
+/**
+ * make sure layers stay in the correct order when new ones are added later on
+ */
+map.on("layeradd", function(e) {
+    trwwTraceSource.bringToFront();
+    addressPoint.bringToFront();
+});
 
+/** -------------------------------------------------------------------------
+ * SEWER DATA QUERY
+ */
+
+var found;
 /**
  * from a point (as L.latlng) find the nearest sewer structure
  * this is made to work with a the Sewer Atlas map service.
  */
 function findNearestStructure(latlng) {
-    var searchDistance = 1320;
-    console.log("seaching within", searchDistance, "feet");
-    var targetPoint = turf.point([latlng.lng, latlng.lat]);
-    var buffer = turf.buffer(targetPoint, searchDistance, 'feet');
-    //ajax request function
-    trwwStructures.query().layer(4).fields([]).intersects(buffer)
-        //.nearby(latlng, searchDistance) // only works with feature layers
-        .run(function(error, featureCollection, response) {
-            if (error) {
-                console.log(error);
-            } else {
-                if (featureCollection.features.length > 0) {
-                    found = true;
-                    console.log(response); 
-                    //returns[searchDistance] = featureCollection;
-                    var nearest = turf.nearest(targetPoint, featureCollection);
-                    console.log(nearest);
-                    trwwTraceSource.setLatLng(
-                        L.latLng([nearest.geometry.coordinates[1], nearest.geometry.coordinates[0]])
-                    );
-                    trwwTraceSource.addTo(map);
-                    traceExecute(nearest);
-                } else {
-                    console.log("...nothing found within this distance.");
-                }                        
-            }
-        });
+	var searchDistance = 1320;
+	console.log("seaching within", searchDistance, "feet");
+	var targetPoint = turf.point([latlng.lng, latlng.lat]);
+	var buffer = turf.buffer(targetPoint, searchDistance, 'feet');
+	//ajax request function
+	trwwStructures.query().layer(4).fields([]).intersects(buffer)
+		//.nearby(latlng, searchDistance) // only works with feature layers
+		.run(function(error, featureCollection, response) {
+			if (error) {
+				console.log(error);
+			} else {
+				if (featureCollection.features.length > 0) {
+					found = true;
+					console.log("trwwStructures.query():", response);
+					//returns[searchDistance] = featureCollection;
+					var nearest = turf.nearest(targetPoint, featureCollection);
+					console.log("nearest:", nearest);
+					trwwTraceSource.addData(nearest);
+					
+					traceExecute(nearest);
+				} else {
+					console.log("...nothing found within this distance.");
+                    var content = '<div class="alert alert-danger" role="alert"><h4>It does not appear that ' + traceSummary.datum.name + ' is within the ALCOSAN service area</h4><p>(We could not find any ALCOSAN-connected sewer structures within 1/4 mile of ' + traceSummary.datum.lng + ', ' + traceSummary.datum.lat + ')</p><h4>Try another address.</h4></div>';
+                    addressPoint.setPopupContent(content);
+				}
+			}
+		});
 }
 
 
@@ -184,208 +433,164 @@ function findNearestStructure(latlng) {
  * clear the network trace layers from the map
  */
 function clearNetworkTrace() {
-    trwwTraceResult.clearLayers();
-    trwwTraceSource.remove();
+	// remove trace start point
+	trwwTraceSource.clearLayers();
+	// remove trace line
+	trwwTraceResult.clearLayers();
 }
 
-/**
- * reset the trace control/message window.
- * optional param dictates if trace result is also removed.
- */
-function resetAnalysis(clearLayers) {
-    //$('#analyze-button-item').html(analyzeButton);
-    //$('#analyze').prop("disabled", true);
-    $('#analysis-status').empty();
-    $('#analyze-control').hide();
-    if (clearLayers) {
-        clearNetworkTrace();
-    }
-}
 
 function traceRunning() {
-    msg = "Trace initialized...";
-    console.log(msg);
-    //$('#msg-status').html(makeAlert(null, 'info'));  
+	console.log("Trace initialized...");
+	messageControl.onTraceStart();
 }
 
-function traceError() {
-    msg = "Trace: " + error.message + "(code: " + error.code + ")";
-    console.log(msg);
-    //$('#msg-status').html(makeAlert(msg, 'danger'));
-    //$("#networkTrace").prop("disabled", false);
-    //$("#clear-status").show();    
+function traceError(error) {
+	msg = "Trace: " + error.message + "(code: " + error.code + ")";
+	console.log(msg);
+	messageControl.onError("<p>There was an error with the trace:<br>" + msg + "<p>");
 }
 
 function traceSuccess() {
-    msg = "Trace Complete";
-    $('#msg-status').html(makeAlert(msg, 'success'));
-    $("#networkTrace").prop("disabled", false);
-    // enable clear button 
-    $("#clear-status").show();    
+	messageControl.onTraceComplete();
+	msg = "Trace Complete";
+	console.log(msg);
 }
 
-function traceAnimate(tracePoints) {
-    var transform = d3.geo.transform({
-        point: projectPoint
-    });
-    
-    var d3path = d3.geo.path().projection(transform);
-    
-    function projectPoint(x, y) {
-        var point = map.latLngToLayerPoint(new L.LatLng(y, x));
-        this.stream.point(point.x, point.y);
-    }
-    
-    var toLine = d3.svg.line()
-        .interpolate("linear")
-        .x(function(d) {
-            return applyLatLngToLayer(d).x;
-        })
-        .y(function(d) {
-            return applyLatLngToLayer(d).y;
-        });
-    
-    function applyLatLngToLayer(d) {
-        var y = d.geometry.coordinates[1];
-        var x = d.geometry.coordinates[0];
-        return map.latLngToLayerPoint(new L.LatLng(y, x));
-    }
-
-    d3.json(tracePoints, function(collection) {
-        // Do stuff here
-    });
+/**
+ * takes the raw trace response and calculates some totals
+ */
+function traceSummarize(featureCollection, summaryGeography) {
+	console.log("summarizing trace...");
+	// generate totals
+	$.each(featureCollection.features, function(k, v) {
+		traceSummary.length += v.properties.Shape_Length;
+		traceSummary.inchmiles += v.properties.INCHMILES;
+	});
+	// generate a list of summary geographies
+	var exploded = turf.explode(featureCollection);
+	var tagged = turf.tag(exploded, summaryGeography, 'LABEL', 'places');
+	console.log(tagged);
+	var places = geojson_set(tagged.features, 'places');
+	traceSummary.places = places;
+	console.log(traceSummary);
 }
 
 function traceExecute(inputFeature) {
-    // create a Terraformer Primitive to be passed to the GP tool
-    var source = new Terraformer.Point({
-        type: "Point",
-        coordinates: [
-            inputFeature.geometry.coordinates[0],
-            inputFeature.geometry.coordinates[1]
-        ]
-    });
-    //console.log(source);
 
-    /**
-     * set up the geoprocessing service and task
-     */
-    var traceService = L.esri.GP.service({
-        url: atlas.rsi_networktrace.url,
-        token: atlas.rsi_networktrace.token.token,
-        useCors: true,
-    });
-    var traceTask = traceService.createTask();
+	traceRunning();
 
-    /**
-     * run the georpocessing task
-     */
-    traceTask.on('initialized', function() {
-        // set input Flags parameter, and then add fields references.
-        traceTask.setParam("Flag", source);
-        traceTask.params.Flag.features[0].attributes = {
-            "OBJECTID": 1
-        };
-        traceTask.params.Flag.fields = [{
-                "name": "OBJECTID",
-                "type": "esriFieldTypeOID",
-                "alias": "OBJECTID"
-            }
-        ];
-        //console.log(traceTask);
-        var trace_result;
-        traceTask.setOutputParam("Downstream_Pipes");
-        traceTask.gpAsyncResultParam("Downstream_Pipes", trace_result);
+	// create a Terraformer Primitive to be passed to the GP tool
+	var source = new Terraformer.Point({
+		type: "Point",
+		coordinates: [
+			inputFeature.geometry.coordinates[0],
+			inputFeature.geometry.coordinates[1]
+		]
+	});
+	//console.log(source);
 
-        traceRunning();
+	/**
+	 * set up the geoprocessing service and task
+	 */
+	var traceService = L.esri.GP.service({
+		url: atlas.rsi_networktrace.url,
+		token: atlas.rsi_networktrace.token.token,
+		useCors: true,
+	});
+	var traceTask = traceService.createTask();
 
-        //console.log("Trace initialized. Submitting Request...");
-        traceTask.run(function(error, result, response) {
-            console.log("Completed", response);
-            if (error) {
-                traceError();
-            } else {
-                // log some things
-                // convert ESRI Web Mercator to Leaflet Web Mercator
-                console.log("reprojecting...");
-                var fc1 = Terraformer.toGeographic(result.Downstream_Pipes);
-    
-                // dissolve the lines
-                console.log("dissolving geometry...", fc1);
-                var gc1 = dissolve(fc1);
+	/**
+	 * run the georpocessing task
+	 */
+	traceTask.on('initialized', function() {
+		// set input Flags parameter, and then add fields references.
+		traceTask.setParam("Flag", source);
+		traceTask.params.Flag.features[0].attributes = {
+			"OBJECTID": 1
+		};
+		traceTask.params.Flag.fields = [{
+			"name": "OBJECTID",
+			"type": "esriFieldTypeOID",
+			"alias": "OBJECTID"
+		}];
+		//console.log(traceTask);
+		var trace_result;
+		traceTask.setOutputParam("Downstream_Pipes");
+		traceTask.gpAsyncResultParam("Downstream_Pipes", trace_result);
 
-                /**
-                 * Draw the Line
-                 */
-                console.log("Adding data to layer...", gc1);
-                // add to the data to the waiting Leaflet object
-                trwwTraceResult.addData(gc1);
-                // add that to the map
-                console.log("Adding layer to map...");
-                trwwTraceResult.addTo(map);
-                console.log(trwwTraceResult);
-                map.fitBounds(trwwTraceResult.getBounds());
-                traceSuccess();
-                
-                /**
-                 * Make points for the animation
-                 */
-                
-                // exploded the dissolved line to points
-                var exploded = turf.explode(gc1);
-                // add a "time" property, which is just the index (draw order)
-                turf.propEach(exploded, function (currentProperties, featureIndex) {
-                  currentProperties.time = featureIndex;
-                  //console.log(featureIndex, currentProperties);
-                });
-                console.log("exploded:", trwwTracePoints);
-                trwwTracePoints.addData(exploded);
+		console.log("Trace initialized. Submitting request to tracing service...");
+		traceTask.run(function(error, result, response) {
+			console.log("Request completed:", response);
+			if (error) {
+				console.log("There was an error: ", error);
+				traceError(error);
+			} else {
 
-            }
-        });
-    });
+				/**
+				 * Draw the Line
+				 */
+				// convert ESRI Web Mercator to Leaflet Web Mercator
+				console.log("reprojecting results...");
+				var fc1 = Terraformer.toGeographic(result.Downstream_Pipes);
+				// dissolve the lines
+				console.log("dissolving results...");
+				var gc1 = dissolve(fc1);
+				console.log("Adding data to layer...", gc1);
+				// add to the data to the waiting Leaflet object
+				trwwTraceResult.addData(gc1);
+				// add that to the map
+				console.log("Adding layer to map...");
+				trwwTraceResult.addTo(map);
+				map.fitBounds(trwwTraceResult.getBounds());
+
+				/**
+				 * generate summaries
+				 */
+				traceSummarize(fc1, muniFC);
+
+				/**
+				 * Animate
+				 */
+				// preprocess data fro animation
+				//var tracePoints = traceAnimatePrep(geometryCollection);
+				// animate
+				//traceAnimate(tracePoints);
+
+				traceSuccess();
+
+				console.log("Trace Results:", gc1);
+			}
+		});
+	});
 }
 
 /** 
- * click event for triggering resetAnalysis funtion
+ * click event for reseting the analysis function
  */
-$(document).on("click", "#clearCalcs", function() {
-    //console.log("Clearing Trace Results");
-    resetAnalysis(true);
+$(document).on("click", '#' + messageControl.messages.reset.id, function() {
+	console.log("Resetting the trace.");
+	console.log("--------------------");
+	// reset all controls to initial state
+	messageControl.reset();
+	// set traceSummary object to initial values
+	traceSummary.reset();
+	// remove the network trace from the map
+	clearNetworkTrace();
+	// remove the geocoded address point from the map
+	resetAddressSearch();
 });
 
 /**
- * NETWORK TRACE button click - run the trace 
+ * NETWORK TRACE button click - run the trace once address has been identified (this could be accessed from the address pop-up)
  */
-
 $(document).on("click", "#networkTrace", function() {
-
-    // on click, disable the button to limit multiple requests
-    $("#networkTrace").prop("disabled", true);
-
-    // clear previous traces
-    clearNetworkTrace();
-
-    // set up the info window
-    $("#clear-status").hide();
-    $('#analyze-control').show();
-
-    var msg = "Initializing Trace...";
-    //console.log(msg);
-    $('#msg-status').html(makeAlert(msg, 'info'));
-
-    // get the selected layer from the highlighted layer
-    var selected = highlight.getLayers()[0];
-    highlight.clearLayers();
-    //console.log(selected);
-
-    // add selection to the map as a CircleMarker
-    trwwTraceSource.setLatLng(
-        L.latLng([selected.feature.geometry.coordinates[1], selected.feature.geometry.coordinates[0]]));
-    trwwTraceSource.addTo(map);
-    
-    // run the GP
-    traceExecute(selected.feature);
+	// clear previous traces
+	clearNetworkTrace();
+    // get the geojson from the layer
+	var nearest = trwwTraceSource.toGeoJSON();
+	// run the GP using the geojson
+	traceExecute(nearest);
 });
 
 /****************************************************************************
@@ -394,112 +599,157 @@ $(document).on("click", "#networkTrace", function() {
 
 /* Highlight search box text on click */
 $("#searchbox").click(function() {
-    $(this).select();
+	$(this).select();
 });
 
 /* Prevent hitting enter from refreshing the page */
 $("#searchbox").keypress(function(e) {
-    if (e.which == 13) {
-        e.preventDefault();
-    }
+	if (e.which == 13) {
+		e.preventDefault();
+	}
 });
 
 var addressSearch = new Bloodhound({
-    name: "Mapzen",
-    datumTokenizer: function(d) {
-        return Bloodhound.tokenizers.whitespace(d.name);
-    },
-    queryTokenizer: Bloodhound.tokenizers.whitespace,
-    remote: {
-        url: "https://search.mapzen.com/v1/search?text=%QUERY&size=5&boundary.country=USA&api_key=mapzen-ZGFLinZ",
-        filter: function(data) {
-            return $.map(data.features, function(feature) {
-                return {
-                    name: feature.properties.label,
-                    lat: feature.geometry.coordinates[1],
-                    lng: feature.geometry.coordinates[0],
-                    source: "Mapzen"
-                };
-            });
-        },
-        ajax: {
-            beforeSend: function(jqXhr, settings) {
-                // before sending, append bounding box of app AOI to view.
-                settings.url += "&boundary.rect.min_lat=40.1243&boundary.rect.min_lon=-80.5106&boundary.rect.max_lat=40.7556&boundary.rect.max_lon=-79.4064";
-                $("#searchicon").removeClass("fa-search").addClass("fa-refresh fa-spin");
-            },
-            complete: function(jqXHR, status) {
-                console.log(jqXHR, status);
-                $('#searchicon').removeClass("fa-refresh fa-spin").addClass("fa-search");
-            }
-        }
-    },
-    limit: 10
+	name: "Mapzen",
+	datumTokenizer: function(d) {
+		return Bloodhound.tokenizers.whitespace(d.name);
+	},
+	queryTokenizer: Bloodhound.tokenizers.whitespace,
+	remote: {
+		url: "https://search.mapzen.com/v1/search?text=%QUERY&size=5&boundary.country=USA&api_key=mapzen-ZGFLinZ",
+		filter: function(data) {
+			return $.map(data.features, function(feature) {
+				return {
+					name: feature.properties.label,
+					lat: feature.geometry.coordinates[1],
+					lng: feature.geometry.coordinates[0],
+					source: "Mapzen"
+				};
+			});
+		},
+		ajax: {
+			beforeSend: function(jqXhr, settings) {
+				// before sending, append bounding box of app AOI to view.
+				settings.url += "&boundary.rect.min_lat=40.1243&boundary.rect.min_lon=-80.5106&boundary.rect.max_lat=40.7556&boundary.rect.max_lon=-79.4064";
+				$("#searchicon").removeClass("fa-search").addClass("fa-refresh fa-spin");
+			},
+			complete: function(jqXHR, status) {
+				console.log("geocoding search", status);
+				$('#searchicon').removeClass("fa-refresh fa-spin").addClass("fa-search");
+			}
+		}
+	},
+	limit: 10
 });
 
 addressSearch.initialize();
 
 $("#searchbox").typeahead({
-    minLength: 3,
-    highlight: true,
-    hint: false
+	minLength: 3,
+	highlight: true,
+	hint: false
 }, {
-    name: "Mapzen",
-    displayKey: "name",
-    source: addressSearch.ttAdapter(),
-    templates: {
-        header: "<p class='typeahead-header small'>Found:</p>",
-        suggestion: Handlebars.compile(["{{name}}"].join(""))
-    }
+	name: "Mapzen",
+	displayKey: "name",
+	source: addressSearch.ttAdapter(),
+	templates: {
+		header: "<p class='typeahead-header'>Found:</p>",
+		suggestion: Handlebars.compile(["{{name}}"].join(""))
+	}
 }).on("typeahead:selected", function(obj, datum) {
-    console.log("Search found this: ", datum);
-    map.setView([datum.lat, datum.lng], 15);
-    highlight.clearLayers();
-    highlight.addLayer(
-        L.circleMarker([datum.lat, datum.lng]))
+	// once an address is selected from the drop-down:
+    
+    // store geocoding results in the global summary object
+    traceSummary.datum = datum;
+
+	// store the position of the address at latLng object
+	var latlng = L.latLng({
+		lat: datum.lat,
+		lng: datum.lng
+	});
+    
+	console.log("Search found this: ", datum, latlng);
+
+	// set the map view to the address location
+	map.setView(latlng, 15);
+	// clear the previous network trace
+	clearNetworkTrace();
+	// remove the previous geocoded address point
+	//addressPoint.remove();
+	// add a point at the address, bind a pop-up, and open the pop-up automatically
+	//addressPoint.setLatLng(latlng).bindPopup("<h4>" + datum.name + "</h4><p>" + datum.lng + ", " + datum.lat + "</p>").openPopup();
+        
+    addressPoint.clearLayers();
+    addressPoint
+        .addData({
+            "type": "FeatureCollection",
+            "features": [{
+                "type":"Feature",
+                "properties":{
+                    "name": datum.name
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [datum.lng, datum.lat]
+                }
+            }]
+        })
         .bindPopup("<h4>" + datum.name + "</h4><p>" + datum.lng + ", " + datum.lat + "</p>")
         .openPopup();
-    var latlng = L.latLng({lat: datum.lat, lng: datum.lng});
-    clearNetworkTrace();
-    findNearestStructure(latlng);
+    console.log("isPopupOpen", addressPoint.isPopupOpen());
+    //addressPoint.addLayer(
+    //    L.circleMarker(latlng))
+    //    .bindPopup("<h4>" + datum.name + "</h4><p>" + datum.lng + ", " + datum.lat + "</p>")
+    //    .openPopup();
+	// from that point, automatically find the nearest sewer structure
+	findNearestStructure(latlng);
 });
 
 $(".twitter-typeahead").css("position", "static");
 $(".twitter-typeahead").css("display", "block");
 
-
-/*****************************************************************************
- * ALERT
+/**
+ * reset the address search box, remove the geocoded address point, and
+ * close the pop-up.
  */
+function resetAddressSearch() {
+	$('#searchbox').val('');
+	addressPoint.clearLayers();
+	addressPoint.closePopup();
+}
 
-function makeAlert(msg, alertType) {
-    var defaultMsg = null;
-    if (alertType == 'info') {
-        defaultMsg = 'Processing...';
-    } else if (alertType == 'success') {
-        defaultMsg = 'Complete!';
-    } else if (alertType == 'danger') {
-        defaultMsg = "There was an error with the analysis.";
-    } else {
-        defaultMsg = "Something went wrong. Check the browser console for details.";
-        alertType = 'warning';
-    }
-    var div1 = '<div class="alert alert-' + alertType + '" role="alert">';
-    var div2 = '</div>';
-    if (msg) {
-        return div1 + msg + div2;
-    } else {
-        return div1 + defaultMsg + div2;
-    }
+/**
+ * given the features array from a geojson feature collection, and a property,
+ * get a "set" (unique values) of values stored in that property
+ */
+function geojson_set(array, property) {
+	var unique = [];
+	$.each(array, function(i, e) {
+		var p = e.properties[property];
+		if ($.inArray(p, unique) == -1) {
+			if (p !== undefined) {
+				unique.push(e.properties[property]);
+			}
+		}
+	});
+	return unique;
 }
 
 /****************************************************************************
  * Document set-up
  */
 
-$(document).one("ajaxStop", function() {
-    console.log("ajaxStop");
-    $("#loading").hide();
+messageControl.init(map);
+
+$(document).on("ready", function() {
+	// clear the address search box, since on page refresh the text might be retained
+	$('#searchbox').val('');
+	// hide the loading screen (revealing the map)
+	$("#loadingScreen").hide();
+	// show the message control
+	$('#messageControl').show();
+
+	console.log("ready");
 });
 },{"geojson-dissolve":4}],2:[function(require,module,exports){
 module.exports = {
