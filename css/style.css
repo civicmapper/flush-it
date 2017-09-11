@@ -17,6 +17,11 @@ html,body,#map,#loadingScreen {
 	color: #fff;
 }
 
+#searchicon {
+	padding-top:6px;
+	padding-right:7px;
+}
+
 #credits, #titleBlock, #msg-results {
 	margin-top: 20px;
 	margin-right: 10px;
@@ -28,8 +33,11 @@ html,body,#map,#loadingScreen {
 	width: 200px;
 }
 
-#msg-results {
+#msg-results, #msg-tracing {
 	color:#fff;
+}
+
+#msg-tracing {
 	text-shadow: 5px 5px 10px rgba(25,25,25,0.9);
 }
 
@@ -66,10 +74,10 @@ Color='#191919')";
 
 #messageControl {
   position: absolute;
-  width: 50%;
-  top: 75%;
-  left: 25%;
-  transform: translateY(-75%); /* using the CSS3 Transform technique */
+  width: 40%;
+  top: 60%;
+  left: 30%;
+  transform: translateY(-60%); /* using the CSS3 Transform technique */
   /*margin: -10px 0 0 -110px;*/
   padding-top: 10px;
   margin-bottom: 10px;
