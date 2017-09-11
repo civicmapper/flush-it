@@ -7,6 +7,11 @@ var dissolve = require('geojson-dissolve');
 /** -------------------------------------------------------------------------
  * GIS, geoprocessing, and services config
  */
+
+/**
+ * 3RWW Sewer Atlas data reference object: stores urls and temporary tokens for
+ * running the 3RWW Sewer Atlas services
+ */
 var atlas = {
 	rsi_featurelayer: {
 		url: 'http://geo.civicmapper.com/arcgis/rest/services/rsi_featurelayer/MapServer',
@@ -48,7 +53,7 @@ var traceSummary = {
 };
 
 /**
- * Message Div - shows instructions and status of analysis, overlaid on map
+ * Message Control - central controller for managing application state
  * (only parts of this are used; it will be cleaned up)
  */
 var messageControl = {
@@ -87,7 +92,7 @@ var messageControl = {
 		},
 		reset: {
 			id: 'resetButton',
-			text: '<button id="resetButton" type="button" class="btn btn-default btn-lg btn-block">Start Over</button>',
+			text: '<button id="resetButton" type="button" class="btn btn-default btn-lg btn-block">Start Over <i class="fa fa-rotate-left"></i></button>',
 			setMsg: $('#' + this.id).html(this.text)
 		},
 		error: {
@@ -188,7 +193,7 @@ var traceResultStyle = {
 	opacity: 0.75
 };
 
-// base map layers
+// base map layer
 
 var basemap = L.tileLayer("https://api.mapbox.com/styles/v1/cbgthor624/cipq73zea0010brnl8jlui4dz/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2JndGhvcjYyNCIsImEiOiJzZ2NaNmo4In0.hbXzZPAvaCO5GLu45bptTw", {
 	maxZoom: 20,
@@ -202,7 +207,7 @@ var serviceArea = L.esri.featureLayer({
 	url: 'https://services6.arcgis.com/dMKWX9NPCcfmaZl3/arcgis/rest/services/alcosan_basemap/FeatureServer/0',
 	ignoreRenderer: true,
 	style: {
-        color: '#DBDBDB',
+        color: '#50A8B1',
         weight: 8,
         opacity: 0.25,
         fillOpacity: 0.1
@@ -242,9 +247,8 @@ var addressPoint = L.geoJSON(null, {
         return L.circleMarker(latlng, addressStyle);
     },
     onEachFeature: function(feature, layer) {
-        //if (feature.properties && feature.properties.name) {
-        layer.bindPopup("<h4>" + feature.properties.name + "</h4><p>" + feature.geometry.coordinates[0]+ ", " + feature.geometry.coordinates[1] + "</p>").openPopup();
-        //}
+        //layer.bindPopup("<h4>" + feature.properties.name + "</h4><p>" + feature.geometry.coordinates[0] + ", " + feature.geometry.coordinates[1] + '</p><p><button id="networkTrace" type="button" class="btn btn-default btn-lg btn-block">Flush! <i class="fa fa-caret-square-o-down"></i></button>').openPopup();
+        layer.bindPopup("<h4>" + feature.properties.name + "</h4><p>" + feature.geometry.coordinates[0] + ", " + feature.geometry.coordinates[1] + '</p>').openPopup();
     }
 });
 // point on structure at start of trace
@@ -336,7 +340,7 @@ L.control.custom({
 L.control.custom({
 	id: 'credits',
 	position: 'topright',
-	content: '<img class="credit-logos" src="resources/logo_alcosan.png"/><br><br><img class="credit-logos" src="resources/logo_3rww.png"/><br><br><img class="credit-logos" src="resources/logo_civicmapper.png"/>',
+	content: '<p class="small"style="color:#fff;">A project by:</p><img class="credit-logos" src="resources/logo_alcosan.png"/><br><br><img class="credit-logos" src="resources/logo_3rww.png"/><br><br><img class="credit-logos" src="resources/logo_civicmapper.png"/>',
 	style: {
 		width: '220px',
 	}
@@ -387,8 +391,8 @@ function findNearestStructure(latlng) {
 					var nearest = turf.nearest(targetPoint, featureCollection);
 					console.log("nearest:", nearest);
 					trwwTraceSource.addData(nearest);
-					
 					traceExecute(nearest);
+                    return nearest;
 				} else {
 					console.log("...nothing found within this distance.");
                     var content = '<div class="alert alert-danger" role="alert"><h4>It does not appear that ' + traceSummary.datum.name + ' is within the ALCOSAN service area</h4><p>(We could not find any ALCOSAN-connected sewer structures within 1/4 mile of ' + traceSummary.datum.lng + ', ' + traceSummary.datum.lat + ')</p><h4>Try another address.</h4></div>';
@@ -528,7 +532,15 @@ function traceExecute(inputFeature) {
 				// add that to the map
 				console.log("Adding layer to map...");
 				trwwTraceResult.addTo(map);
-				map.fitBounds(trwwTraceResult.getBounds());
+                // adjust the map position and zoom to definitely fit the results
+				map.fitBounds(
+                    trwwTraceResult.getBounds(),
+                    {
+                        paddingTopLeft: L.point(300, 75),
+                        paddingBottomRight: L.point(300, 75)
+                    }
+                );
+                //map.setZoom(map.getZoom() - 2);
 
 				/**
 				 * Generate Summaries
@@ -555,10 +567,16 @@ function traceExecute(inputFeature) {
  * NETWORK TRACE button click - run the trace once address has been identified (this could be accessed from the address pop-up)
  */
 $(document).on("click", "#networkTrace", function() {
-	// clear previous traces
+	//disable the button
+    $(this).prop("disabled",true);
+    // clear previous traces
 	clearNetworkTrace();
-    // get the geojson from the layer
-	var nearest = trwwTraceSource.toGeoJSON();
+    // search for the nearest structure
+    var nearest = findNearestStructure(L.latLng({
+		lat: traceSummary.datum.lat,
+		lng: traceSummary.datum.lng
+	}));
+    console.log("nearest", nearest);
 	// run the GP using the geojson
 	traceExecute(nearest);
 });
@@ -639,7 +657,7 @@ $("#searchbox").typeahead({
 	displayKey: "name",
 	source: addressSearch.ttAdapter(),
 	templates: {
-		header: "<p class='typeahead-header'>Found:</p>",
+		header: "<p class='typeahead-header'>Select address at which to flush the toilet:</p>",
 		suggestion: Handlebars.compile(["{{name}}"].join(""))
 	}
 }).on("typeahead:selected", function(obj, datum) {
@@ -680,13 +698,9 @@ $("#searchbox").typeahead({
                 }
             }]
         })
-        .bindPopup("<h4>" + datum.name + "</h4><p>" + datum.lng + ", " + datum.lat + "</p>")
+        //.bindPopup("<h4>" + datum.name + "</h4><p>" + datum.lng + ", " + datum.lat + '</p><p><button id="networkTrace" type="button" class="btn btn-default btn-lg btn-block">Flush! <i class="fa fa-caret-square-o-down"></i></button>')
+        .bindPopup("<h4>" + datum.name + "</h4><p>" + datum.lng + ", " + datum.lat + '</p>')
         .openPopup();
-    console.log("isPopupOpen", addressPoint.isPopupOpen());
-    //addressPoint.addLayer(
-    //    L.circleMarker(latlng))
-    //    .bindPopup("<h4>" + datum.name + "</h4><p>" + datum.lng + ", " + datum.lat + "</p>")
-    //    .openPopup();
 	// from that point, automatically find the nearest sewer structure
 	findNearestStructure(latlng);
 });
