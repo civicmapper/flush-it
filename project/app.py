@@ -7,11 +7,11 @@
 import os
 import logging
 from logging import Formatter, FileHandler
-#import requests
+import requests
 import json
 
 # dependencies
-from flask import Flask, render_template, request, make_response, session
+from flask import Flask, render_template, request, make_response, session, jsonify
 #import pdb
 
 # config
@@ -22,31 +22,33 @@ app.config.from_pyfile('config.py')
 # Helper Functions & Wrappers
 #----------------------------------------------------------------------------#
 
-def get_ags_token(session,token_name,username,password,client,referer):
-    """Requests and ArcGIS Server Token
+def get_ags_token(url,username,password,client,referer,session,token_name):
+    """Requests and ArcGIS Server Token 
     session: pass flask session object in
     token_name: string, used to store token in session
     other params are ArcGIS Server params
     """
-    if token_name not in session:
-        params = {
-            'username': username,
-            'referer': referer,
-            'password': password, 
-            'client': client,
-            'f': 'json'
-        }
-        response = requests.post(
-            app.config['ROK_AUTH_URL'],
-            data=params
-        )
-        token = response.json()
-        session[token_name] = token
-        print("{0} token acquired: {1}".format(token_name, token))
-        return token
-    else:
-        print("Using existing {0} token: {1}".format(token_name, session[token_name]))
-        return session[token_name]
+    #if token_name not in session:
+    params = {
+        'username': username,
+        'password': password, 
+        'client': client,
+        #'referer': referer,
+        'expiration': 60,
+        'f': 'json',
+    }
+    response = requests.post(
+        url ,
+        # app.config['ROK_AUTH_URL'],
+        data=params
+    )
+    token = response.json()
+    session[token_name] = token
+    print("{0} token acquired: {1}".format(token_name, token))
+    return token
+    # else:
+    #     print("Using existing {0} token: {1}".format(token_name, session[token_name]))
+    #     return session[token_name]
     
 '''
 def get_agol_token():
@@ -79,11 +81,23 @@ def get_agol_token():
 def main():
     return render_template('pages/index.html')
 
-@app.route('/token/')
+@app.route('/generateToken/')
 def token():
-    trace_token = get_ags_token(session,'trace_token', app.config['ROK_USER'],app.config['ROK_PW'],app.config['ROK_REFERER_URL'],app.config['ROK_CLIENT_TYPE'])
-    data_token = get_ags_token(session, 'data_token', app.config['CMG_USER'],app.config['CMG_PW'],app.config['CMG_REFERER_URL'],app.config['CMG_CLIENT_TYPE'])
-    return {"trace_token":trace_token,"data_token":data_token}
+    # get the token
+    t = get_ags_token(
+        url=app.config['ROK_AUTH_URL'],
+        username=app.config['ROK_USER'],
+        password=app.config['ROK_PW'],
+        client=app.config['ROK_CLIENT_TYPE'],
+        referer=app.config['ROK_REFERER_URL'],
+        session=session,
+        token_name='rsi_token'
+    )
+    # build the response
+    r = make_response(jsonify(t), 200)
+    # add header to enable CORS
+    r.headers['Access-Control-Allow-Origin'] = '*'
+    return make_response(r)
 
 # ------------------------------------------------
 # Error Handling

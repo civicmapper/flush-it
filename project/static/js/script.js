@@ -2,8 +2,6 @@
  * DEPENDENCIES
  */
 var dissolve = require('geojson-dissolve');
-var dataToken;
-var traceToken;
 
 /** -------------------------------------------------------------------------
  * GIS, geoprocessing, and services config
@@ -15,22 +13,89 @@ var traceToken;
  */
 var atlas = {
 	rsi_featurelayer: {
-		url: 'http://geo.civicmapper.com/arcgis/rest/services/rsi_featurelayer/MapServer',
-		token: {"token":"Y23ZSLB9QDcPqedTywkiRYIKlryOPZuh76qZwZsVrquHpDZwt3TnXu-4-Lg4S02d","expires":1505250973985},
-		//token: dataToken,
+		url: 'https://arcgis4.roktech.net/arcgis/rest/services/rsi/rsi_featurelayer/MapServer',
+		token: {"token":"","expires":0},
 		layers: [0,2,3,4,5],
-        layerDefs: {0:"LBS_TAG='LBs_1319249'"}
+    //layerDefs: {0:"LBS_TAG='LBs_1319249'"},
+		layer:null,
+		/**
+		 * function to init the trww Structure layer, which requires a token first
+		 */
+		init : function() {
+			console.log("Initializing data service...");
+			var trwwStructures = L.esri.dynamicMapLayer({
+				url: this.url,
+				layers: this.layers,
+				token: this.token.token
+			});
+			console.log('trwwStructures', trwwStructures);
+			this.layer = trwwStructures;
+			return trwwStructures;
+		}
 	},
 	rsi_networktrace: {
 		url: 'https://arcgis4.roktech.net/arcgis/rest/services/rsi/NetworkTrace/GPServer/NetworkTrace/',
-		token: {"token":"yTefrE0LSM8sq0acoMNA9mCw6nshi9X35Sx_j1JdfyWdmxPeW9S8c6cSOZD3ER1A","expires":1505249013337}
-		//token: {"token":"yTefrE0LSM9X35Sx_j1JdfyWdmxPeW9S8c6cSOZD3ER1A","expires":1505249013337}
-		//token: traceToken
+		token: {"token":"","expires":0},
+		service:null,
+		/**
+		 * init the geoprocessing service, which requires a token
+		 */
+		init : function() {
+			console.log("Initializing gp service...");
+			var traceService = L.esri.GP.service({
+				url: this.url,
+				token: this.token.token,
+				useCors: true,
+			}).on("requesterror", function(error) {
+				// if there is an error authenticating, we'll find it here:
+				console.log(error);
+				traceError(error);
+			}).on("requestsuccess", function(success) {
+				console.log(success);
+				atlas.rsi_networktrace.service = traceService;
+			});
+			console.log('traceService', traceService);
+			atlas.rsi_networktrace.service = traceService;
+		}
 	},
 	proxy: {
 		url: 'https://mds.3riverswetweather.org/atlas/proxy/proxy.ashx'
+	},
+	/**
+	 * calls the proxy endpoint to get tokens required to access rsi services
+	 */
+	initServices: function() {
+		console.log("Acquiring Token...");
+		$.ajax({
+			type: 'GET',
+			contentType: 'application/json;charset=UTF-8',
+			url: '/generateToken/',
+			success: function(response) {
+				
+				console.log("Token Acquired", response);
+				atlas.rsi_featurelayer.token = response;
+				atlas.rsi_networktrace.token = response;
+				
+				console.log("Initializing services....");
+				atlas.rsi_featurelayer.init();
+				atlas.rsi_networktrace.init();
+				
+				console.log("atlas",atlas);
+				return response;
+			},
+			error: function(error) {
+				var msg = "There was an error acquiring the Sewer Atlas token and initializing Sewer Atlas data and analysis services";
+				console.log(msg, error);
+				messageControl.onError(msg);
+			}
+		});
 	}
 };
+
+/**
+ * generate the token and add it to the objects
+ */
+var rsi_token = atlas.initServices();
 
 /**
  * trace results summary object
@@ -286,12 +351,6 @@ var trwwTracePoints = L.geoJSON(null, {
 		);
 	}
 });
-var trwwStructures = L.esri.dynamicMapLayer({
-	url: atlas.rsi_featurelayer.url,
-	layers: atlas.rsi_featurelayer.layers,
-	token: atlas.rsi_featurelayer.token.token,
-    layerDefs: atlas.rsi_featurelayer.layerDefs
-});
 
 /** -------------------------------------------------------------------------
  * LEAFLET MAP SETUP
@@ -377,7 +436,8 @@ function findNearestStructure(latlng) {
 	var targetPoint = turf.point([latlng.lng, latlng.lat]);
 	var buffer = turf.buffer(targetPoint, searchDistance, 'feet');
 	//ajax request function
-	trwwStructures.query().layer(4).fields([]).intersects(buffer)
+	//trwwStructures
+	atlas.rsi_featurelayer.layer.query().layer(4).fields([]).intersects(buffer)
 		//.nearby(latlng, searchDistance) // only works with feature layers
 		.run(function(error, featureCollection, response) {
 			if (error) {
@@ -391,7 +451,7 @@ function findNearestStructure(latlng) {
 					console.log("nearest:", nearest);
 					trwwTraceSource.addData(nearest);
 					traceExecute(nearest);
-                    return nearest;
+          return nearest;
 				} else {
 					console.log("...nothing found within this distance.");
                     var content = '<div class="alert alert-danger" role="alert"><h4>It does not appear that ' + traceSummary.datum.name + ' is within the ALCOSAN service area</h4><p>(We could not find any ALCOSAN-connected sewer structures within 1/4 mile of ' + traceSummary.datum.lng + ', ' + traceSummary.datum.lat + ')</p><h4>Try another address.</h4></div>';
@@ -481,18 +541,12 @@ function traceExecute(inputFeature) {
 	//console.log(source);
 
 	/**
-	 * set up the geoprocessing service and task
+	 * set up the geoprocessing task
 	 */
-	var traceService = L.esri.GP.service({
-		url: atlas.rsi_networktrace.url,
-		token: atlas.rsi_networktrace.token.token,
-		useCors: true,
-	});
-	// if there is an error authenticating, we'll find it here:
-	traceService.on("requesterror", function(error) {
-		traceError(error);
-	});
-	var traceTask = traceService.createTask();
+	//var traceTask = traceService.createTask();
+	console.log(atlas);
+	var traceTask = atlas.rsi_networktrace.service.createTask();
+	
 
 	/**
 	 * run the georpocessing task
