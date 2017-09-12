@@ -2245,7 +2245,7 @@ var atlas = {
 				console.log(error);
 				traceError(error);
 			}).on("requestsuccess", function(success) {
-				console.log(success);
+				console.log("trace service status:", success.response.jobStatus, "(",success.response.jobId,")");
 				atlas.rsi_networktrace.service = traceService;
 			});
 			console.log('traceService', traceService);
