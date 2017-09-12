@@ -33,8 +33,8 @@ def get_ags_token(url,username,password,client,referer,session,token_name):
         'username': username,
         'password': password, 
         'client': client,
-        #'referer': referer,
-        'expiration': 60,
+        'referer': referer,
+        'expiration': 720,
         'f': 'json',
     }
     response = requests.post(
