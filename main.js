@@ -1,4 +1,4 @@
 module.exports = {
    dissolve: require('geojson-dissolve'),
-   script: require('./js/script.js'),
+   script: require('./project/static/js/script.js'),
 };

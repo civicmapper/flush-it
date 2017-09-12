@@ -2,6 +2,8 @@
  * DEPENDENCIES
  */
 var dissolve = require('geojson-dissolve');
+var dataToken;
+var traceToken;
 
 /** -------------------------------------------------------------------------
  * GIS, geoprocessing, and services config
@@ -14,19 +16,16 @@ var dissolve = require('geojson-dissolve');
 var atlas = {
 	rsi_featurelayer: {
 		url: 'http://geo.civicmapper.com/arcgis/rest/services/rsi_featurelayer/MapServer',
-		token: {
-			"token": "Y23ZSLB9QDcPqedTywkiRbIXRIgnoNMsf3M5mNzMnXi3pGtiuqyhrfDFMS0Nvd0n",
-			"expires": 1505162076379
-		},
+		token: {"token":"Y23ZSLB9QDcPqedTywkiRYIKlryOPZuh76qZwZsVrquHpDZwt3TnXu-4-Lg4S02d","expires":1505250973985},
+		//token: dataToken,
 		layers: [0,2,3,4,5],
         layerDefs: {0:"LBS_TAG='LBs_1319249'"}
 	},
 	rsi_networktrace: {
 		url: 'https://arcgis4.roktech.net/arcgis/rest/services/rsi/NetworkTrace/GPServer/NetworkTrace/',
-		token: {
-			"token": "yTefrE0LSM8sq0acoMNA9mzK94dyzgOsRuMOoXRyrFeM9Ly6X4TfZIIXDA_Jx-d2",
-			"expires": 1505161995581
-		}
+		token: {"token":"yTefrE0LSM8sq0acoMNA9mCw6nshi9X35Sx_j1JdfyWdmxPeW9S8c6cSOZD3ER1A","expires":1505249013337}
+		//token: {"token":"yTefrE0LSM9X35Sx_j1JdfyWdmxPeW9S8c6cSOZD3ER1A","expires":1505249013337}
+		//token: traceToken
 	},
 	proxy: {
 		url: 'https://mds.3riverswetweather.org/atlas/proxy/proxy.ashx'
@@ -258,7 +257,7 @@ var trwwTraceSource = L.geoJSON(null, {
 });
 var trwwTraceDestin = L.marker([40.474609776126599,-80.044474186387205], {
     icon: L.icon({
-        iconUrl: 'resources/marker-alcosan.png',
+        iconUrl: 'static/resources/marker-alcosan.png',
         iconSize: [50, 50],
     }),
 }).bindPopup("<h4>ALCOSAN Plant</h4>");
@@ -339,7 +338,7 @@ L.control.custom({
 L.control.custom({
 	id: 'credits',
 	position: 'topright',
-	content: '<p class="small"style="color:#fff;">A project by:</p><img class="credit-logos" src="resources/logo_alcosan.png"/><br><br><img class="credit-logos" src="resources/logo_3rww.png"/><br><br><img class="credit-logos" src="resources/logo_civicmapper.png"/>',
+	content: '<p class="small"style="color:#fff;">A project by:</p><img class="credit-logos" src="static/resources/logo_alcosan.png"/><br><br><img class="credit-logos" src="static/resources/logo_3rww.png"/><br><br><img class="credit-logos" src="static/resources/logo_civicmapper.png"/>',
 	style: {
 		width: '220px',
 	}
@@ -383,6 +382,7 @@ function findNearestStructure(latlng) {
 		.run(function(error, featureCollection, response) {
 			if (error) {
 				console.log(error);
+				messageControl.onError('<i class="fa fa-frown-o"></i> There was an error when searching for the nearest structure (' + error.message + ')');
 			} else {
 				if (featureCollection.features.length > 0) {
 					console.log("trwwStructures.query():", response);
@@ -430,7 +430,7 @@ function traceRunning() {
 function traceError(error) {
 	msg = "Trace: " + error.message + "(code: " + error.code + ")";
 	console.log(msg);
-	messageControl.onError("<p>There was an error with the trace:<br>" + msg + "<p>");
+	messageControl.onError('<p><i class="fa fa-frown-o"></i> There was an error with the trace:<br>' + msg + '<p>');
 }
 
 /**
@@ -487,6 +487,10 @@ function traceExecute(inputFeature) {
 		url: atlas.rsi_networktrace.url,
 		token: atlas.rsi_networktrace.token.token,
 		useCors: true,
+	});
+	// if there is an error authenticating, we'll find it here:
+	traceService.on("requesterror", function(error) {
+		traceError(error);
 	});
 	var traceTask = traceService.createTask();
 

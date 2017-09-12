@@ -22,7 +22,7 @@ html,body,#map,#loadingScreen {
 	padding-right:7px;
 }
 
-#credits, #titleBlock, #msg-results {
+#credits, #titleBlock, #msg-results, #msg-error {
 	margin-top: 20px;
 	margin-right: 10px;
 	padding: 10px;

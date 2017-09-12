@@ -6,9 +6,9 @@
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <title>Flush the Toilet</title>
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="css/font-awesome-4.1.0.min.css" />
+    <link href="{{ url_for('static', filename='css/font-awesome-4.1.0.min.css') }}" type="text/css" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"/>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link href="{{ url_for('static', filename='css/style.css') }}" type="text/css" rel="stylesheet"/>
 
     <style>
         body {
@@ -31,11 +31,17 @@
 </div>
 <div id="messageControl" style="display: none;">
     <div id="addressSearch" class="text-center">
-        <span id="searchbox-container"><form role="search"><div class="form-group has-feedback"><input id="searchbox" class="searchbox form-control input-lg"type="text" placeholder="Enter an address" data-content="Search by Address."><span id="searchicon" class="fa fa-search fa-2x form-control-feedback"></span></div></form>
+        <span id="searchbox-container">
+            <form role="search">
+                <div class="form-group has-feedback">
+                    <input id="searchbox" class="searchbox form-control input-lg"type="text" placeholder="Enter an address" data-content="Search by Address.">
+                    <span id="searchicon" class="fa fa-search fa-2x form-control-feedback"></span>
+                </div>
+            </form>
         </span>
     </div>
+    <div id="msg-error" class="messages" role="alert"></div>
     <div id="msg-tracing" class="messages"><h1 class="text-center">Flushing...<i class="fa fa-cog fa-spin fa-3x fa-fw"></i><span class="sr-only">Flushing...</span></h1></div>
-    <div id="msg-errors" class="messages"></div>
 </div>
 <div id="map"></div>
 
@@ -44,9 +50,9 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <!-- Leaflet + Esri-Leaflet -->
 <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
-<script src="libs/Leaflet.Control.Custom/Leaflet.Control.Custom.js"></script>
-<script src="node_modules/esri-leaflet/dist/esri-leaflet-debug.js"></script>
-<script src="node_modules/esri-leaflet-gp/dist/esri-leaflet-gp-debug.js"></script>
+<script src="{{ url_for('static', filename='libs/Leaflet.Control.Custom/Leaflet.Control.Custom.js') }}"></script>
+<script src="{{ url_for('static', filename='libs/esri-leaflet/dist/esri-leaflet.js') }}"></script>
+<script src="{{ url_for('static', filename='libs/esri-leaflet-gp/dist/esri-leaflet-gp.js') }}"></script>
 <!-- supporting scripts -->
 <script src="https://unpkg.com/terraformer@1.0.7"></script>
 <script src="https://unpkg.com/terraformer-arcgis-parser@1.0.5"></script>
@@ -55,8 +61,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.5/typeahead.bundle.min.js"></script>
 <!-- application logic -->
-<script type="text/javascript" src="bundle.js" defer></script>
-<!--<script type="text/javascript" src="js/script.js" defer></script>-->
+<script type="text/javascript" src="{{ url_for('static', filename='js/bundle.js') }}" defer></script>
 
 </body>
 </html>
