@@ -50,12 +50,10 @@ def get_ags_token(url,username,password,client,referer,session,token_name):
     #     print("Using existing {0} token: {1}".format(token_name, session[token_name]))
     #     return session[token_name]
     
-'''
+
 def get_agol_token():
     """requests and returns an ArcGIS Token for the pre-registered application.
-    Client id and secrets are managed through the ArcGIS Developer's console:
-        https://developers.arcgis.com/applications/#/ca3136177e564894907ddff85c325529/
-        (CivicMapper AGOL organization credentials required)
+    Client id and secrets are managed through the ArcGIS Developer's console.
     """
     params = {
         'client_id': app.config['ESRI_APP_CLIENT_ID'],
@@ -67,9 +65,9 @@ def get_agol_token():
         params=params
     )
     token = request.json()
-    print("token acquired: {0}".format(token))
+    print("AGOL token acquired: {0}".format(token))
     return token
-'''
+
 #----------------------------------------------------------------------------#
 # Controllers / Route Handlers
 #----------------------------------------------------------------------------#
@@ -84,7 +82,7 @@ def main():
 @app.route('/generateToken/')
 def token():
     # get the token
-    t = get_ags_token(
+    t1 = get_ags_token(
         url=app.config['ROK_AUTH_URL'],
         username=app.config['ROK_USER'],
         password=app.config['ROK_PW'],
@@ -93,8 +91,19 @@ def token():
         session=session,
         token_name='rsi_token'
     )
+    #t2 = get_agol_token()
+    t2 = get_ags_token(
+        url=app.config['CMAGS_AUTH_URL'],
+        username=app.config['CMAGS_USER'],
+        password=app.config['CMAGS_PW'],
+        client=app.config['CMAGS_CLIENT_TYPE'],
+        referer=app.config['CMAGS_REFERER_URL'],
+        session=session,
+        token_name='cmags_token'
+    )
     # build the response
-    r = make_response(jsonify(t), 200)
+    t3 = {"rsi_token":t1, "cmags_token":t2}
+    r = make_response(jsonify(t3), 200)
     # add header to enable CORS
     r.headers['Access-Control-Allow-Origin'] = '*'
     return make_response(r)
