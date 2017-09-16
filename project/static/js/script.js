@@ -40,29 +40,8 @@ var atlas = {
 			return trwwStructures;
 		}
 	},
-	//rsi_tilelayer: {
-	//	url: 'https://tiles.arcgis.com/tiles/dMKWX9NPCcfmaZl3/arcgis/rest/services/trww_sa_composite/MapServer',
-	//	token: {"access_token":"","expires":0},
-	//	layer:null,
-	//	/**
-	//	 * function to init the trww Pipes layer, which requires a token first
-	//	 */
-	//	init : function() {
-	//		console.log("Initializing tile service...");
-	//		var trwwPipes = L.esri.tiledMapLayer({
-	//			url: this.url,
-	//			token: this.token.access_token,
-	//			minZoom: 10,
-	//			zIndex: 5,
-	//			opacity: 0.75,
-	//		});
-	//		console.log('trwwPipes', trwwPipes);
-	//		this.layer = trwwPipes;
-	//		return trwwPipes;
-	//	}
-	//},
 	rsi_tilelayer: {
-		url: 'http://geo.civicmapper.com/arcgis/rest/services/trww_rsi_comp_v2/MapServer',
+		url: 'http://geo.civicmapper.com/arcgis/rest/services/trww_rsi_comp_v4/MapServer',
 		token: {"token":"","expires":0},
 		layer:null,
 		/**
@@ -258,7 +237,17 @@ var messageControl = {
 		$('#msg-results').fadeIn();
 		$('#resetButton').fadeIn();
 		//$('.after-trace').fadeIn();
-
+	},
+	onAboutModalOpen: function() {
+		if (traceSummary.length === 0) {
+			$('#addressSearch').fadeOut();
+		}
+		$("#aboutModal").modal("show");
+	},
+	onAboutModalClose: function() {
+		if (traceSummary.length === 0) {
+			$('#addressSearch').fadeIn();
+		}
 	},
 	onError: function(msg) {
 		$('#msg-error').html(msg);
@@ -271,7 +260,7 @@ var messageControl = {
 		$('#msg-tracing').fadeOut();
 		$('#msg-results').fadeOut();
 		$('#msg-error').fadeOut();
-        $('#resetButton').fadeOut();
+    $('#resetButton').fadeOut();
 		//$('.after-trace').fadeOut();
 	},
 };
@@ -324,6 +313,7 @@ var labels = L.tileLayer(
 	pane: 'labels',
 	maxZoom: 20,
 	zIndex: 1,
+	opacity: 0.5,
 	attribution: 'Basemap Labels &copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a><span> and &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a></span>'
 });	
 
@@ -336,7 +326,7 @@ var serviceArea = L.esri.featureLayer({
         color: '#50A8B1',
         weight: 8,
         opacity: 0.25,
-        fillOpacity: 0.1
+        fillOpacity: 0.05
 	}
 });
 
@@ -346,8 +336,8 @@ var muniLayer = L.esri.featureLayer({
 	style: {
         fillColor: "#D46323",
 		color: '#D46323',
-		weight: 0.75,
-		opacity: 0.5,
+		weight: 4,
+		opacity: 0.1,
 		fillOpacity: 0
 	},
 	onEachFeature: function(feature, layer) {
@@ -385,7 +375,7 @@ var trwwTraceSource = L.geoJSON(null, {
 });
 var trwwTraceDestin = L.marker([40.474609776126599,-80.044474186387205], {
     icon: L.icon({
-        iconUrl: 'static/resources/marker-alcosan.png',
+        iconUrl: 'static/resources/marker-alcosan-50px.png',
         iconSize: [50, 50],
     }),
 }).bindPopup("<h4>ALCOSAN Plant</h4>");
@@ -478,6 +468,17 @@ L.control.custom({
 	style: {
 		width: '220px',
 	}
+}).addTo(map);
+
+L.control.custom({
+    id: 'aboutButtonControl',
+		position: 'topright',
+    content: '<button id="aboutButton" class="btn btn-default" type="submit"><i class="fa fa-info"></i></button>',
+		events : {
+			click : function() {
+				messageControl.onAboutModalOpen();
+			}
+		}
 }).addTo(map);
 
 L.control.zoom({position: 'bottomleft'}).addTo(map);
@@ -714,6 +715,13 @@ $(document).on("click", "#networkTrace", function() {
 	traceExecute(nearest);
 });
 
+/**
+ * ABOUT BUTTON
+ */
+$('#aboutModal').on('hidden.bs.modal', function (e) {
+  messageControl.onAboutModalClose();
+});
+
 /** 
  * click event to reset the analysis function
  */
@@ -875,6 +883,7 @@ function geojson_set(array, property) {
 messageControl.init(map);
 
 }
+
 
 $(document).on("ready", function() {
 	// clear the address search box, since on page refresh the text might be retained

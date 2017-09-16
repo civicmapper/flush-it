@@ -46,6 +46,14 @@ html,body,#map,#loadingScreen {
 	color: #D36122;
 }
 
+#aboutButton, #resetButton, .leaflet-control-zoom-in, .leaflet-control-zoom-out {
+	color: #fff !important;
+	background-color: rgba(25,25,25,0.7) !important;
+	border-color: rgba(20,20,20,0.9) !important;
+	border-style: solid !important;
+	border-width: 1px !important;
+}
+
 /* cross-platform shadows for transparent pngs */
 .shadowed {
 	filter:"progid:DXImageTransform.Microsoft.Dropshadow(OffX=5, OffY=5,
@@ -97,7 +105,7 @@ Color='#191919')";
 }
 
 
-.leaflet-control-zoom, #resetButton, .twitter-typeahead {
+.leaflet-control-zoom, #aboutButton, #resetButton, .twitter-typeahead {
 	box-shadow: 5px 5px 10px rgba(25,25,25,0.9);
 }
 
@@ -156,6 +164,18 @@ Color='#191919')";
 	text-align: center;
 }
 
+.legend-line-1 {
+	color: #ABCF96 !important;
+}
+.legend-line-2 {
+	color: #B4C035 !important;
+}
+.legend-line-3 {
+	color: #50A8B0 !important;
+}
+.fa-minus {
+	font-stretch: ultra-expanded;
+}
 
 /* Animated Line */
 
