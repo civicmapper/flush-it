@@ -41,7 +41,7 @@ var atlas = {
 		}
 	},
 	rsi_tilelayer: {
-		url: 'http://geo.civicmapper.com/arcgis/rest/services/trww_rsi_comp_v4/MapServer',
+		url: 'http://geo.civicmapper.com/arcgis/rest/services/trww_rsi_comp_v5/MapServer',
 		token: {"token":"","expires":0},
 		layer:null,
 		/**
@@ -49,10 +49,11 @@ var atlas = {
 		 */
 		init : function() {
 			console.log("Initializing tile service...");
-			var trwwPipes = L.esri.dynamicMapLayer({
+			var trwwPipes = L.esri.tiledMapLayer({
 				url: this.url,
 				token: this.token.token,
 				minZoom: 10,
+				maxZoom:19,
 				zIndex: 5,
 				opacity: 0.9,
 			});
@@ -313,7 +314,7 @@ var labels = L.tileLayer(
 	pane: 'labels',
 	maxZoom: 20,
 	zIndex: 1,
-	opacity: 0.5,
+	opacity: 0.75,
 	attribution: 'Basemap Labels &copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a><span> and &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a></span>'
 });	
 
@@ -324,9 +325,9 @@ var serviceArea = L.esri.featureLayer({
 	ignoreRenderer: true,
 	style: {
         color: '#50A8B1',
-        weight: 8,
-        opacity: 0.25,
-        fillOpacity: 0.05
+        weight: 10,
+        opacity: 0.2,
+        fillOpacity: 0.1
 	}
 });
 
@@ -412,12 +413,13 @@ var trwwTracePoints = L.geoJSON(null, {
 // make the map
 var map = L.map("map", {
 	zoom: 8,
+	maxZoom: 19,
 	center: [40.443, -79.992],
 	layers: [
 		basemap
 	],
 	zoomControl: false,
-    attributionControl: false
+  attributionControl: false
 });
 
 function appInit() {
@@ -464,7 +466,7 @@ L.control.custom({
 L.control.custom({
 	id: 'credits',
 	position: 'topright',
-	content: '<p class="small"style="color:#fff;">A project by:</p><img class="credit-logos" src="static/resources/logo_alcosan_white.png"/><br><br><img class="credit-logos" src="static/resources/logo_3rww.png"/><br><br><img class="credit-logos" src="static/resources/logo_civicmapper.png"/>',
+	content: '<p class="small"style="color:#fff;">A project by:</p><img class="credit-logos" src="static/resources/logo_alcosan.png"/><br><br><img class="credit-logos" src="static/resources/logo_3rww.png"/><br><br><img class="credit-logos" src="static/resources/logo_civicmapper.png"/>',
 	style: {
 		width: '220px',
 	}
