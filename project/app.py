@@ -92,7 +92,7 @@ def token():
         token_name='rsi_token'
     )
     #t2 = get_agol_token()
-    t2 = get_ags_token(
+    t3 = get_ags_token(
         url=app.config['CMAGS_AUTH_URL'],
         username=app.config['CMAGS_USER'],
         password=app.config['CMAGS_PW'],
@@ -102,8 +102,8 @@ def token():
         token_name='cmags_token'
     )
     # build the response
-    t3 = {"rsi_token":t1, "cmags_token":t2}
-    r = make_response(jsonify(t3), 200)
+    t = {"rsi_token":t1, "cmags_token":t3}
+    r = make_response(jsonify(t), 200)
     # add header to enable CORS
     r.headers['Access-Control-Allow-Origin'] = '*'
     return make_response(r)

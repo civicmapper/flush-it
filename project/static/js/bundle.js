@@ -2235,7 +2235,7 @@ var atlas = {
 		}
 	},
 	rsi_tilelayer: {
-		url: 'http://geo.civicmapper.com/arcgis/rest/services/trww_rsi_comp_v5/MapServer',
+		url: 'https://geodata.civicmapper.com/arcgis/rest/services/flushit/rsi_tilelayer_composite/MapServer',		
 		token: {"token":"","expires":0},
 		layer:null,
 		/**
@@ -2782,7 +2782,7 @@ function traceSummarize(featureCollection, summaryGeography) {
 	console.log("summarizing trace...");
 	// generate totals
 	$.each(featureCollection.features, function(k, v) {
-		traceSummary.length += v.properties.Shape_Length;
+		traceSummary.length += v.properties.Shape_Length * 3.28084;
 		traceSummary.inchmiles += v.properties.INCHMILES;
 	});
 	// generate a list of summary geographies
