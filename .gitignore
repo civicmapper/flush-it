@@ -19,3 +19,4 @@ node_modules/
 *.komodoproject
 project/test.db
 *.ai
+project/static/js/bundle.js
