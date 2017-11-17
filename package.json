@@ -9,8 +9,12 @@
   "author": "CivicMapper",
   "license": "ISC",
   "dependencies": {
+    "@turf/buffer": "^5.0.4",
+    "@turf/explode": "^5.0.4",
     "@turf/flatten": "^4.6.0",
-    "@turf/helpers": "^4.6.0",
+    "@turf/helpers": "^4.7.3",
+    "@turf/nearest-point": "^5.0.4",
+    "@turf/tag": "^5.0.4",
     "bootstrap": "^3.3.7",
     "esri-leaflet": "^2.1.1",
     "esri-leaflet-gp": "^2.0.2",
