@@ -25,10 +25,45 @@
 
 <body>
 
-
 <div id="loadingScreen">
     <div id="msg-loading"><h1 class="text-center">Loading...<!--<i class="fa fa-cog fa-spin fa-3x fa-fw"></i><span class="sr-only"></span>--></h1></div>
 </div>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <h1 id="titleBlock">Flush the Toilet!<br>
+      <span id="subtitle" class="hidden-xs hidden-sm">See where your wastewater goes when you flush!</span>
+      </h1>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li id="aboutBlock">
+            <button id="aboutButton" type="button" class="btn btn-default"><i class="fa fa-question"></i></button>
+            <!--<a id="aboutButton" href="#"><i class="fa fa-info"></i><span class="sr-only">About this thing</span></a>-->
+        </li>
+        <li id="credits">
+            <p class="small"style="color:#fff;">A project by:</p>
+            <img class="credit-logos" src="static/resources/logo_alcosan.png"/>
+            <br><br>
+            <img class="credit-logos" src="static/resources/logo_3rww.png"/>
+            <br><br>
+            <img class="credit-logos" src="static/resources/logo_civicmapper.png"/>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
 <div id="messageControl" style="display: none;">
     <div id="addressSearch" class="text-center">
         <span id="searchbox-container">

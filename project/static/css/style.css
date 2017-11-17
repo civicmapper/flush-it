@@ -26,7 +26,23 @@ html,body,#map,#loadingScreen {
 	padding: 10px;
 	background-color: rgba(25,25,25,0.7);
 	box-shadow: 5px 5px 10px rgba(25,25,25,0.9);
+	color: #fff;
 }
+
+#aboutBlock {
+	margin-top: 20px;
+	margin-right: 10px;
+	padding-bottom: 10px;
+	padding-left: 10px;
+	padding-right:10px;
+	color: #fff;	
+}
+
+.navbar-inverse {
+	background-color: rgba(34, 34, 34, 0) !important;
+	border-bottom-width: 0px !important;
+}
+
 .credit-logos {
 	width: 200px;
 }
@@ -79,15 +95,25 @@ Color='#191919')";
 
 #messageControl {
   position: absolute;
-  width: 40%;
-  top: 60%;
-  left: 30%;
+	width: 100%;
+  top: 50%;
   transform: translateY(-60%); /* using the CSS3 Transform technique */
   /*margin: -10px 0 0 -110px;*/
   padding-top: 10px;
   margin-bottom: 10px;
-  z-index: 20001;
+  z-index: 1001;
 }
+
+@media (min-width: 992px) {
+	#messageControl {
+		width: 40%;
+		left: 30%;
+		top: 60%;		
+	}
+}
+
+
+
 
 #msg-loading {
   position: absolute;

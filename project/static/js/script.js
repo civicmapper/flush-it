@@ -314,7 +314,8 @@ var labels = L.tileLayer(
 	maxZoom: 20,
 	zIndex: 1,
 	opacity: 0.75,
-	attribution: 'Basemap Labels &copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a><span> and &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a></span>'
+	//attribution: 'Basemap Labels &copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a><span> and &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a></span>'
+	attribution: ''
 });
 
 // reference layers
@@ -480,38 +481,37 @@ function appInit() {
 	 * MAP CONTROLS
 	 */
 
-	L.control.custom({
-		id: 'titleBlock',
-		position: 'topleft',
-		style: { width: '100%'},
-		content: '<h1 id="title">Flush the Toilet!<br><span id="subtitle">See where your wastewater goes when you flush!</span></h1>'
-	}).addTo(map);
+	//L.control.custom({
+	//	id: 'titleBlock',
+	//	position: 'topleft',
+	//	style: { width: '100%'},
+	//	content: '<h1 id="title">Flush the Toilet!<br><span id="subtitle">See where your wastewater goes when you flush!</span></h1>'
+	//}).addTo(map);
 
-	L.control.custom({
-		id: 'credits',
-		position: 'topright',
-		content: '<p class="small"style="color:#fff;">A project by:</p><img class="credit-logos" src="static/resources/logo_alcosan.png"/><br><br><img class="credit-logos" src="static/resources/logo_3rww.png"/><br><br><img class="credit-logos" src="static/resources/logo_civicmapper.png"/>',
-		style: {
-			width: '220px',
-		}
-	}).addTo(map);
+	//L.control.custom({
+	//	id: 'credits',
+	//	position: 'topright',
+	//	content: '<p class="small"style="color:#fff;">A project by:</p><img class="credit-logos" src="static/resources/logo_alcosan.png"/><br><br><img class="credit-logos" src="static/resources/logo_3rww.png"/><br><br><img class="credit-logos" src="static/resources/logo_civicmapper.png"/>',
+	//	style: {
+	//		width: '220px',
+	//	}
+	//}).addTo(map);
 
-	L.control.custom({
-		id: 'aboutButtonControl',
-			position: 'topright',
-		content: '<button id="aboutButton" class="btn btn-default" type="submit"><i class="fa fa-info"></i></button>',
-			events : {
-				click : function() {
-					messageControl.onAboutModalOpen();
-				}
-			}
-	}).addTo(map);
+	//L.control.custom({
+	//	id: 'aboutButtonControl',
+	//		position: 'topright',
+	//	content: '<button id="aboutButton" class="btn btn-default" type="submit"><i class="fa fa-info"></i></button>',
+	//		events : {
+	//			click : function() {
+	//				messageControl.onAboutModalOpen();
+	//			}
+	//		}
+	//}).addTo(map);
 
-	L.control.zoom({position: 'bottomleft'}).addTo(map);
-	L.control.attribution({prefix: "Built by <a href='http://www.civicmapper.com'>CivicMapper</a>"})
-		.addAttribution("Powered by <a href='http://leafletjs.com'>Leaflet</a> w/ <a href='http://esri.github.io/esri-leaflet/'>Esri-Leaflet</a>, Geocoding via <a href='https://mapzen.com/'>Mapzen</a>")
+	L.control.attribution({prefix: "Not for official use or planning"})
+		.addAttribution(" Built by <a href='http://www.civicmapper.com'>CivicMapper</a> w/ <a href='http://www.3riverswetweather.org'>3RWW</a> | Powered by <a href='http://leafletjs.com'>Leaflet</a>, <a href='http://esri.github.io/esri-leaflet/'>Esri-Leaflet</a>, <a href='https://mapzen.com/'>Mapzen</a>")
 		.addTo(map);
-
+	L.control.zoom({position: 'bottomleft'}).addTo(map);
 
 
 	/** -------------------------------------------------------------------------
@@ -913,6 +913,17 @@ function appInit() {
 $(document).ready(function() {
 	// clear the address search box, since on page refresh the text might be retained
 	$('#searchbox').val('');
+
+	
+	// modal buttons
+	$("#aboutButton").click(function() {
+		messageControl.onAboutModalOpen();
+		$(".navbar-collapse.in").collapse("hide");
+		return false;
+	});
+	
+	
+	
 });
 
 $(window).on("load", function() {
