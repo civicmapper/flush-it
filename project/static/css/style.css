@@ -29,6 +29,18 @@ html,body,#map,#loadingScreen {
 	color: #fff;
 }
 
+@media (max-width: 992px) {
+	#titleBlock {
+		margin-top: 0px;
+		margin-right: -15px;
+		padding-left: 5px;
+		margin-left: -15px
+	}
+	.navbar-toggle {
+		margin-right: 5px;
+	}
+}
+
 #aboutBlock {
 	margin-top: 20px;
 	margin-right: 10px;
@@ -79,11 +91,14 @@ Color='#191919')";
 	filter: drop-shadow(5px 5px 5px rgba(25,25,25,0.9));
 }
 
-#title {
+.title {
 	color: #fff;
 	text-shadow: 5px 5px 10px rgba(25,25,25,0.9);
+	margin-top: 10px;
 }
-#subtitle {
+
+
+.subtitle {
 	color: #fff;
 	font-size: 0.5em !important;
 	text-shadow: 5px 5px 10px rgba(25,25,25,0.9);
@@ -96,7 +111,7 @@ Color='#191919')";
 #messageControl {
   position: absolute;
 	width: 100%;
-  top: 50%;
+  top: 60%;
   transform: translateY(-60%); /* using the CSS3 Transform technique */
   /*margin: -10px 0 0 -110px;*/
   padding-top: 10px;

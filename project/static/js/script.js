@@ -176,16 +176,7 @@ var messageControl = {
 		return list[Math.floor(Math.random() * list.length)];
 	},
 	init: function(leafletMap) {
-		L.control.custom({
-			id: 'msg-results',
-			classes: 'after-trace',
-			position: 'topleft',
-			content: '<h4>Distance to Plant:<br><span id="traceLength" class="traceResults"></span> feet (<span id="traceLengthMi" class="traceResults"></span> miles)</h4>' + '<h4>Inch-Miles (a proxy for capacity):<br><span id="inchMiles" class="traceResults"></span></h4>' + '<h4>Municipalities/Neighborhoods Passed:</h4><ul id="munihoods" class="traceResults"></ul>',
-			style: {
-				width: '300px',
-			}
-		}).addTo(leafletMap);
-
+		
 		L.control.custom({
 			id: '#' + this.resetButton.id,
 			classes: 'after-trace',
@@ -195,14 +186,24 @@ var messageControl = {
 				width: '250px',
 			}
 		}).addTo(leafletMap);
+		
+		L.control.custom({
+			id: 'msg-results',
+			classes: 'after-trace',
+			position: 'bottomright',
+			content: '<h4>Distance to Plant:<br><span id="traceLength" class="traceResults"></span> feet (<span id="traceLengthMi" class="traceResults"></span> miles)</h4>' + '<h4>Inch-Miles (a proxy for capacity):<br><span id="inchMiles" class="traceResults"></span></h4>' + '<h4>Municipalities/Neighborhoods Passed:</h4><ul id="munihoods" class="traceResults"></ul>',
+			style: {
+				width: '300px',
+			}
+		}).addTo(leafletMap);
 
 		// then set it its initial visibility and content state
 		this.reset();
 	},
 	onTraceStart: function() {
-		$('#addressSearch').fadeOut();
+		$('#addressSearch').hide();
 		$('#msg-facts').html(messageControl.randomMsg("facts"));
-		$('#msg-tracing').fadeIn();
+		$('#msg-tracing').fadeIn(100);
 	},
 	onTraceComplete: function() {
 		// populate values
@@ -213,7 +214,7 @@ var messageControl = {
 			$('#munihoods').append('<li>' + v + '</li>');
 		});
 		///turn on/off msgs
-		$('#msg-tracing').fadeOut();
+		$('#msg-tracing').fadeOut(200);
 		$('#msg-results').fadeIn();
 		$('#resetButton').fadeIn();
 		//$('.after-trace').fadeIn();
@@ -236,16 +237,16 @@ var messageControl = {
 	},
 	onError: function(msg) {
 		$('#msg-error').html(msg);
-		$('#msg-tracing').fadeOut();
-		$('#msg-error').fadeIn();
+		$('#msg-tracing').hide();
+		$('#msg-error').show();
 		$('#resetButton').fadeIn();
 	},
 	reset: function() {
-		$('#addressSearch').fadeIn();
-		$('#msg-tracing').fadeOut();
-		$('#msg-results').fadeOut();
-		$('#msg-error').fadeOut();
-    $('#resetButton').fadeOut();
+		$('#msg-tracing').fadeOut(100);
+		$('#msg-results').fadeOut(100);
+		$('#msg-error').fadeOut(100);
+    $('#resetButton').fadeOut(100);
+		$('#addressSearch').fadeIn(200);		
 		//$('.after-trace').fadeOut();
 	},
 };
@@ -511,8 +512,8 @@ function appInit() {
 	L.control.attribution({prefix: "Not for official use or planning"})
 		.addAttribution(" Built by <a href='http://www.civicmapper.com'>CivicMapper</a> w/ <a href='http://www.3riverswetweather.org'>3RWW</a> | Powered by <a href='http://leafletjs.com'>Leaflet</a>, <a href='http://esri.github.io/esri-leaflet/'>Esri-Leaflet</a>, <a href='https://mapzen.com/'>Mapzen</a>")
 		.addTo(map);
+		
 	L.control.zoom({position: 'bottomleft'}).addTo(map);
-
 
 	/** -------------------------------------------------------------------------
 	 * MISC. MAP AND DOM EVENT LISTENERS
@@ -929,10 +930,10 @@ $(document).ready(function() {
 $(window).on("load", function() {
 //$(document).ready(function() {
 	// hide the loading screen (revealing the map)
-	$("#loadingScreen").fadeOut();
+	$("#loadingScreen").fadeOut(100);
 	setTimeout(function(){
 		$("#messageControl").fadeIn();
-	}, 500);
+	}, 400);
 	console.log("Ready to get flushing.");
 });
 
