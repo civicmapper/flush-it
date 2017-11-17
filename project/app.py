@@ -3,14 +3,13 @@
 #----------------------------------------------------------------------------#
 
 # standard library imports
-
 import os
 import logging
 from logging import Formatter, FileHandler
-import requests
 import json
 
 # dependencies
+import requests
 from flask import Flask, render_template, request, make_response, session, jsonify
 #import pdb
 
