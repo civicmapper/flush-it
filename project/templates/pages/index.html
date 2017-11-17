@@ -27,7 +27,7 @@
 
 
 <div id="loadingScreen">
-    <div id="msg-loading"><h1 class="text-center">Loading...<i class="fa fa-cog fa-spin fa-3x fa-fw"></i><span class="sr-only"></span></h1></div>
+    <div id="msg-loading"><h1 class="text-center">Loading...<!--<i class="fa fa-cog fa-spin fa-3x fa-fw"></i><span class="sr-only"></span>--></h1></div>
 </div>
 <div id="messageControl" style="display: none;">
     <div id="addressSearch" class="text-center">
@@ -41,7 +41,10 @@
         </span>
     </div>
     <div id="msg-error" class="messages" role="alert"></div>
-    <div id="msg-tracing" class="messages"><h1 class="text-center">Flushing...<i class="fa fa-cog fa-spin fa-3x fa-fw"></i><span class="sr-only">Flushing...</span></h1></div>
+    <div id="msg-tracing" class="messages">
+        <h1 class="text-center">Flushing...<i class="fa fa-cog fa-spin fa-3x fa-fw"></i><span class="sr-only">Flushing...</span></h1>
+        <h2 class="text-center">Did you Know?<br><small class="messages"><em><span id="msg-facts"></span></em></small></h2>
+    </div>
 </div>
 <div class="modal" id="aboutModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg">

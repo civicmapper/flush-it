@@ -50,7 +50,7 @@ var atlas = {
 		}
 	},
 	rsi_tilelayer: {
-		url: 'https://geodata.civicmapper.com/arcgis/rest/services/flushit/rsi_tilelayer_composite/MapServer',		
+		url: 'https://geodata.civicmapper.com/arcgis/rest/services/flushit/rsi_tilelayer_composite/MapServer',
 		token: {"token":"","expires":0},
 		layer:null,
 		/**
@@ -104,22 +104,22 @@ var atlas = {
 			contentType: 'application/json;charset=UTF-8',
 			url: '/generateToken/',
 			success: function(response) {
-				
+
 				console.log("Token Acquired", response);
 				atlas.rsi_featurelayer.token = response.rsi_token;
 				atlas.rsi_networktrace.token = response.rsi_token;
 				atlas.rsi_tilelayer.token = response.cmags_token;
-				
+
 				console.log("Initializing services....");
 				atlas.rsi_featurelayer.init();
 				atlas.rsi_networktrace.init();
 				atlas.rsi_tilelayer.init();
-				
+
 				console.log("3RWW Atlas services are ready to go!", atlas);
-				
+
 				//return response;
 				callback();
-			
+
 			},
 			error: function(error) {
 				var msg = "There was an error acquiring the Sewer Atlas token and initializing Sewer Atlas data and analysis services";
@@ -156,53 +156,26 @@ var traceSummary = {
 
 /**
  * Message Control - central controller for managing application state
- * (only parts of this are used; it will be cleaned up)
  */
 var messageControl = {
 	element: function() {
 		return $('#messageControl');
 	},
 	messages: {
-		loading: {
-			id: 'msg-loading',
-			text: '<span id="msg-loading"><i class="fa fa-cog fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span></span>',
-			setMsg: $('#messageControl').html(this.text),
-		},
-		instructions: {
-			id: 'msg-instructions',
-			text: '<h3>Enter an address <i class="fa fa-map-marker"></i><h3>',
-			setMsg: $('#messageControl').html(this.text),
-		},
-		tracing: {
-			id: 'msg-tracing',
-			text: '<div id="msg-tracing">Flushing...<i class="fa fa-cog fa-spin fa-3x fa-fw"></i><span class="sr-only">Tracing...</span></div>',
-			setMsg: $('#' + this.id).html(this.text),
-		},
-		results: {
-			traceLength: {
-				id: "traceLength",
-				text: '<h3>Distance to Plant:<br><span id="traceLength"></span> feet</h3>'
-			},
-			inchMiles: {
-				id: "inchMiles",
-				text: '<h3>Inch-Miles (a proxy for capacity):<br><span id="inchMiles"></span></h3>'
-			},
-			munihoods: {
-				id: "munihoods",
-				text: '<h3>Municipalities & Pittsburgh Neighborhoods Passed Through:</h3><ul id="munihoods"></ul>'
-			}
-		},
-		reset: {
-			id: 'resetButton',
-			text: '<button id="resetButton" type="button" class="btn btn-default btn-lg btn-block">Start Over <i class="fa fa-rotate-left"></i></button>',
-			setMsg: $('#' + this.id).html(this.text)
-		},
-		error: {
-
-		}
+		facts: [
+			"Approximately 130,000 gallons of clean, treated water is discharged every minute from the plant at average daily flow.",
+			"ALCOSAN treats 250 Million Gallons of wastewater from 83 communities, including the city of Pittsburgh, each day.",
+			"It takes 9-12 hours for flow to travel through treatment processes at the ALCOSAN plant.",
+			"ALOCSAN recycles approximately 3 billion gallons of our own effluent water annually.",
+			"ALCOSAN's monthly electric bill averages $450,000.",
+			"The ALCOSAN plant sits on 59 acres."
+		],
+	},
+	randomMsg:	function(msgList) {
+		var list = this.messages[msgList];
+		return list[Math.floor(Math.random() * list.length)];
 	},
 	init: function(leafletMap) {
-
 		L.control.custom({
 			id: 'msg-results',
 			classes: 'after-trace',
@@ -214,10 +187,10 @@ var messageControl = {
 		}).addTo(leafletMap);
 
 		L.control.custom({
-			id: '#' + this.messages.reset.id,
+			id: '#' + this.resetButton.id,
 			classes: 'after-trace',
 			position: 'bottomright',
-			content: this.messages.reset.text,
+			content: this.resetButton.text,
 			style: {
 				width: '250px',
 			}
@@ -228,12 +201,13 @@ var messageControl = {
 	},
 	onTraceStart: function() {
 		$('#addressSearch').fadeOut();
+		$('#msg-facts').html(messageControl.randomMsg("facts"));
 		$('#msg-tracing').fadeIn();
 	},
 	onTraceComplete: function() {
 		// populate values
 		$('#traceLength').html(traceSummary.length.toFixed(2));
-        $('#traceLengthMi').html((traceSummary.length * 0.0001893939).toFixed(2));
+    $('#traceLengthMi').html((traceSummary.length * 0.0001893939).toFixed(2));
 		$('#inchMiles').html(traceSummary.inchmiles.toFixed(2));
 		$.each(traceSummary.places, function(i, v) {
 			$('#munihoods').append('<li>' + v + '</li>');
@@ -244,6 +218,11 @@ var messageControl = {
 		$('#resetButton').fadeIn();
 		//$('.after-trace').fadeIn();
 	},
+	resetButton: {
+		id: 'resetButton',
+		text: '<button id="resetButton" type="button" class="btn btn-default btn-lg btn-block">Start Over <i class="fa fa-rotate-left"></i></button>',
+		setMsg: $('#' + this.id).html(this.text)
+	},	
 	onAboutModalOpen: function() {
 		if (traceSummary.length === 0) {
 			$('#addressSearch').fadeOut();
@@ -336,7 +315,7 @@ var labels = L.tileLayer(
 	zIndex: 1,
 	opacity: 0.75,
 	attribution: 'Basemap Labels &copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a><span> and &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a></span>'
-});	
+});
 
 // reference layers
 
@@ -468,46 +447,46 @@ var map = L.map("map", {
  * Used as a callback, after all layer auths have succeeded.
  */
 function appInit() {
-	
+
 	// add layers to map:
-	
+
 	// Reference
 	serviceArea.addTo(map);
 	muniLayer.addTo(map);
-	
+
 	// Sewer Atlas
 	atlas.rsi_tilelayer.layer.addTo(map);
 	//atlas.rsi_featurelayer.layer.addTo(map);
-	
+
 	// Trace Search, Source, and Results
 	trwwTraceResult.addTo(map);
 	//trwwTracePoints.addTo(map);
 	trwwTraceSource.addTo(map);
 	addressPoint.addTo(map);
 	trwwTraceDestin.addTo(map);
-	
+
 	// lastly...create a new map pane, then add the labels tile layer to it.
 	map.createPane("labels");
 	labels.addTo(map);
-	
-	
+
+
 	// set map view to the service area layer extents
 	serviceArea.query().bounds(function (error, latlngbounds) {
 		map.fitBounds(latlngbounds);
 	});
-	
-	
+
+
 	/** -------------------------------------------------------------------------
 	 * MAP CONTROLS
 	 */
-	
+
 	L.control.custom({
 		id: 'titleBlock',
 		position: 'topleft',
 		style: { width: '100%'},
 		content: '<h1 id="title">Flush the Toilet!<br><span id="subtitle">See where your wastewater goes when you flush!</span></h1>'
 	}).addTo(map);
-	
+
 	L.control.custom({
 		id: 'credits',
 		position: 'topright',
@@ -516,7 +495,7 @@ function appInit() {
 			width: '220px',
 		}
 	}).addTo(map);
-	
+
 	L.control.custom({
 		id: 'aboutButtonControl',
 			position: 'topright',
@@ -527,18 +506,18 @@ function appInit() {
 				}
 			}
 	}).addTo(map);
-	
+
 	L.control.zoom({position: 'bottomleft'}).addTo(map);
 	L.control.attribution({prefix: "Built by <a href='http://www.civicmapper.com'>CivicMapper</a>"})
 		.addAttribution("Powered by <a href='http://leafletjs.com'>Leaflet</a> w/ <a href='http://esri.github.io/esri-leaflet/'>Esri-Leaflet</a>, Geocoding via <a href='https://mapzen.com/'>Mapzen</a>")
 		.addTo(map);
-	
-	
-	
+
+
+
 	/** -------------------------------------------------------------------------
 	 * MISC. MAP AND DOM EVENT LISTENERS
 	 */
-	
+
 	/**
 	 * make sure layers stay in the correct order when new ones are added later on
 	 */
@@ -546,11 +525,11 @@ function appInit() {
 		trwwTraceSource.bringToFront();
 		addressPoint.bringToFront();
 	});
-	
+
 	/** -------------------------------------------------------------------------
 	 * SEWER DATA QUERY
 	 */
-	
+
 	/**
 	 * From a point (as L.latlng) find the nearest sewer structure.
 	 * This is made to work with a the Sewer Atlas map service.
@@ -585,11 +564,11 @@ function appInit() {
 				}
 			});
 	}
-	
+
 	/** -------------------------------------------------------------------------
 	 * NETWORK TRACE functions
 	 */
-	
+
 	/**
 	 * clear the network trace layers from the map
 	 */
@@ -599,7 +578,7 @@ function appInit() {
 		// remove trace line
 		trwwTraceResult.clearLayers();
 	}
-	
+
 	/**
 	 * display message when trace is running
 	 */
@@ -607,7 +586,7 @@ function appInit() {
 		console.log("Trace initialized...");
 		messageControl.onTraceStart();
 	}
-	
+
 	/**
 	 * display error when trace fails
 	 */
@@ -616,7 +595,7 @@ function appInit() {
 		console.log(msg);
 		messageControl.onError('<p><i class="fa fa-frown-o"></i> There was an error with the trace:<br>' + msg + '<p>');
 	}
-	
+
 	/**
 	 * do things when trace is complete
 	 */
@@ -625,7 +604,7 @@ function appInit() {
 		var msg = "Trace Complete";
 		console.log(msg);
 	}
-	
+
 	/**
 	 * takes the raw trace response and calculates some totals
 	 */
@@ -644,16 +623,16 @@ function appInit() {
 		traceSummary.places = places;
 		console.log(traceSummary);
 	}
-	
+
 	/**
 	 * given an input feature (geojson point), trace downstream on the 3RWW Sewer
 	 * Atlas network dataset.
 	 */
 	function traceExecute(inputFeature) {
-	
+
 		// display "flushing" message
 		traceRunning();
-	
+
 		// create a Terraformer Primitive from input (passed to the GP tool)
 		var source = new Terraformer.Point({
 			type: "Point",
@@ -663,15 +642,15 @@ function appInit() {
 			]
 		});
 		//console.log(source);
-	
+
 		/**
 		 * set up the geoprocessing task
 		 */
 		//var traceTask = traceService.createTask();
 		console.log(atlas);
 		var traceTask = atlas.rsi_networktrace.service.createTask();
-		
-	
+
+
 		/**
 		 * run the georpocessing task
 		 */
@@ -690,7 +669,7 @@ function appInit() {
 			var trace_result;
 			traceTask.setOutputParam("Downstream_Pipes");
 			traceTask.gpAsyncResultParam("Downstream_Pipes", trace_result);
-	
+
 			console.log("Trace initialized. Submitting request to tracing service...");
 			traceTask.run(function(error, result, response) {
 				console.log("Request completed:", response);
@@ -722,12 +701,12 @@ function appInit() {
 						}
 					);
 					//map.setZoom(map.getZoom() - 2);
-	
+
 					/**
 					 * Generate Summaries
 					 */
 					traceSummarize(fc1, muniFC);
-	
+
 					/**
 					 * Animate
 					 */
@@ -735,7 +714,7 @@ function appInit() {
 					//var tracePoints = traceAnimatePrep(geometryCollection);
 					// animate
 					//traceAnimate(tracePoints);
-	
+
 					// Display completion messages, results, etc.
 					traceSuccess();
 					console.log("Trace Results:", gc1);
@@ -743,7 +722,7 @@ function appInit() {
 			});
 		});
 	}
-	
+
 	/**
 	 * NETWORK TRACE button click - run the trace once address has been identified (this could be accessed from the address pop-up)
 	 */
@@ -761,18 +740,18 @@ function appInit() {
 		// run the GP using the geojson
 		traceExecute(nearest);
 	});
-	
+
 	/**
 	 * ABOUT BUTTON
 	 */
 	$('#aboutModal').on('hidden.bs.modal', function (e) {
 	  messageControl.onAboutModalClose();
 	});
-	
-	/** 
+
+	/**
 	 * click event to reset the analysis function
 	 */
-	$(document).on("click", '#' + messageControl.messages.reset.id, function() {
+	$(document).on("click", '#' + messageControl.resetButton.id, function() {
 		console.log("Resetting the trace.");
 		console.log("--------------------");
 		// reset all controls to initial state
@@ -784,23 +763,23 @@ function appInit() {
 		// remove the geocoded address point from the map
 		resetAddressSearch();
 	});
-	
+
 	/**--------------------------------------------------------------------------
 	 * Typeahead search functionality
 	 */
-	
+
 	/* Highlight search box text on click */
 	$("#searchbox").click(function() {
 		$(this).select();
 	});
-	
+
 	/* Prevent hitting enter from refreshing the page */
 	$("#searchbox").keypress(function(e) {
 		if (e.which == 13) {
 			e.preventDefault();
 		}
 	});
-	
+
 	var addressSearch = new Bloodhound({
 		name: "Mapzen",
 		datumTokenizer: function(d) {
@@ -833,9 +812,9 @@ function appInit() {
 		},
 		limit: 10
 	});
-	
+
 	addressSearch.initialize();
-	
+
 	$("#searchbox").typeahead({
 		minLength: 3,
 		highlight: true,
@@ -850,18 +829,18 @@ function appInit() {
 		}
 	}).on("typeahead:selected", function(obj, datum) {
 		// once an address is selected from the drop-down:
-		
+
 		// store geocoding results in the global summary object
 		traceSummary.datum = datum;
-	
+
 		// store the position of the address at latLng object
 		var latlng = L.latLng({
 			lat: datum.lat,
 			lng: datum.lng
 		});
-		
+
 		console.log("Search found this: ", datum, latlng);
-	
+
 		// set the map view to the address location
 		map.setView(latlng, 15);
 		// clear the previous network trace
@@ -870,7 +849,7 @@ function appInit() {
 		//addressPoint.remove();
 		// add a point at the address, bind a pop-up, and open the pop-up automatically
 		//addressPoint.setLatLng(latlng).bindPopup("<h4>" + datum.name + "</h4><p>" + datum.lng + ", " + datum.lat + "</p>").openPopup();
-			
+
 		addressPoint.clearLayers();
 		addressPoint
 			.addData({
@@ -892,10 +871,10 @@ function appInit() {
 		// from that point, automatically find the nearest sewer structure
 		findNearestStructure(latlng);
 	});
-	
+
 	$(".twitter-typeahead").css("position", "static");
 	$(".twitter-typeahead").css("display", "block");
-	
+
 	/**
 	 * reset the address search box, remove the geocoded address point, and
 	 * close the pop-up.
@@ -905,7 +884,7 @@ function appInit() {
 		addressPoint.clearLayers();
 		addressPoint.closePopup();
 	}
-	
+
 	/**
 	 * given the features array from a geojson feature collection, and a property,
 	 * get a "set" (unique values) of values stored in that property
@@ -922,11 +901,11 @@ function appInit() {
 		});
 		return unique;
 	}
-	
+
 	/**---------------------------------------------------------------------------
 	 * DOCUMENT INITIALIZATION
 	 */
-	
+
 	messageControl.init(map);
 
 }
@@ -940,9 +919,9 @@ $(window).on("load", function() {
 //$(document).ready(function() {
 	// hide the loading screen (revealing the map)
 	$("#loadingScreen").fadeOut();
-	// show the message control
-	$('#messageControl').fadeIn();
-
+	setTimeout(function(){
+		$("#messageControl").fadeIn();
+	}, 500);
 	console.log("Ready to get flushing.");
 });
 
