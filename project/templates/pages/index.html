@@ -53,7 +53,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
         <li id="aboutBlock">
-            <button id="aboutButton" type="button" class="btn btn-default"><i class="fa fa-question hidden-sm hidden-xs"></i> <span class="hidden-md hidden-lg">About Flush-It</span></button>
+            <button id="aboutButton" type="button" class="btn btn-default"><i class="fa fa-question hidden-xs"></i> <span class="hidden-sm hidden-md hidden-lg">About Flush-It</span></button>
             <!--<a id="aboutButton" href="#"><i class="fa fa-info"></i><span class="sr-only">About this thing</span></a>-->
         </li>
         <li id="credits">
@@ -183,6 +183,22 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+{% raw %}
+<script id="handlebars-legend" type="text/x-handlebars-template">
+    <div id="legend">
+        <div class="legend legend-line-2">
+            <p><i class="fa fa-minus"></i> ALCOSAN-owned infrastructure</p>
+        </div>
+        <div class="legend-line-3">
+            <p><i class="fa fa-minus"></i> Municipal-owned infrastructure</p>
+        </div>
+        <div class="legend-line-1">
+            <p><i class="fa fa-minus"></i> Regionalization Extents <small>(August 2017, Subject to Change)</small></p>
+        </div>        
+    </div>
+</script>
+{% endraw %}
     
 <div id="map"></div>
 

@@ -20,7 +20,7 @@ html,body,#map,#loadingScreen {
 	padding-top:6px;
 	padding-right:7px;
 }
-#credits, #titleBlock, #msg-results, #msg-error, #msg-tracing {
+#credits, #titleBlock, #msg-results, #msg-error, #msg-tracing, .legend-popover {
 	margin-top: 20px;
 	margin-right: 10px;
 	padding: 10px;
@@ -29,7 +29,7 @@ html,body,#map,#loadingScreen {
 	color: #fff;
 }
 
-@media (max-width: 992px) {
+@media (max-width: 768px) {
 	#titleBlock {
 		margin-top: 0px;
 		margin-right: -15px;
@@ -74,7 +74,7 @@ html,body,#map,#loadingScreen {
 	color: #D36122;
 }
 
-#aboutButton, #resetButton, .leaflet-control-zoom-in, .leaflet-control-zoom-out {
+#aboutButton, #resetButton, #legendButton, .leaflet-control-zoom-in, .leaflet-control-zoom-out {
 	color: #fff !important;
 	background-color: rgba(25,25,25,0.7) !important;
 	border-color: rgba(20,20,20,0.9) !important;
@@ -119,16 +119,13 @@ Color='#191919')";
   z-index: 1001;
 }
 
-@media (min-width: 992px) {
+@media (min-width: 768px) {
 	#messageControl {
 		width: 40%;
 		left: 30%;
 		top: 60%;		
 	}
 }
-
-
-
 
 #msg-loading {
   position: absolute;
@@ -216,6 +213,9 @@ Color='#191919')";
 }
 .fa-minus {
 	font-stretch: ultra-expanded;
+}
+.legend-popover {
+	width: 200px;
 }
 
 /* Animated Line */
