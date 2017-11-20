@@ -145,7 +145,7 @@ var traceSummary = {
 	length: 0,
 	inchmiles: 0,
 	places: [],
-    datum: {},
+  datum: {},
 	reset: function() {
 		// reset values
 		this.length = 0;
@@ -179,6 +179,9 @@ var messageControl = {
 	},
 	init: function(leafletMap) {
 		
+		// add custom controls using buttons from this class!
+		
+		// reset button
 		L.control.custom({
 			id: '#' + this.resetButton.id,
 			classes: 'after-trace',
@@ -189,43 +192,94 @@ var messageControl = {
 			}
 		}).addTo(leafletMap);
 		
+		// results button
 		L.control.custom({
-			id: 'msg-results',
+			id: '#' + this.resultsButton.id,
 			classes: 'after-trace',
 			position: 'bottomright',
-			content: '<h4>Distance to Plant:<br><span id="traceLength" class="traceResults"></span> feet (<span id="traceLengthMi" class="traceResults"></span> miles)</h4>' + '<h4>Inch-Miles (a proxy for capacity):<br><span id="inchMiles" class="traceResults"></span></h4>' + '<h4>Municipalities/Neighborhoods Passed:</h4><ul id="munihoods" class="traceResults"></ul>',
+			content: this.resultsButton.text,
 			style: {
-				width: '300px',
+				width: '250px',
 			}
 		}).addTo(leafletMap);
+		
+		// legend button
+		L.control.custom({
+			id: '#' + this.legendButton.id,
+			position: 'bottomleft',
+			content: this.legendButton.text
+		}).addTo(leafletMap);
+		// for the legend popover
+		// ...get the template from the page
+		var legendTemplate = $("#handlebars-legend").html();
+		// ...build the compiler
+		var legendCompiled = Handlebars.compile(legendTemplate);
+		// ...compile the result and append to the table
+		$('#legendButton').popover({
+			html: true,
+			content: legendCompiled(),
+			placement: 'top',
+			template: '<div class="popover legend-popover" role="tooltip"><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
+		});
+		
+		//L.control.custom({
+		//	id: 'msg-results',
+		//	classes: 'after-trace',
+		//	position: 'bottomright',
+		//	content: '<h4>Distance to Plant:<br><span id="traceLength" class="traceResults"></span> feet (<span id="traceLengthMi" class="traceResults"></span> miles)</h4>' + '<h4>Inch-Miles (a proxy for capacity):<br><span id="inchMiles" class="traceResults"></span></h4>' + '<h4>Municipalities/Neighborhoods Passed:</h4><ul id="munihoods" class="traceResults"></ul>',
+		//	style: {
+		//		width: '300px',
+		//	}
+		//}).addTo(leafletMap);
 
 		// then set it its initial visibility and content state
 		this.reset();
 	},
+	legendButton : {
+		id: 'legendButton',
+		text: '<button id="legendButton" type="button" class="btn btn-default" data-toggle="popover">Legend</button>',
+	},
+	resultsButton : {
+		id: 'resultsButton',
+		text: '<button id="resultsButton" type="button" class="btn btn-default btn-lg btn-block resultsButtons">Results!</button>',
+	},
+	resetButton: {
+		id: 'resetButton',
+		text: '<button id="resetButton" type="button" class="btn btn-default btn-lg btn-block resultsButtons">Start Over <i class="fa fa-rotate-left"></i></button>',
+	},	
 	onTraceStart: function() {
 		$('.addressSearch').hide();
 		$('#msg-facts').html(messageControl.randomMsg("facts"));
 		$('#msg-tracing').fadeIn(100);
 	},
 	onTraceComplete: function() {
-		// populate values
-		$('#traceLength').html(traceSummary.length.toFixed(2));
-    $('#traceLengthMi').html((traceSummary.length * 0.0001893939).toFixed(2));
-		$('#inchMiles').html(traceSummary.inchmiles.toFixed(2));
-		$.each(traceSummary.places, function(i, v) {
-			$('#munihoods').append('<li>' + v + '</li>');
-		});
 		///turn on/off msgs
 		$('#msg-tracing').fadeOut(200);
-		$('#msg-results').fadeIn();
-		$('#resetButton').fadeIn();
-		//$('.after-trace').fadeIn();
+		$('.resultsButtons').fadeIn();
+		
+		// populate content for the results modal, and show the modal
+		// ...get the template from the page
+		var resultsTemplate = $("#handlebars-results").html();
+		// ...build the compiler
+		var resultsCompiled = Handlebars.compile(resultsTemplate);
+		// ...compile the result
+		var resultsContent = resultsCompiled({
+			address: traceSummary.datum.name,
+			traceLength: traceSummary.length.toFixed(2),
+			traceLengthMi: (traceSummary.length * 0.0001893939).toFixed(2),
+			munihoods: traceSummary.places
+		});
+		// push it to the modal
+		$('#resultsModalContent').html(resultsContent);
+		$('#resultsModal').modal('show');
+		
+//		$('#traceLength').html(traceSummary.length.toFixed(2));
+//    $('#traceLengthMi').html((traceSummary.length * 0.0001893939).toFixed(2));
+//		$('#inchMiles').html(traceSummary.inchmiles.toFixed(2));
+//		$.each(traceSummary.places, function(i, v) {
+//			$('#munihoods').append('<li>' + v + '</li>');
+//		});		
 	},
-	resetButton: {
-		id: 'resetButton',
-		text: '<button id="resetButton" type="button" class="btn btn-default btn-lg btn-block">Start Over <i class="fa fa-rotate-left"></i></button>',
-		setMsg: $('#' + this.id).html(this.text)
-	},	
 	onAboutModalOpen: function() {
 		if (traceSummary.length === 0) {
 			$('.addressSearch').fadeOut();
@@ -241,13 +295,14 @@ var messageControl = {
 		$('#msg-error').html(msg);
 		$('#msg-tracing').hide();
 		$('#msg-error').show();
+		//$('.resultsButtons').fadeIn();
 		$('#resetButton').fadeIn();
 	},
 	reset: function() {
-		$('#msg-tracing').fadeOut(100);
-		$('#msg-results').fadeOut(100);
-		$('#msg-error').fadeOut(100);
-    $('#resetButton').fadeOut(100);
+		$('#msg-tracing').hide();
+		$('#msg-error').hide();
+		//$('#msg-results').fadeOut(100);
+    $('.resultsButtons').hide();
 		$('.addressSearch').fadeIn(200);
 		//$('.after-trace').fadeOut();
 	},
@@ -346,7 +401,7 @@ var muniLayer = L.esri.featureLayer({
 	url: 'https://services6.arcgis.com/dMKWX9NPCcfmaZl3/arcgis/rest/services/alcosan_munis_v2/FeatureServer/1',
 	ignoreRenderer: true,
 	style: {
-        fillColor: "#D46323",
+    fillColor: "#D46323",
 		color: '#D46323',
 		weight: 4,
 		opacity: 0.1,
@@ -492,28 +547,6 @@ function appInit() {
 		
 	L.control.zoom({position: 'bottomleft'}).addTo(map);
 	
-	L.control.custom({
-		id: 'legendControl',
-		position: 'bottomleft',
-		content: '<button id="legendButton" type="button" class="btn btn-default" data-toggle="popover">Legend</button>'
-	}).addTo(map);
-	
-
-	
-	// add a row to the table in the GUI using a handlebars template.
-	// ...get the template from the page
-	var legendTemplate = $("#handlebars-legend").html();
-	// ...build the compiler
-	var legendCompiled = Handlebars.compile(legendTemplate);
-	// ...compile the result and append to the table
-	//$('#legendControl').html(legendCompiled());
-	
-	$('#legendButton').popover({
-		html: true,
-		content: legendCompiled(),
-		placement: 'top',
-		template: '<div class="popover legend-popover" role="tooltip"><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
-	});	
 
 	/** -------------------------------------------------------------------------
 	 * MISC. MAP AND DOM EVENT LISTENERS
@@ -919,6 +952,12 @@ $(document).ready(function() {
 	// modal buttons
 	$("#aboutButton").click(function() {
 		messageControl.onAboutModalOpen();
+		$(".navbar-collapse.in").collapse("hide");
+		return false;
+	});
+	
+	$("resultsButton").click(function() {
+		$("#resultsModal").modal("toggle");
 		$(".navbar-collapse.in").collapse("hide");
 		return false;
 	});

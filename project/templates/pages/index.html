@@ -132,7 +132,6 @@
     </div>
 </div>
 
-
 <div class="modal" id="aboutModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -232,10 +231,15 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<div class="modal" id="resultsModal" tabindex="-1" role="dialog">
+    <div id="resultsModalContent" class="modal-dialog modal-lg">
+    </div>
+</div>
+
 {% raw %}
 <script id="handlebars-legend" type="text/x-handlebars-template">
     <div id="legend">
-        <div class="legend legend-line-2">
+        <div class="legend-line-2">
             <p><i class="fa fa-minus"></i> ALCOSAN-owned infrastructure</p>
         </div>
         <div class="legend-line-3">
@@ -246,6 +250,37 @@
         </div>        
     </div>
 </script>
+
+<script id="handlebars-results" type="text/x-handlebars-template">
+  <div class="modal-content">
+      <div class="modal-header">
+          <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h1 class="modal-title">Here's what happens when you flush from {{address}}!</small></h1>
+      </div>      
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-sm-12">
+              <h4>Distance to Plant:<br>
+                <span id="traceLength" class="traceResults">{{traceLength}}</span> feet (<span id="traceLengthMi" class="traceResults">{{traceLengthMi}}</span> miles)
+              </h4>
+              <h4>Inch-Miles (a proxy for capacity):<br>
+                <span id="inchMiles" class="traceResults">{{inchMiles}}</span>
+              </h4>
+              <h4>Municipalities/Neighborhoods Passed:</h4>
+              <ul id="munihoods" class="traceResults">
+                {{#each munihoods}}
+                <li>{{munihood}}</li>
+                {{/each}}
+              </ul>
+            </div>
+        </div>              
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>            
+  </div> 
+</script>
+
 {% endraw %}
     
 <div id="map"></div>
