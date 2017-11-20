@@ -141,7 +141,7 @@ Color='#191919')";
 	z-index: 799 !important;
 }
 
-.leaflet-control-zoom, #aboutButton, #resetButton, .twitter-typeahead {
+.leaflet-control-zoom, #aboutButton, #legendButton #resetButton, .twitter-typeahead {
 	box-shadow: 5px 5px 10px rgba(25,25,25,0.9);
 }
 

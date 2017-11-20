@@ -63,7 +63,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
         <li id="aboutBlock">
-            <button id="aboutButton" type="button" class="btn btn-default"><i class="fa fa-question hidden-xs"></i> <span class="hidden-sm hidden-md hidden-lg">About Flush-It</span></button>
+            <button id="aboutButton" type="button" class="btn btn-default"><span>About</span></button>
             <!--<a id="aboutButton" href="#"><i class="fa fa-info"></i><span class="sr-only">About this thing</span></a>-->
         </li>
         <li id="credits">
@@ -142,38 +142,12 @@
             </div>
             <div class="modal-body">
                 <ul class="nav nav-tabs nav-justified" id="aboutTabs">
-                    <li><a href="#legend" data-toggle="tab" aria-expanded="true" class="active"></i>Legend</a></li>
-                    <li><a href="#about" data-toggle="tab" aria-expanded="false">About</a></li> 
+                    <li class="active"><a href="#about" data-toggle="tab" aria-expanded="true">About</a></li> 
+                    <li><a href="#legend" data-toggle="tab" aria-expanded="false"></i>Legend</a></li>
                     <li><a href="#creditsTab" data-toggle="tab" aria-expanded="false">Credits</a></li>
                 </ul>
                 <div class="tab-content" id="aboutTabsContent">
-                    <div id="legend" class="tab-pane active in">
-                        <div class="row legend-line-1">
-                            <div class="col-sm-2">
-                                <h3 class="text-right"><i class="fa fa-minus"></i></h3>
-                            </div>                            
-                            <div class="col-sm-10">
-                                <h3>Regionalization Extents <small>(August 2017, Subject to Change)</small></h3>
-                            </div>
-                        </div>
-                        <div class="row legend-line-2">
-                            <div class="col-sm-2">
-                                <h3 class="text-right"><i class="fa fa-minus"></i></h3>
-                            </div>
-                            <div class="col-sm-10">
-                                <h3>ALCOSAN-owned infrastructure</h3>
-                            </div>
-                        </div>
-                        <div class="row legend-line-3">
-                            <div class="col-sm-2">
-                                <h3 class="text-right"><i class="fa fa-minus"></i></h3>
-                            </div>                            
-                            <div class="col-sm-10">
-                                <h3>Municipal-owned infrastructure</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="about" class="tab-pane">
+                    <div id="about" class="tab-pane active in">
                         <div class="row">
                             <div class="col-sm-12">
                                 <h2>What is this?</h2>
@@ -209,6 +183,32 @@
                                 <p>All the GIS technology utilized by the map is already in place and is used on a daily basis; we merely interfaced with it in a different way to make this little mapping application. Other than Esri ArcGIS Server, all of the software used by the application is free and open source.</p>
                                 
                                 <p>In addition to showing where your toilet flushes go, this map demonstrates the power of using open-source technology and open data standards designed for the modern web.</p>
+                            </div>
+                        </div>
+                    </div>                  
+                    <div id="legend" class="tab-pane">
+                        <div class="row legend-line-1">
+                            <div class="col-sm-2">
+                                <h3 class="text-right"><i class="fa fa-minus"></i></h3>
+                            </div>                            
+                            <div class="col-sm-10">
+                                <h3>Regionalization Extents <small>(August 2017, Subject to Change)</small></h3>
+                            </div>
+                        </div>
+                        <div class="row legend-line-2">
+                            <div class="col-sm-2">
+                                <h3 class="text-right"><i class="fa fa-minus"></i></h3>
+                            </div>
+                            <div class="col-sm-10">
+                                <h3>ALCOSAN-owned infrastructure</h3>
+                            </div>
+                        </div>
+                        <div class="row legend-line-3">
+                            <div class="col-sm-2">
+                                <h3 class="text-right"><i class="fa fa-minus"></i></h3>
+                            </div>                            
+                            <div class="col-sm-10">
+                                <h3>Municipal-owned infrastructure</h3>
                             </div>
                         </div>
                     </div>
