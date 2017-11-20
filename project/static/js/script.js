@@ -43,7 +43,8 @@ var atlas = {
 				minZoom: 16,
 				zIndex: 6,
 				opacity: 0.6,
-				f: 'image'
+				f: 'image',
+				attribution: ''
 			});
 			this.layer = trwwStructures;
 			return trwwStructures;
@@ -65,6 +66,7 @@ var atlas = {
 				maxZoom:19,
 				zIndex: 5,
 				opacity: 0.9,
+				attribution: ''
 			});
 			this.layer = trwwPipes;
 			return trwwPipes;
@@ -201,7 +203,7 @@ var messageControl = {
 		this.reset();
 	},
 	onTraceStart: function() {
-		$('#addressSearch').hide();
+		$('.addressSearch').hide();
 		$('#msg-facts').html(messageControl.randomMsg("facts"));
 		$('#msg-tracing').fadeIn(100);
 	},
@@ -226,13 +228,13 @@ var messageControl = {
 	},	
 	onAboutModalOpen: function() {
 		if (traceSummary.length === 0) {
-			$('#addressSearch').fadeOut();
+			$('.addressSearch').fadeOut();
 		}
 		$("#aboutModal").modal("show");
 	},
 	onAboutModalClose: function() {
 		if (traceSummary.length === 0) {
-			$('#addressSearch').fadeIn();
+			$('.addressSearch').fadeIn();
 		}
 	},
 	onError: function(msg) {
@@ -246,7 +248,7 @@ var messageControl = {
 		$('#msg-results').fadeOut(100);
 		$('#msg-error').fadeOut(100);
     $('#resetButton').fadeOut(100);
-		$('#addressSearch').fadeIn(200);		
+		$('.addressSearch').fadeIn(200);
 		//$('.after-trace').fadeOut();
 	},
 };
@@ -303,7 +305,8 @@ var basemap = L.tileLayer(//"https://api.mapbox.com/styles/v1/cbgthor624/cipq73z
 "https://api.mapbox.com/styles/v1/cbgthor624/cj7m885wh91zm2rn3j6g8et8q/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2JndGhvcjYyNCIsImEiOiJjajdtOGk0ZDIydThuMnducDNwZmU5NGJkIn0.ZISQHLPj0Yt1AudOgApIww", {
 	maxZoom: 20,
 	zIndex: 1,
-	attribution: 'Basemap &copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a><span> and &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a></span>'
+	//attribution: 'Basemap &copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a><span> and &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a></span>'
+	attribution:''
 });
 /**
  * reference layer (custom mapbox tileset with labels only - we put this over
@@ -484,7 +487,7 @@ function appInit() {
 	
 
 	L.control.attribution({prefix: "Not for official use or planning"})
-		.addAttribution(" Built by <a href='http://www.civicmapper.com'>CivicMapper</a> w/ <a href='http://www.3riverswetweather.org'>3RWW</a> | Powered by <a href='http://leafletjs.com'>Leaflet</a>, <a href='http://esri.github.io/esri-leaflet/'>Esri-Leaflet</a>, <a href='https://mapzen.com/'>Mapzen</a>")
+		.addAttribution("<a href='#' onclick='$(\"#attributionModal\").modal(\"show\"); return false;'>Credits</a>")
 		.addTo(map);
 		
 	L.control.zoom({position: 'bottomleft'}).addTo(map);
@@ -492,9 +495,7 @@ function appInit() {
 	L.control.custom({
 		id: 'legendControl',
 		position: 'bottomleft',
-		//content: '<button id="legendButton" class="btn btn-default" type="submit"><i class="fa fa-info"></i></button>',
-		//content: '<a id="legendButton" tabindex="0" class="btn btn-default" role="button" data-toggle="popover" data-trigger="focus"><i class="fa fa-info"></i></a>'
-		content: '<button id="legendButton" type="button" class="btn btn-default" data-toggle="popover"><i class="fa fa-info"></i></button>'
+		content: '<button id="legendButton" type="button" class="btn btn-default" data-toggle="popover">Legend</button>'
 	}).addTo(map);
 	
 
@@ -510,7 +511,8 @@ function appInit() {
 	$('#legendButton').popover({
 		html: true,
 		content: legendCompiled(),
-		template: '<div class="popover legend-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
+		placement: 'top',
+		template: '<div class="popover legend-popover" role="tooltip"><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
 	});	
 
 	/** -------------------------------------------------------------------------
@@ -768,12 +770,12 @@ function appInit() {
 	 */
 
 	/* Highlight search box text on click */
-	$("#searchbox").click(function() {
+	$(".searchbox").click(function() {
 		$(this).select();
 	});
 
 	/* Prevent hitting enter from refreshing the page */
-	$("#searchbox").keypress(function(e) {
+	$(".searchbox").keypress(function(e) {
 		if (e.which == 13) {
 			e.preventDefault();
 		}
@@ -814,7 +816,7 @@ function appInit() {
 
 	addressSearch.initialize();
 
-	$("#searchbox").typeahead({
+	$(".searchbox").typeahead({
 		minLength: 3,
 		highlight: true,
 		hint: false
@@ -879,7 +881,7 @@ function appInit() {
 	 * close the pop-up.
 	 */
 	function resetAddressSearch() {
-		$('#searchbox').val('');
+		$('.searchbox').val('');
 		addressPoint.clearLayers();
 		addressPoint.closePopup();
 	}
@@ -911,7 +913,7 @@ function appInit() {
 
 $(document).ready(function() {
 	// clear the address search box, since on page refresh the text might be retained
-	$('#searchbox').val('');
+	$('.searchbox').val('');
 
 	
 	// modal buttons

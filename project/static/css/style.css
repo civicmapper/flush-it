@@ -8,23 +8,22 @@ body {
 html,body,#map,#loadingScreen {
 	height: 100%;
 	width: 100%;
-	font-family: 'Fjalla One', sans-serif;
+	font-family: 'Fjalla One', sans-serif !important;
 }
 
 #loadingScreen {
 	z-index: 50000;
-	background-color: #000;
-	color: #fff;
+	background-color: #212121;
+	color: #FCB318;
 }
-#searchicon {
+.searchicon {
 	padding-top:6px;
 	padding-right:7px;
 }
 #credits, #titleBlock, #msg-results, #msg-error, #msg-tracing, .legend-popover {
 	margin-top: 20px;
-	margin-right: 10px;
 	padding: 10px;
-	background-color: rgba(25,25,25,0.7);
+	background-color: rgba(25,25,25,0.85);
 	box-shadow: 5px 5px 10px rgba(25,25,25,0.9);
 	color: #fff;
 }
@@ -76,7 +75,7 @@ html,body,#map,#loadingScreen {
 
 #aboutButton, #resetButton, #legendButton, .leaflet-control-zoom-in, .leaflet-control-zoom-out {
 	color: #fff !important;
-	background-color: rgba(25,25,25,0.7) !important;
+	background-color: rgba(25,25,25,0.85) !important;
 	border-color: rgba(20,20,20,0.9) !important;
 	border-style: solid !important;
 	border-width: 1px !important;
@@ -104,10 +103,6 @@ Color='#191919')";
 	text-shadow: 5px 5px 10px rgba(25,25,25,0.9);
 }
 
-#addressSearch {
-	width: 100%%;
-}
-
 #messageControl {
   position: absolute;
 	width: 100%;
@@ -116,7 +111,7 @@ Color='#191919')";
   /*margin: -10px 0 0 -110px;*/
   padding-top: 10px;
   margin-bottom: 10px;
-  z-index: 1001;
+  z-index: 999;
 }
 
 @media (min-width: 768px) {
@@ -142,6 +137,9 @@ Color='#191919')";
 	color:#fff;	
 }
 
+.leaflet-bottom .leaflet-right .leaflet-control-attribution .leaflet-control {
+	z-index: 799 !important;
+}
 
 .leaflet-control-zoom, #aboutButton, #resetButton, .twitter-typeahead {
 	box-shadow: 5px 5px 10px rgba(25,25,25,0.9);
@@ -149,11 +147,22 @@ Color='#191919')";
 
 
 /**
- * Typeahead
+ * Searchbox & Typeahead
  */
 
+.addressSearch {
+	width: 100%%;
+}
+
+input.searchbox {
+	color: #fff;
+	background-color: rgba(25,25,25,0.85);
+	border-color: #50A8B0;
+}
+
 .tt-dropdown-menu {
-	background-color: #FFFFFF;
+	color: #fff;
+	background-color: rgba(25,25,25,0.85);
 	border: 1px solid rgba(0, 0, 0, 0.2);
 	border-radius: 4px 4px 4px 4px;
 	box-shadow: 5px 5px 10px rgba(25,25,25,0.9);
@@ -172,7 +181,7 @@ Color='#191919')";
 }
 
 .tt-suggestion.tt-cursor {
-	background-color: #0097CF;
+	background-color: #3F3F3F;
 	color: #FFFFFF;
 	cursor: pointer;
 }
@@ -215,7 +224,11 @@ Color='#191919')";
 	font-stretch: ultra-expanded;
 }
 .legend-popover {
-	width: 200px;
+	width: 250px;
+	font-family: 'Fjalla One', sans-serif !important;
+}
+.arrow {
+	color: rgba(25,25,25,0.85) !important;
 }
 
 /* Animated Line */

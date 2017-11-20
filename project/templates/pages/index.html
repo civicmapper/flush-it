@@ -46,6 +46,16 @@
       </span>
       <span class="hidden-md hidden-lg">
         <h3 class="title">Flush the Toilet!</h3>
+        <div id="addressSearch-nav" class="text-center addressSearch">
+            <span id="nav-searchbox-container">
+                <form role="search">
+                    <div class="form-group has-feedback">
+                        <input id="nav-searchbox" class="searchbox form-control input-lg"type="text" placeholder="Enter an address" data-content="Search by Address.">
+                        <span id="nav-searchicon" class="searchicon fa fa-search fa-2x form-control-feedback"></span>
+                    </div>
+                </form>
+            </span>
+        </div>        
       </span>
     </div>
 
@@ -70,12 +80,12 @@
 </nav>
 
 <div id="messageControl" style="display: none;">
-    <div id="addressSearch" class="text-center">
-        <span id="searchbox-container">
+    <div id="addressSearch-main" class="addressSearch text-center hidden-xs hidden-sm">
+        <span id="main-searchbox-container">
             <form role="search">
                 <div class="form-group has-feedback">
-                    <input id="searchbox" class="searchbox form-control input-lg"type="text" placeholder="Enter an address" data-content="Search by Address.">
-                    <span id="searchicon" class="fa fa-search fa-2x form-control-feedback"></span>
+                    <input id="main-searchbox" class="searchbox form-control input-lg"type="text" placeholder="Enter an address" data-content="Search by Address.">
+                    <span id="main-searchicon" class="searchicon fa fa-search fa-2x form-control-feedback"></span>
                 </div>
             </form>
         </span>
@@ -86,6 +96,43 @@
         <h2 class="text-center">Did you Know?<br><small class="messages"><em><span id="msg-facts"></span></em></small></h2>
     </div>
 </div>
+
+<div class="modal" id="attributionModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h1 class="modal-title">Flush the Toilet!<small>is brought to you by:</small></h1>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                  <div class="col-sm-12">
+                    <h2>Partners</h2>
+                    <ul>
+                      <li><a href="http://www.alcosan.org">ALCOSAN</a></li>
+                      <li><a href="http://www.civicmapper.com">CivicMapper</a></li>
+                      <li><a href="http://www.3riverswetweather.org">3 Rivers Wet Weather</a></li>
+                      <li><a href="http://www.aecom.com/co/offices/?qi=Pittsburgh">AECOM</a></li>
+                    </ul>
+                    <h2>Data and Software</h2>
+                    <ul>
+                      <li>Sewer Infrastructure network data and tracing services: <a href="http://www.3riverswetweather.org">3 Rivers Wet Weather</a> (the same data and tracing tools used on this map can be accessed on the <a href="http://mds.3riverswetweather.org/">3RWW Sewer Atlas</a>)</li>
+                      <li>Regionalization Data: <a href="http://www.alcosan.org">ALCOSAN</a> and <a href="http://www.aecom.com/co/offices/?qi=Pittsburgh">AECOM</a>.</li>
+                      <li>Basemap data: &copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a><span> & &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors</span>.</li>
+                      <li>Web mapping: <a href='http://leafletjs.com'>Leaflet</a> and <a href='http://esri.github.io/esri-leaflet/'>Esri-Leaflet</a></li>
+                      <li>Geocoding: <a href='https://mapzen.com/'>Mapzen</a></li>
+                    </ul>
+                  </div>
+              </div>              
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>            
+        </div>
+    </div>
+</div>
+
+
 <div class="modal" id="aboutModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -95,7 +142,7 @@
             </div>
             <div class="modal-body">
                 <ul class="nav nav-tabs nav-justified" id="aboutTabs">
-                    <li><a class="active" href="#legend" data-toggle="tab" aria-expanded="true"></i>Legend</a></li>
+                    <li><a href="#legend" data-toggle="tab" aria-expanded="true" class="active"></i>Legend</a></li>
                     <li><a href="#about" data-toggle="tab" aria-expanded="false">About</a></li> 
                     <li><a href="#creditsTab" data-toggle="tab" aria-expanded="false">Credits</a></li>
                 </ul>
@@ -168,10 +215,11 @@
                     <div id="creditsTab" class="tab-pane">
                         <div class="row">
                             <div class="col-sm-12">
-                                <h4>This web map was built by <a href="http://www.civicmapper.com">CivicMapper</a>.</h4>
+                                <h3>This web map was built by <a href="http://www.civicmapper.com">CivicMapper</a> with support from <a href="http://www.3riverswetweather.org">3 Rivers Wet Weather</a>.</h3>
                                 <h4>Sewer Infrastructure network data and tracing services come from <a href="http://www.3riverswetweather.org">3 Rivers Wet Weather</a>. The same data and tracing tools used on this map can be accessed on the <a href="http://mds.3riverswetweather.org/">3RWW Sewer Atlas</a></h4>
                                 <h4> Regionalization Data comes from <a href="http://www.alcosan.org">ALCOSAN</a> and <a href="http://www.aecom.com/co/offices/?qi=Pittsburgh">AECOM</a>.</h4>
                                 <h4>Basemap data is &copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a><span> and &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors</span>.</h4>
+                                <h4>Software by <a href='http://leafletjs.com'>Leaflet</a>, <a href='http://esri.github.io/esri-leaflet/'>Esri-Leaflet</a>, and <a href='https://mapzen.com/'>Mapzen</a></h4>
                             </div>
                         </div>
                     </div>
