@@ -40,12 +40,12 @@
         <span class="icon-bar"></span>
       </button>
       <span class="hidden-xs hidden-sm">
-        <h1 class="title">Flush the Toilet!<br>
+        <h1 class="title"><img class="brand-logo" src="{{ url_for('static', filename='resources/marker-alcosan-50px.png') }}"/> Flush the Toilet!<br>
         <span class="subtitle">See where your wastewater goes when you flush!</span>
         </h1>
       </span>
       <span class="hidden-md hidden-lg">
-        <h3 class="title">Flush the Toilet!</h3>
+        <h3 class="title"><img class="brand-logo-sm" src="{{ url_for('static', filename='resources/marker-alcosan-50px.png') }}"/>Flush the Toilet!</h3>
         <div id="addressSearch-nav" class="text-center addressSearch">
             <span id="nav-searchbox-container">
                 <form role="search">
@@ -55,25 +55,27 @@
                     </div>
                 </form>
             </span>
-        </div>        
+        </div>
       </span>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
+        <!--<li><span class="small"style="color:#fff;">A project by:</span></li>-->
+        <!--<li><img class="credit-logos" src="static/resources/logo_alcosan.png"/></li>-->
+        <!--<li><img class="credit-logos" src="static/resources/logo_3rww.png"/></li>-->
+        <!--<li><img class="credit-logos" src="static/resources/logo_civicmapper.png"/></li>-->
         <li id="aboutBlock">
-            <button id="aboutButton" type="button" class="btn btn-default"><span>About</span></button>
+            <button id="aboutButton" type="button" class="aboutButton btn btn-default btn-lg"><span>About</span></button>
             <!--<a id="aboutButton" href="#"><i class="fa fa-info"></i><span class="sr-only">About this thing</span></a>-->
         </li>
         <li id="credits">
-            <p class="small"style="color:#fff;">A project by:</p>
-            <img class="credit-logos" src="static/resources/logo_alcosan.png"/>
-            <br><br>
-            <img class="credit-logos" src="static/resources/logo_3rww.png"/>
-            <br><br>
-            <img class="credit-logos" src="static/resources/logo_civicmapper.png"/>
-        </li>
+          <p class="small"style="color:#fff;">A project by:</p>
+          <img class="credit-logos" src="static/resources/logo_alcosan.png"/>
+          <img class="credit-logos" src="static/resources/logo_3rww.png"/>
+          <img class="credit-logos" src="static/resources/logo_civicmapper.png"/>
+        </li
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
@@ -123,11 +125,11 @@
                       <li>Geocoding: <a href='https://mapzen.com/'>Mapzen</a></li>
                     </ul>
                   </div>
-              </div>              
+              </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>            
+            </div>
         </div>
     </div>
 </div>
@@ -141,57 +143,85 @@
             </div>
             <div class="modal-body">
                 <ul class="nav nav-tabs nav-justified" id="aboutTabs">
-                    <li class="active"><a href="#about" data-toggle="tab" aria-expanded="true">About</a></li> 
-                    <li><a href="#legend" data-toggle="tab" aria-expanded="false"></i>Legend</a></li>
+                    <li class="active"><a href="#aboutTab" data-toggle="tab" aria-expanded="true">About</a></li>
+                    <li><a href="#legendTab" data-toggle="tab" aria-expanded="false"></i>Legend</a></li>
                     <li><a href="#creditsTab" data-toggle="tab" aria-expanded="false">Credits</a></li>
                 </ul>
                 <div class="tab-content" id="aboutTabsContent">
-                    <div id="about" class="tab-pane active in">
+                    <div id="aboutTab" class="tab-pane active in">
                         <div class="row">
-                            <div class="col-sm-12">
-                                <h2>What is this?</h2>
-                                
-                                <p class="lead">This is a web map that enables one to see how far and where the wastewater from a specific address goes before getting to the ALCOSAN plant.</p>
-                                
-                                <p class="lead">It also shows the complete sewer infrastructure network in the ALCOSAN service area&mdash;acomposite of data from 82 municipalities&mdash;as well as the extents of the infrastructure that may be <em>regionalized</em> by ALCOSAN (note that regionalization extents shown here are preliminary and subject to change).</p>
-                                
-                                <p class="lead">In addition to showing where your toilet flushes to, this map demonstrates the power of using open-source technology and open data standards designed for the modern web.</p>
-                                
-                                <h3>How does it work?</h3>
-                                
-                                <p>When you type an address, we use what is called a "geocoder" to figure out the latitude and longitude of the address. From that location, we determine where the nearest sewer structure (e.g., manhole) is, and then trace the pipes downstream to the plant.</p>
-                                
-                                <p>This map utilizes an existing database of sewer pipe infrastruture in the region. That database is maintained by 3 Rivers Wet Weather, with support from ALCOSAN, a few other consultants, and the 82 communities within ALCOSAN's service area.</p>
-                                
-                                <h3>Any caveats?</h1>
-                                
-                                <p>Generally, this will give you a good sense of where and how far your toilet flushes go. However, the trace is accurate only to a point: the accuracy of the geocoder varies, and service line locations are <em>not always consistently documented</em>. To keep things simple (and fast) for this demonstration, we're only looking for the <em>nearest sewer structure</em> to the <em>geocoded location</em>. </p>
-                                
-                                <p>The <em>geocoded location</em> is likely not the point at which the sewer service line attaches the building at the address; because the geocoding comes from a 3rd party service, Mapzen, we don't have control over where specifically that address gets put on the map. The <em>nearest structure</em> may not be where the service line actually ties into the sewers; it may even be uphill.</p>
-                                
-                                <h3>OK, how does it really work? <small>I'm a technical person and want to learn more about this sort of thing.</small></h3>
-                                
-                                <p>The sewer database is managed in a geographic information systems (GIS): a PostGIS-enabled PostgreSQL database, provided as a web service via Esri ArcGIS Server software. The tracing functionality comes from a geoprocessing service that runs on that software and taps the databse. The client-side web application makes calls to to both the database and the geoprocessing service via the ArcGIS REST API to do it's thing.</p>
-                                
-                                <p>On the front-end (the map), we're using a the Leaflet web mapping library, with an Open Street Map-sourced basemap service from Mapbox that we custom designed. This handles the rendering of all the contextual information, sewer data, and trace results you see on the map.</p>
-                                
-                                <p>The rest of the application utilizes some other typical web and server libraries: Python Flask on the back-end, and Bootstrap and jQuery on the front-end.</p>
-                                
-                                <h3>Why is that important?</h3>
-                                
-                                <p>All the GIS technology utilized by the map is already in place and is used on a daily basis; we merely interfaced with it in a different way to make this little mapping application. Other than Esri ArcGIS Server, all of the software used by the application is free and open source.</p>
-                                
-                                <p>In addition to showing where your toilet flushes go, this map demonstrates the power of using open-source technology and open data standards designed for the modern web.</p>
+                          <div class="col-sm-12">
+                            <h2>What is this map showing and what does it do?</h2>
+                          </div>
+                            <div class="col-sm-5">
+                                <p class="lead">This map shows how far and where the wastewater from a specific address goes before getting to the ALCOSAN treatement facility.</p>
+                            </div>
+                            <div class="col-sm-7">
+                                <p>On the map, you'll see a representation of the complete sewer infrastructure network in the ALCOSAN service area. This represents a composite of data from 82 municipalities, with the color of the pipe indicating broadly who owns the pipes.</p>
+
+                                <p>Notably, this map shows the extents of the infrastructure that may be <em>regionalized</em> by ALCOSAN. This process, called <em>Regionalization</em> entails the transferring of ownership of trunk sewers, wet weather control facilities, and related infrastructure from customer municipalities to ALCOSAN. <em>Note that regionalization extents shown here are preliminary and subject to change.</em> <a href="http://www.3riverswetweather.org/regional-solutions/regional-progress/sewer-regionalization-implementation-project">Learn more about regionalization from 3 Rivers Wet Weather.</a></p> 
+
+                                <p>In addition to showing where your toilet flushes to, this map demonstrates the power of using open data standards and open source technology designed for the modern web.</p>
                             </div>
                         </div>
-                    </div>                  
-                    <div id="legend" class="tab-pane">
+                        <hr>
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <h2>How does it work?</h2>
+                          </div>
+                            <div class="col-sm-5">
+                                <p class="lead">Using an address, we're able to find the nearest sewer infrastructure&mdash;usually a manhole&mdash;and follow the network all the way downstream to the ALCOSAN treatment facility.</p>
+                            </div>
+                            <div class="col-sm-7">
+                                <p>When you type an address, we use a <em>geocoder</em> to figure out the latitude and longitude of the address: the addresses's location in real-world coordinates. From that location, we determine where the nearest sewer structure (e.g., manhole) is, and then trace the pipes downstream to the ALCOSAN treatment facility.</p>
+
+                                <p>This map utilizes an existing database of sewer pipe infrastruture in the region. That database is maintained by 3 Rivers Wet Weather, with support from ALCOSAN, AECOM, a few other consultants, and the 82 communities within ALCOSAN's service area.</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-12">
+                            <h2>Any caveats? <small>"I ran a trace from my house and it doesn't start where I know my sewer connects."</small></h2>
+                            </div>
+                            <div class="col-sm-5">
+                                <p class="lead">Generally, this will give you a good sense of where and how far your toilet flushes go. However, there are some limitations, and it should not be used for planning or official use!</p>
+                            </div>
+                            <div class="col-sm-7">
+                                <p>Please note that the accuracy of the trace is limited by a combination of two factors: the varying spatial accuracy of the geocoder, and the lack of consistently documented service line locations (the connections from a building to the sewer). Consequently, you may find that the trace doesn't start quite where you think or know it should. To keep things simple (and fast) for this demonstration, we only look for the <em>nearest sewer structure</em> to the <em>geocoded location</em>.</p>
+                                <p>Since the <em>geocoded location</em> is likely not the point at which the sewer service line attaches the building at the address, and because we don't have control over where specifically that address gets put on the map (we're using a geocoding service from Mapzen), the starting point for the trace is an approximation. Furthermore, the <em>nearest structure</em> to the geocoded address is not likely where the service line actually ties into the sewers&mdash;it likely connected directly to a pipe.</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-12">
+                              <h2>How does this thing work? <small>"I'm curious about some of the technology used here."</small></h2>
+                            </div>
+                            <div class="col-sm-5">
+                                <p class="lead">You can check out the source code for this project on <a href="https://github.com/civicmapper/flush-the-toilet">GitHub</a>.</p>
+                            </div>
+                            <div class="col-sm-7">
+                                <p>The sewer database is managed in a geographic information systems (GIS): a PostGIS-enabled PostgreSQL database, from which the data is provided as a geo-aware web service via Esri ArcGIS Server software. The tracing functionality comes from a geoprocessing service that runs on that software and taps the database. The client-side web application makes calls to to both the database and the geoprocessing service via the ArcGIS REST API to do it's thing.</p>
+
+                                <p>On the front-end (the map), we're using a the Leaflet web mapping library, with an Open Street Map-sourced basemap service from Mapbox that we custom designed. Together, these things handles the display of all the contextual information, sewer data, and trace results you see on the map.</p>
+
+                                <p>The rest of the application utilizes some other typical web and server libraries: Python Flask on the back-end, and Bootstrap and jQuery on the front-end.</p>
+
+                                <h2>Why is that important?</h2>
+
+                                <p>All the GIS technology utilized by the map is already in place and is used on a daily basis; we merely interfaced with it in a different way to make this little mapping application. With the exception of Esri ArcGIS Server, all of the software used by the application is free and open source.</p>
+
+                                <p>In addition to showing where your toilet flushes go, this map demonstrates the power of using open data standards and open-source technology designed for the modern web.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="legendTab" class="tab-pane">
                         <div class="row legend-line-1">
                             <div class="col-sm-2">
                                 <h3 class="text-right"><i class="fa fa-minus"></i></h3>
-                            </div>                            
+                            </div>
                             <div class="col-sm-10">
                                 <h3>Regionalization Extents <small>(August 2017, Subject to Change)</small></h3>
+                                <p><strong>What does this mean?</strong> Regionalization entails the transfer of ownership of trunk sewers, wet weather control facilities, and related infrastructure from customer municipalities to ALCOSAN. <a href="http://www.3riverswetweather.org/regional-solutions/regional-progress/sewer-regionalization-implementation-project">Learn more about regionalization from 3 Rivers Wet Weather.</a></p>
                             </div>
                         </div>
                         <div class="row legend-line-2">
@@ -205,7 +235,7 @@
                         <div class="row legend-line-3">
                             <div class="col-sm-2">
                                 <h3 class="text-right"><i class="fa fa-minus"></i></h3>
-                            </div>                            
+                            </div>
                             <div class="col-sm-10">
                                 <h3>Municipal-owned infrastructure</h3>
                             </div>
@@ -221,6 +251,11 @@
                                 <h4>Software by <a href='http://leafletjs.com'>Leaflet</a>, <a href='http://esri.github.io/esri-leaflet/'>Esri-Leaflet</a>, and <a href='https://mapzen.com/'>Mapzen</a></h4>
                             </div>
                         </div>
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <p>You can check out the source code for this project on <a href="https://github.com/civicmapper/flush-the-toilet">GitHub</a></p>
+                          </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -232,57 +267,75 @@
 </div><!-- /.modal -->
 
 <div class="modal" id="resultsModal" tabindex="-1" role="dialog">
-    <div id="resultsModalContent" class="modal-dialog modal-lg">
+    <div id="resultsModalContent" class="modal-dialog">
     </div>
 </div>
 
 {% raw %}
+
+<script id="handlebars-results" type="text/x-handlebars-template">
+  <div class="modal-content results">
+      <div class="modal-header">
+          <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h2 class="modal-title"><small>Here's what happens when you flush from</small><br class="hidden-xs hidden-sm"> {{address}}</h2>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-sm-12">
+            <h4>The flush travels <span id="traceLength" class="traceResults">{{traceLength}}</span> feet (<span id="traceLengthMi" class="traceResults">{{traceLengthMi}}</span> miles) through the sewer network before reaching the ALCOSAN treatment facility.</h4>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5">
+            <h4>It passes underneath a number of places:</h4>
+          </div>
+          <div class="col-sm-7">
+            <!--<ul id="munihoods" class="traceResults">-->
+              {{#each munihoods}}
+              <p class="munihood">{{name}}</p>
+              {{/each}}
+            <!--</ul>-->
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <p>The flush passes through pipes with an approximate total capacity of <span id="inchMiles" class="traceResults">{{inchMiles}}</span> Inch-Miles.</p>
+            <p></p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <p>Close this window to see the path your flush takes on the map!</p>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+  </div>
+</script>
+
 <script id="handlebars-legend" type="text/x-handlebars-template">
-    <div id="legend">
-        <div class="legend-line-2">
-            <p><i class="fa fa-minus"></i> ALCOSAN-owned infrastructure</p>
+    <div id="legend-popover-content">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="legend-line-1">
+              <p><i class="fa fa-minus"></i> Regionalization Extents <small>(August 2017, Subject to Change)</small></p>
+          </div>          
+          <div class="legend-line-2">
+              <p><i class="fa fa-minus"></i> ALCOSAN-owned infrastructure</p>
+          </div>
+          <div class="legend-line-3">
+              <p><i class="fa fa-minus"></i> Municipal-owned infrastructure</p>
+          </div>
         </div>
-        <div class="legend-line-3">
-            <p><i class="fa fa-minus"></i> Municipal-owned infrastructure</p>
-        </div>
-        <div class="legend-line-1">
-            <p><i class="fa fa-minus"></i> Regionalization Extents <small>(August 2017, Subject to Change)</small></p>
-        </div>        
+      </div>
+      <!--<div class="row">-->
+      <!--  <div class="col-sm-12">-->
+      <!--    <button id="legendAboutButton" class="aboutButton btn btn-default btn-block" type="submit">Learn More</button>-->
+      <!--  </div>-->
+      <!--</div>-->
     </div>
 </script>
 
-<script id="handlebars-results" type="text/x-handlebars-template">
-  <div class="modal-content">
-      <div class="modal-header">
-          <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h1 class="modal-title">Here's what happens when you flush from {{address}}!</small></h1>
-      </div>      
-      <div class="modal-body">
-        <div class="row">
-            <div class="col-sm-12">
-              <h4>Distance to Plant:<br>
-                <span id="traceLength" class="traceResults">{{traceLength}}</span> feet (<span id="traceLengthMi" class="traceResults">{{traceLengthMi}}</span> miles)
-              </h4>
-              <h4>Inch-Miles (a proxy for capacity):<br>
-                <span id="inchMiles" class="traceResults">{{inchMiles}}</span>
-              </h4>
-              <h4>Municipalities/Neighborhoods Passed:</h4>
-              <ul id="munihoods" class="traceResults">
-                {{#each munihoods}}
-                <li>{{munihood}}</li>
-                {{/each}}
-              </ul>
-            </div>
-        </div>              
-      </div>
-      <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>            
-  </div> 
-</script>
-
 {% endraw %}
-    
+
 <div id="map"></div>
 
 <!-- jQuery + Bootstrap -->

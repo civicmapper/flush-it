@@ -20,7 +20,12 @@ html,body,#map,#loadingScreen {
 	padding-top:6px;
 	padding-right:7px;
 }
-#credits, #titleBlock, #msg-results, #msg-error, #msg-tracing, .legend-popover {
+#credits,
+#titleBlock,
+#msg-results,
+#msg-error,
+#msg-tracing,
+.legend-popover {
 	margin-top: 20px;
 	padding: 10px;
 	background-color: rgba(25,25,25,0.85);
@@ -40,6 +45,37 @@ html,body,#map,#loadingScreen {
 	}
 }
 
+#credits {
+	margin-right: 15px;
+}
+
+.credit-logos {
+	width: 150px;
+	padding-right: 5px;
+	padding-left:5px;
+	/*width:100%;*/
+}
+
+@media (max-width: 768px) {
+	#credits {
+		margin-right: 0px;
+	}
+	.credit-logos {
+		/*width: 150px;*/
+		margin-top: 5px;
+		margin-bottom:5px;
+		width:100%;
+	}	
+}
+
+
+
+.modal-content {
+	background-color: rgba(25,25,25,0.85);
+	box-shadow: 5px 5px 10px rgba(25,25,25,0.9);
+	color: #fff;
+}
+
 #aboutBlock {
 	margin-top: 20px;
 	margin-right: 10px;
@@ -54,9 +90,17 @@ html,body,#map,#loadingScreen {
 	border-bottom-width: 0px !important;
 }
 
-.credit-logos {
-	width: 200px;
+.brand-logo {
+	width: 35px;
+	padding-bottom: 5px;
 }
+.brand-logo-sm {
+	width: 25px;
+	padding-bottom: 2px;
+	margin-right: 5px;
+	margin-left: 2px;
+}
+
 #msg-results, #msg-tracing {
 	color:#fff;
 }
@@ -69,11 +113,11 @@ html,body,#map,#loadingScreen {
 	/*color: #B0BB01;*/
 	color: #48CBDB;
 }
-#munihoods {
+#munihoods, .munihood {
 	color: #D36122;
 }
 
-#aboutButton, #resetButton, #legendButton, .leaflet-control-zoom-in, .leaflet-control-zoom-out {
+#aboutButton, #resetButton, #resultsButton, #legendButton, .leaflet-control-zoom-in, .leaflet-control-zoom-out {
 	color: #fff !important;
 	background-color: rgba(25,25,25,0.85) !important;
 	border-color: rgba(20,20,20,0.9) !important;

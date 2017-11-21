@@ -183,7 +183,7 @@ var messageControl = {
 		
 		// reset button
 		L.control.custom({
-			id: '#' + this.resetButton.id,
+			id: '#control-' + this.resetButton.id,
 			classes: 'after-trace',
 			position: 'bottomright',
 			content: this.resetButton.text,
@@ -194,7 +194,7 @@ var messageControl = {
 		
 		// results button
 		L.control.custom({
-			id: '#' + this.resultsButton.id,
+			id: '#control-' + this.resultsButton.id,
 			classes: 'after-trace',
 			position: 'bottomright',
 			content: this.resultsButton.text,
@@ -267,6 +267,7 @@ var messageControl = {
 			address: traceSummary.datum.name,
 			traceLength: traceSummary.length.toFixed(2),
 			traceLengthMi: (traceSummary.length * 0.0001893939).toFixed(2),
+			inchMiles: traceSummary.inchmiles.toFixed(2),
 			munihoods: traceSummary.places
 		});
 		// push it to the modal
@@ -654,7 +655,11 @@ function appInit() {
 		var tagged = tag(exploded, summaryGeography, 'LABEL', 'places');
 		console.log(tagged);
 		var places = geojson_set(tagged.features, 'places');
-		traceSummary.places = places;
+		
+		traceSummary.places = [];
+		$.each(places, function(i,v){
+			traceSummary.places.push({"name":v});	
+		});
 		console.log(traceSummary);
 	}
 
@@ -941,6 +946,9 @@ function appInit() {
 	 */
 
 	messageControl.init(map);
+	
+	// enable popovers
+	$('.legend-popovers').popover();	
 
 }
 
@@ -956,11 +964,25 @@ $(document).ready(function() {
 		return false;
 	});
 	
-	$("resultsButton").click(function() {
-		$("#resultsModal").modal("toggle");
+	//// events to support auto-opening legend tab in about modal
+	//$('#legend a').click(function (e) {
+	//	e.preventDefault();
+	//	$(this).tab('show');
+	//});
+	//$(document).on("click","#legendAboutButton", function() {
+	//	console.log();
+	//	messageControl.onAboutModalOpen();
+	//	$('#legend').tab('show');
+	//	$(".navbar-collapse.in").collapse("hide");
+	//	return false;
+	//});	
+	
+	$(document).on("click", "#resultsButton", function() {
+		$("#resultsModal").modal("show");
 		$(".navbar-collapse.in").collapse("hide");
 		return false;
 	});
+	//$(".legend-popovers")
 	
 	
 	
