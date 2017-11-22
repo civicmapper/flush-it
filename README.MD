@@ -1,23 +1,74 @@
 # Flush-It
 
-# Development
+Flush is a small web application that shows how far and where the wastewater in the Allegheny County Sanitary Authority (ALCOSAN) service area from a specific address goes before getting to the ALCOSAN treatement facility. It uses data and geoprocessing services from 3 Rivers Wet Weather.
 
-To get the development environment working, two commands in two separate consoles:
+The web application itself utilizes a number of free-and-open-source software (FOSS), including libraries from Mapbox, Mapzen, Esri, and Twitter.
 
+# Usage
+
+1. Enter an address where it "Enter an address".
+2. A dropdown will appear with matching addresses; click/tap the address for which you want to flush the toilet from.
+3. Wait a little bit.
+4. The traced path and a summary of the trace (e.g., length) will appear on screen.
+5. Pan/zoom around the map to see the path of your flush.
+6. Click/tap "Start Over" to start over.
+
+# Development and Deployment
+
+> **Note**: this application requires access to secured web services containing municipal infrastructure data. The site can be run without that, but most of its functionality won't work.
+
+"Flush-It" is a Python-Flask application with a basic Twitter Bootstrap- and jQuery-based UI. It utilizes LeafletJS and Esri-Leaflet for web mapping. The base map (not including the sewer data) comes from OpenStreetMap via Mapbox. Mapzen provides geocoding functionality. Some client-side geoprocessing is performed with Mapbox's TurfJS library.
+
+We're using a combination of `pip` and `npm` for package management (for python and javascript, respectively); Browserify is being used for javascript bundling.
+
+We developed this in a Windows environment; it should also work in `*nix` environments. If you want to attempt developing on this in Windows, we strongly recommend:
+
+* using Cmder (the full installation flavor that includes Git-for-Windows) for a shell
+* running the official Python 3 installer (to ensure Python is accessible on system the path)
+* running the official NodeJS installer (to ensure Node is accessible on the system path)
+
+## Installation
+
+This assumes you already have working Python 3 (w/ pip) and working NodeJS (w/ npm) installations locally, and that you have no problem running those things from the command line (see above)
+
+In a shell in the root of the repository, run the following commands to setup the python environment.
+
+* `pip install pipenv` - we use `pipenv` for simplified package and `virtualenv` management
+* `pipenv install` - this will install all python dependencies spec'd in the `pipfile`
+
+Then (still in the shell in the root of the repository), for client-side javascript libraries:
+
+* `npm install` - this installs all the NodeJS dependencies.
+
+## Python-Flask Configuration
+
+The Python-Flask application depends on a `config.py` file with some important variables required by the application for authentication to secured services and other things. A `config.example.py` file is included with this repo containing the variables used by the application.
+
+## Running the development environment
+
+To get a development environment running, run these commands in one console:
+
+* `pipenv shell` - this will activate the virtual environment for Python
 * `python run.py` - runs the Python-Flask development web server. See the site at `http://127.0.0.1:5000/`
-* `watchify main.js -o project/static/js/bundle.js` - watches for changes and runs Browserify to create the javascript build.
 
-# Deployment
+...and this command in a second console:
 
-## Javascript bundling
+* `watchify main.js -o project/static/js/bundle.js` - runs Browserify to create the javascript build from installed NodeJS packages *and* the our main application script, `script.js`, watches for changes, and rebuilds on changes.
+* alternatively, use `watchify main.js -o project/static/js/bundle.js --debug` to create the build but still enable the browser reference un-bundled scripts.
 
-Use `uglify` with `browserify` to compress the client-side application logic.
+### Shutting down the development environment
 
-install `uglify` with `npm install -g uglify-js`
+When you're ready to stop developing, `ctrl-c` will end both the python-flask dev server and the watchify process. In the console running `pipenv shell`, type `exit` to shut down the virtual environment.
 
-Then run `browserify main.js | uglifyjs > project/static/js/bundle.js`.
+## Deployment
 
-## Python-Flask re-configuration
+*to be completed*
 
-The `*_CLIENT_TYPE` parameters for ArcGIS Server token generation must be changed
+### Python-Flask re-configuration
+
+In the config file, the `*_CLIENT_TYPE` parameters for ArcGIS Server token generation must be changed
 from `requestip` to `referrer` in production.
+
+### Javascript bundling
+
+Use `uglify` with `browserify` to compress the client-side application logic. Install `uglify` with `npm install -g uglify-js`. Then run `browserify main.js | uglifyjs > project/static/js/bundle.js`.
