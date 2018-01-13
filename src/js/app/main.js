@@ -22,8 +22,12 @@ var turfHelpers = require("@turf/helpers");
 
 // Misc
 var Handlebars = require("handlebars");
-var typeahead = require("corejs-typeahead/dist/typeahead.jquery.js");
-var Bloodhound = require("corejs-typeahead/dist/bloodhound.js");
+// var typeahead = require("corejs-typeahead/dist/typeahead.jquery.js");
+// var Bloodhound = require("corejs-typeahead/dist/bloodhound.js");
+// var typeahead = require("typeahead.js/dist/typeahead.jquery.js");
+// var Bloodhound = require("typeahead.js/dist/bloodhound.js");
+require("typeahead.js/dist/typeahead.bundle.js");
+console.log(Bloodhound);
 
 /** -------------------------------------------------------------------------
  * GIS, geoprocessing, and services config
@@ -852,59 +856,95 @@ function appInit() {
         },
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-            rateLimitWait: 1000,
-            wildcard: '%QUERY',
+            // rateLimitWait: 1000,
+            // wildcard: '%QUERY',
             url: 'https://api.mapbox.com/geocoding/v5/mapbox.places/%QUERY.json?bbox=-80.2863,40.2984,-79.6814,40.5910&access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2pjY2d2N2dhMDBraDMzbXRhOXpiZXJsayJ9.8JfoANBxEIrySG5avX4PWQ',
             // prepare: function(query, settings) {
             //     console.log(settings);
             //     // $("#searchicon").removeClass("fa-search").addClass("fa-refresh fa-spin");
             // },
-            transform: function(response) {
-                console.log(response);
-            },
-            transport: function(options, onSuccess, onError) {
-                    // $('#searchicon').removeClass("fa-refresh fa-spin").addClass("fa-search");
-                    $.ajax(options)
-                        .done(function(data, textStatus, request) {
-                            console.log(data);
-                            console.log(textStatus);
-                            console.log(request);
-                            var results = $.map(data.features, function(feature) {
-                                console.log(feature);
-                                return {
-                                    name: feature.place_name,
-                                    lat: feature.geometry.coordinates[1],
-                                    lng: feature.geometry.coordinates[0],
-                                    source: "Mapbox"
-                                };
-                            });
+            // transform: function(response) {
+            //     console.log(response);
+            // },
+            // transport: function(options, onSuccess, onError) {
+            //     // $('#searchicon').removeClass("fa-refresh fa-spin").addClass("fa-search");
+            //     $.ajax(options)
+            //         .done(function(data, textStatus, request) {
+            //             console.log(data);
+            //             console.log(textStatus);
+            //             console.log(request);
+            //             var results = $.map(data.features, function(feature) {
+            //                 return {
+            //                     name: feature.place_name,
+            //                     lat: feature.geometry.coordinates[1],
+            //                     lng: feature.geometry.coordinates[0],
+            //                     source: "Mapbox"
+            //                 };
+            //             });
 
-                            onSuccess(results);
-                        })
-                        .fail(function(request, textStatus, errorThrown) {
-                            console.log(request, textStatus, errorThrown);
-                            onError(errorThrown);
-                        });
-                }
-                // filter: function(data) {
-                // },            
-                // ajax: {
-                //     beforeSend: function(jqXhr, settings) {
-                //         console.log("beforeSend", jqXhr, settings);
-                //         // settings.url += "&boundary.rect.min_lat=40.1243&boundary.rect.min_lon=-80.5106&boundary.rect.max_lat=40.7556&boundary.rect.max_lon=-79.4064";
-
-            //     },
-            //     complete: function(jqXHR, status) {
-            //         console.log("afterSend", status);
-            //         $('#searchicon').removeClass("fa-refresh fa-spin").addClass("fa-search");
-            //     }
+            //             onSuccess(results);
+            //         })
+            //         .fail(function(request, textStatus, errorThrown) {
+            //             console.log(request, textStatus, errorThrown);
+            //             onError(errorThrown);
+            //         });
             // }
-        }
-        // limit: 10
+            filter: function(data) {
+                return $.map(data.features, function(feature) {
+                    return {
+                        name: feature.place_name,
+                        lat: feature.geometry.coordinates[1],
+                        lng: feature.geometry.coordinates[0],
+                        source: "Mapbox"
+                    };
+                });
+            },
+            ajax: {
+                beforeSend: function(jqXhr, settings) {
+                    console.log("beforeSend", jqXhr, settings);
+                    $("#searchicon").removeClass("fa-search").addClass("fa-refresh fa-spin");
+                    // settings.url += "&boundary.rect.min_lat=40.1243&boundary.rect.min_lon=-80.5106&boundary.rect.max_lat=40.7556&boundary.rect.max_lon=-79.4064";
+                },
+                complete: function(jqXHR, status) {
+                    console.log("afterSend", status);
+                    $('#searchicon').removeClass("fa-refresh fa-spin").addClass("fa-search");
+
+                }
+            }
+        },
+        limit: 5
     });
 
     addressSearch.initialize();
+
     var typeaheadTimeout;
+    // non-Bloodhound source callback function for the CoreJS-flavor of Typeahead
+    function corejsTypeaheadSource(query, syncResults, asyncResults) {
+        var geocoding_url = L.Util.template(
+            "https://api.mapbox.com/geocoding/v5/mapbox.places/{address}.json?bbox={bbox}&access_token={access_token}&autocomplete=true{autocomplete}limit={limit}", {
+                address: query,
+                bbox: "-80.2863,40.2984,-79.6814,40.5910",
+                access_token: mapbox_key,
+                autocomplete: true,
+                limit: 5
+            }
+        );
+        try { clearTimeout(typeaheadTimeout); } catch (e) {}
+        typeaheadTimeout = setTimeout(function() {
+            $.get(geocoding_url, function(data) {
+                var response = $.map(data.features, function(feature) {
+                    return {
+                        name: feature.place_name,
+                        lat: feature.geometry.coordinates[1],
+                        lng: feature.geometry.coordinates[0],
+                        source: "Mapbox"
+                    };
+                });
+                console.log(response);
+                asyncResults(response);
+            });
+        }, 500);
+    }
 
     $(".searchbox").typeahead({
         minLength: 3,
@@ -913,32 +953,7 @@ function appInit() {
     }, {
         name: "Mapbox",
         displayKey: "name",
-        source: function(query, syncResults, asyncResults) {
-            var geocoding_url = L.Util.template(
-                "https://api.mapbox.com/geocoding/v5/mapbox.places/{address}.json?bbox={bbox}&access_token={access_token}&autocomplete=true{autocomplete}limit={limit}", {
-                    address: query,
-                    bbox: "-80.2863,40.2984,-79.6814,40.5910",
-                    access_token: mapbox_key,
-                    autocomplete: true,
-                    limit: 5
-                }
-            );
-            try { clearTimeout(typeaheadTimeout); } catch (e) {}
-            typeaheadTimeout = setTimeout(function() {
-                $.get(geocoding_url, function(data) {
-                    var response = $.map(data.features, function(feature) {
-                        return {
-                            name: feature.place_name,
-                            lat: feature.geometry.coordinates[1],
-                            lng: feature.geometry.coordinates[0],
-                            source: "Mapbox"
-                        };
-                    });
-                    console.log(response);
-                    asyncResults(response);
-                });
-            }, 500);
-        },
+        source: addressSearch.ttAdapter(),
         templates: {
             header: "<p class='typeahead-header'>Select address at which to flush the toilet:</p>",
             suggestion: Handlebars.compile(["{{name}}"].join(""))

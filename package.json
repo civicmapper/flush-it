@@ -37,6 +37,7 @@
     "leaflet-customctrl": "git+https://git@github.com/ConstLhq/Leaflet.Control.Custom.git",
     "terraformer": "^1.0.8",
     "terraformer-arcgis-parser": "^1.0.5",
+    "typeahead.js": "^0.10.5",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0",
     "watchify": "^3.9.0"
