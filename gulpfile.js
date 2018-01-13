@@ -48,9 +48,9 @@ gulp.task('pack-app-js', function() {
         .bundle()
         .pipe(source('bundle.js'))
         .pipe(buffer())
-        // .pipe(sourcemaps.init({ loadMaps: true }))
+        .pipe(sourcemaps.init({ loadMaps: true }))
         // .pipe(uglify())
-        // .pipe(sourcemaps.write('./'))
+        .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(config.paths.dist + "/js"))
         .pipe(browserSync.reload({
             stream: true
