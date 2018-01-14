@@ -9,7 +9,7 @@ var lcc = require("leaflet-customctrl");
 // Esri plugins
 var esri = require("esri-leaflet");
 var esriGP = require("esri-leaflet-gp");
-require("terraformer");
+var Terraformer = require("terraformer");
 require("terraformer-arcgis-parser");
 
 // TurfJS
@@ -24,10 +24,7 @@ var turfHelpers = require("@turf/helpers");
 var Handlebars = require("handlebars");
 // var typeahead = require("corejs-typeahead/dist/typeahead.jquery.js");
 // var Bloodhound = require("corejs-typeahead/dist/bloodhound.js");
-// var typeahead = require("typeahead.js/dist/typeahead.jquery.js");
-// var Bloodhound = require("typeahead.js/dist/bloodhound.js");
 require("typeahead.js/dist/typeahead.bundle.js");
-console.log(Bloodhound);
 
 /** -------------------------------------------------------------------------
  * GIS, geoprocessing, and services config
@@ -422,7 +419,7 @@ var serviceArea = esri.featureLayer({
  * ArcGIS Online organization)
  */
 var muniLayer = esri.featureLayer({
-    url: 'https://services6.arcgis.com/dMKWX9NPCcfmaZl3/arcgis/rest/services/alcosan_munis_v2/FeatureServer/1',
+    url: 'https://services6.arcgis.com/dMKWX9NPCcfmaZl3/ArcGIS/rest/services/alcosan_munis_v2_view/FeatureServer/1',
     ignoreRenderer: true,
     style: {
         fillColor: "#D46323",
@@ -443,6 +440,7 @@ var muniLayer = esri.featureLayer({
 // get a geojson of the loaded feature layer for trace summary (used by Turf)
 var muniFC;
 muniLayer.query().where("MUNI_NAME IS NOT NULL").run(function(error, featureCollection) {
+    console.log(error, featureCollection);
     muniFC = featureCollection;
 });
 
