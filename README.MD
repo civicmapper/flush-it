@@ -19,7 +19,7 @@ The web application itself utilizes a number of free-and-open-source software (F
 
 "Flush-It" is a Python-Flask application with a basic Twitter Bootstrap- and jQuery-based UI. It utilizes LeafletJS and Esri-Leaflet for web mapping. The base map (not including the sewer data) comes from OpenStreetMap via Mapbox. Mapzen provides geocoding functionality. Some client-side geoprocessing is performed with Mapbox's TurfJS library.
 
-We're using a combination of `pip` and `npm` for package management (for python and javascript, respectively); Browserify is being used for javascript bundling.
+We're using a combination of `pip` and `npm` for package management (for python and javascript, respectively); Gulp is handling builds and will spin up a development environment.
 
 We developed this in a Windows environment; it should also work in `*nix` environments. If you want to attempt developing on this in Windows, we strongly recommend:
 
@@ -49,26 +49,25 @@ The Python-Flask application depends on a `config.py` file with some important v
 To get a development environment running, run these commands in one console:
 
 * `pipenv shell` - this will activate the virtual environment for Python
-* `python run.py` - runs the Python-Flask development web server. See the site at `http://127.0.0.1:5000/`
+* then run `gulp` - this will run the python web app, build the client side app, listen for changes to the source code, and turn on browser synchronization w/live reload.
+
+See the site at `http://127.0.0.1:3000/`
 
 ...and this command in a second console:
 
-* `watchify main.js -o project/static/js/bundle.js` - runs Browserify to create the javascript build from installed NodeJS packages *and* the our main application script, `script.js`, watches for changes, and rebuilds on changes.
-* alternatively, use `watchify main.js -o project/static/js/bundle.js --debug` to create the build but still enable the browser reference un-bundled scripts.
-
 ### Shutting down the development environment
 
-When you're ready to stop developing, `ctrl-c` will end both the python-flask dev server and the watchify process. In the console running `pipenv shell`, type `exit` to shut down the virtual environment.
+When you're ready to stop developing, `ctrl-c` will shut the development server both the python-flask dev server and the watchify process. 
+
+In the console running `pipenv shell`, type `exit` to shut down the python virtual environment.
 
 ## Deployment
 
-*to be completed*
+Build the site with `gulp build`.
+
+The site is currently being deployed to Python Anywhere.
 
 ### Python-Flask re-configuration
 
 In the config file, the `*_CLIENT_TYPE` parameters for ArcGIS Server token generation must be changed
 from `requestip` to `referrer` in production.
-
-### Javascript bundling
-
-Use `uglify` with `browserify` to compress the client-side application logic. Install `uglify` with `npm install -g uglify-js`. Then run `browserify main.js | uglifyjs > project/static/js/bundle.js`.
