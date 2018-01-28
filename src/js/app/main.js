@@ -671,10 +671,10 @@ function appInit() {
             traceSummary.length += v.properties.Shape_Length * 3.28084;
             traceSummary.inchmiles += v.properties.INCHMILES;
         });
+
         // generate a list of summary geographies
         var exploded = explode(featureCollection);
         var tagged = tag(exploded, summaryGeography, 'LABEL', 'places');
-        console.log(tagged);
         var places = geojson_set(tagged.features, 'places');
 
         traceSummary.places = [];
