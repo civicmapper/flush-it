@@ -88,7 +88,7 @@ gulp.task('build', ['pack-css', 'pack-app-js', 'pack-compat-js'])
 
 //Run Flask server
 gulp.task('runserver', function() {
-    var proc = exec('python run.py');
+    var proc = exec('pipenv run python run.py');
 });
 
 gulp.task('browser-sync', ['runserver'], function() {

@@ -1086,4 +1086,4 @@ $(window).on("load", function() {
         $("#messageControl").fadeIn();
     }, 400);
     console.log("Ready to get flushing.");
-})
+});

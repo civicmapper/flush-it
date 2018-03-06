@@ -40,6 +40,12 @@ Then (still in the shell in the root of the repository), for client-side javascr
 
 * `npm install` - this installs all the NodeJS dependencies.
 
+### Note about NPM dependencies
+
+(2018/03/06) Currently a bug in the way NPM's writes the `package.json` and `package-lock.json` files tends to remove one GitHub-based dependency, Leaflet-Control-Custom, from the dependency list if any other packages are installed/upgraded. The workaround for now is to re-install that dependency after any other installations/upgrades:
+
+`npm install git+https://git@github.com/ConstLhq/Leaflet.Control.Custom.git#615dc10062cdf1c5e478053d74850b74768ccc76`
+
 ## Python-Flask Configuration
 
 The Python-Flask application depends on a `config.py` file with some important variables required by the application for authentication to secured services and other things. A `config.example.py` file is included with this repo containing the variables used by the application.
