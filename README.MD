@@ -1,12 +1,12 @@
 # Flush-It
 
-Flush is a small web application that shows how far and where the wastewater in the Allegheny County Sanitary Authority (ALCOSAN) service area from a specific address goes before getting to the ALCOSAN treatement facility. It uses data and geoprocessing services from 3 Rivers Wet Weather.
+"Flush-It" is small web map application that shows how far and where the wastewater in the [Allegheny County Sanitary Authority (ALCOSAN)](http://www.alcosan.org/) service area from a specific address goes before getting to the ALCOSAN treatement facility. It uses data and geoprocessing services from [3 Rivers Wet Weather](https://www.3riverswetweather.org).
 
-The web application itself utilizes a number of free-and-open-source software (FOSS), including libraries from Mapbox, Mapzen, Esri, and Twitter.
+It was built for ALCOSAN's 2017 Open House, where it was set up as an interactive demo.
 
 # Usage
 
-1. Enter an address where it "Enter an address".
+1. Enter an address where it says "Enter an address".
 2. A dropdown will appear with matching addresses; click/tap the address for which you want to flush the toilet from.
 3. Wait a little bit.
 4. The traced path and a summary of the trace (e.g., length) will appear on screen.
@@ -15,11 +15,11 @@ The web application itself utilizes a number of free-and-open-source software (F
 
 # Development and Deployment
 
-> **Note**: this application requires access to secured web services containing municipal infrastructure data. The site can be run without that, but most of its functionality won't work.
+> **Note**: this application requires access to secured web services containing multi-municipal infrastructure data. If you're interested in the software behind the site and are attempting to run this yourself, unfortunately you won't be able to 
 
-"Flush-It" is a Python-Flask application with a basic Twitter Bootstrap- and jQuery-based UI. It utilizes LeafletJS and Esri-Leaflet for web mapping. The base map (not including the sewer data) comes from OpenStreetMap via Mapbox. Mapzen provides geocoding functionality. Some client-side geoprocessing is performed with Mapbox's TurfJS library.
+"Flush-It" is a Python-Flask application with a basic Twitter Bootstrap- and jQuery-based UI. It utilizes LeafletJS and Esri-Leaflet for web mapping. The base map (not including the sewer data) comes from OpenStreetMap via Mapbox. Mapbox provides geocoding functionality. Some client-side geoprocessing is performed with Mapbox's TurfJS library.
 
-We're using a combination of `pip` and `npm` for package management (for python and javascript, respectively); Gulp is handling builds and will spin up a development environment.
+We're using a combination of `pip` and `npm` for package management (for python and javascript, respectively); Gulp is handling builds and will spin up a development environment for you.
 
 We developed this in a Windows environment; it should also work in `*nix` environments. If you want to attempt developing on this in Windows, we strongly recommend:
 
