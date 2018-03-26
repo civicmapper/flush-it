@@ -2,7 +2,13 @@
 
 "Flush-It" is small web map application that shows how far and where the wastewater in the [Allegheny County Sanitary Authority (ALCOSAN)](http://www.alcosan.org/) service area from a specific address goes before getting to the ALCOSAN treatement facility. It uses data and geoprocessing services from [3 Rivers Wet Weather](https://www.3riverswetweather.org).
 
+![](https://raw.githubusercontent.com/civicmapper/flush-the-toilet/master/docs/in-progress.png?token=AJkMRLB1PSvnQs6R9TPPvbH1CvpAOdgoks5awn5DwA%3D%3D)
+![](https://raw.githubusercontent.com/civicmapper/flush-the-toilet/master/docs/results.png?token=AJkMRFdwh_wA9Yab4h6IwreHnTvl5iR8ks5awn5vwA%3D%3D)
+
+
 It was built for ALCOSAN's 2017 Open House, where it was set up as an interactive demo.
+
+![](https://raw.githubusercontent.com/civicmapper/flush-the-toilet/master/docs/open-house.jpg?token=AJkMRHCjts9SZLuB2k_Hu4MaCUTUG5Vwks5awnoEwA%3D%3D)
 
 # Usage
 
@@ -15,7 +21,7 @@ It was built for ALCOSAN's 2017 Open House, where it was set up as an interactiv
 
 # Development and Deployment
 
-> **Note**: this application requires access to secured web services containing multi-municipal infrastructure data. If you're interested in the software behind the site and are attempting to run this yourself, unfortunately you won't be able to 
+> **Note**: this application requires access to secured web services containing multi-municipal infrastructure data. We don't yet have a way to offer secured access to those services (FWIW, it's not a technical limitation). If you're interested in the software behind the site you should still be able to get the basic map running following steps below; tracing, however, will not work.
 
 "Flush-It" is a Python-Flask application with a basic Twitter Bootstrap- and jQuery-based UI. It utilizes LeafletJS and Esri-Leaflet for web mapping. The base map (not including the sewer data) comes from OpenStreetMap via Mapbox. Mapbox provides geocoding functionality. Some client-side geoprocessing is performed with Mapbox's TurfJS library.
 
