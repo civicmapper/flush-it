@@ -1,4 +1,6 @@
 # Flush-It
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fcivicmapper%2Fflush-it.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fcivicmapper%2Fflush-it?ref=badge_shield)
+
 
 "Flush-It" is small web map application that shows how far and where the wastewater in the [Allegheny County Sanitary Authority (ALCOSAN)](http://www.alcosan.org/) service area from a specific address goes before getting to the ALCOSAN treatement facility. It uses data and geoprocessing services from [3 Rivers Wet Weather](https://www.3riverswetweather.org).
 
@@ -83,3 +85,7 @@ The site is currently being deployed to Python Anywhere.
 
 In the config file, the `*_CLIENT_TYPE` parameters for ArcGIS Server token generation must be changed
 from `requestip` to `referrer` in production.
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fcivicmapper%2Fflush-it.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fcivicmapper%2Fflush-it?ref=badge_large)
