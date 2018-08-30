@@ -22,7 +22,7 @@ app.config.from_pyfile('config.py')
 #----------------------------------------------------------------------------#
 
 def get_ags_token(url,username,password,client,referer,session,token_name):
-    """Requests and ArcGIS Server Token 
+    """Requests and ArcGIS Server Token
     session: pass flask session object in
     token_name: string, used to store token in session
     other params are ArcGIS Server params
@@ -30,7 +30,7 @@ def get_ags_token(url,username,password,client,referer,session,token_name):
     #if token_name not in session:
     params = {
         'username': username,
-        'password': password, 
+        'password': password,
         'client': client,
         'referer': referer,
         'expiration': 720,
@@ -48,7 +48,7 @@ def get_ags_token(url,username,password,client,referer,session,token_name):
     # else:
     #     print("Using existing {0} token: {1}".format(token_name, session[token_name]))
     #     return session[token_name]
-    
+
 
 def get_agol_token():
     """requests and returns an ArcGIS Token for the pre-registered application.
@@ -91,17 +91,17 @@ def token():
         token_name='rsi_token'
     )
     #t2 = get_agol_token()
-    t3 = get_ags_token(
-        url=app.config['CMAGS_AUTH_URL'],
-        username=app.config['CMAGS_USER'],
-        password=app.config['CMAGS_PW'],
-        client=app.config['CMAGS_CLIENT_TYPE'],
-        referer=app.config['CMAGS_REFERER_URL'],
-        session=session,
-        token_name='cmags_token'
-    )
+    # t3 = get_ags_token(
+    #     url=app.config['CMAGS_AUTH_URL'],
+    #     username=app.config['CMAGS_USER'],
+    #     password=app.config['CMAGS_PW'],
+    #     client=app.config['CMAGS_CLIENT_TYPE'],
+    #     referer=app.config['CMAGS_REFERER_URL'],
+    #     session=session,
+    #     token_name='cmags_token'
+    # )
     # build the response
-    t = {"rsi_token":t1, "cmags_token":t3}
+    t = {"rsi_token": t1, "cmags_token": None}
     r = make_response(jsonify(t), 200)
     # add header to enable CORS
     r.headers['Access-Control-Allow-Origin'] = '*'

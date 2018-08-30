@@ -13,7 +13,7 @@
             padding: 0;
             margin: 0;
         }
-        
+
         html,
         body,
         #map {
@@ -133,7 +133,7 @@
                                 <li>Regionalization Data: <a href="http://www.alcosan.org">ALCOSAN</a> and <a href="http://www.aecom.com/co/offices/?qi=Pittsburgh">AECOM</a>.</li>
                                 <li>Basemap data: &copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a><span> & &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors</span>.</li>
                                 <li>Web mapping: <a href='http://leafletjs.com'>Leaflet</a> and <a href='http://esri.github.io/esri-leaflet/'>Esri-Leaflet</a></li>
-                                <li>Geocoding: <a href='https://mapzen.com/'>Mapzen</a></li>
+                                <li>Geocoding: <a href='https://www.mapbox.com/'>Mapbox</a></li>
                             </ul>
                         </div>
                     </div>
@@ -207,7 +207,7 @@
                                     <p>Please note that the accuracy of the trace is limited by a combination of two factors: the varying spatial accuracy of the geocoder, and the lack of consistently documented service line locations (the connections from
                                         a building to the sewer). Consequently, you may find that the trace doesn't start quite where you think or know it should. To keep things simple (and fast) for this demonstration, we only look for the <em>nearest sewer structure</em>                                        to the <em>geocoded location</em>.</p>
                                     <p>Since the <em>geocoded location</em> is likely not the point at which the sewer service line attaches the building at the address, and because we don't have control over where specifically that address gets put on the
-                                        map (we're using a geocoding service from Mapzen), the starting point for the trace is an approximation. Furthermore, the <em>nearest structure</em> to the geocoded address is not likely where the service line actually
+                                        map (we're using a geocoding service from Mapbox), the starting point for the trace is an approximation. Furthermore, the <em>nearest structure</em> to the geocoded address is not likely where the service line actually
                                         ties into the sewers&mdash;it likely connected directly to a pipe.</p>
                                 </div>
                             </div>
@@ -244,7 +244,7 @@
                                     <h3 class="text-right"><i class="fa fa-minus"></i></h3>
                                 </div>
                                 <div class="col-sm-10">
-                                    <h3>Regionalization Extents <small>(August 2017, Subject to Change)</small></h3>
+                                    <h3>Regionalization Extents <small>(August 2018, Subject to Change)</small></h3>
                                     <p><strong>What does this mean?</strong> Regionalization entails the transfer of ownership of trunk sewers, wet weather control facilities, and related infrastructure from customer municipalities to ALCOSAN. <a href="http://www.3riverswetweather.org/regional-solutions/regional-progress/sewer-regionalization-implementation-project">Learn more about regionalization from 3 Rivers Wet Weather.</a></p>
                                 </div>
                             </div>
@@ -269,10 +269,10 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     <h3>This web map was built by <a href="http://www.civicmapper.com">CivicMapper</a> with support from <a href="http://www.3riverswetweather.org">3 Rivers Wet Weather</a>.</h3>
-                                    <h4>Sewer Infrastructure network data and tracing services come from <a href="http://www.3riverswetweather.org">3 Rivers Wet Weather</a>. The same data and tracing tools used on this map can be accessed on the <a href="http://mds.3riverswetweather.org/">3RWW Sewer Atlas</a></h4>
-                                    <h4> Regionalization Data comes from <a href="http://www.alcosan.org">ALCOSAN</a> and <a href="http://www.aecom.com/co/offices/?qi=Pittsburgh">AECOM</a>.</h4>
+                                    <h4>Sewer Infrastructure network data and tracing services come from <a href="http://www.3riverswetweather.org">3 Rivers Wet Weather</a>. The same data and tracing tools used on this map are provided to municipalities through <a href="http://mds.3riverswetweather.org/">3RWW Sewer Atlas</a></h4>
+                                    <h4>Regionalization Data comes from <a href="http://www.alcosan.org">ALCOSAN</a> and <a href="http://www.aecom.com/co/offices/?qi=Pittsburgh">AECOM</a>.</h4>
                                     <h4>Basemap data is &copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a><span> and &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors</span>.</h4>
-                                    <h4>Software by <a href='http://leafletjs.com'>Leaflet</a>, <a href='http://esri.github.io/esri-leaflet/'>Esri-Leaflet</a>, and <a href='https://mapzen.com/'>Mapzen</a></h4>
+                                    <h4>Web mapping software from <a href='http://leafletjs.com'>Leaflet</a> and <a href='http://esri.github.io/esri-leaflet/'>Esri-Leaflet</a>.</h4>
                                 </div>
                             </div>
                             <div class="row">
@@ -310,7 +310,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <h4>The flush travels <span id="traceLength" class="traceResults">{{traceLength}}</span> feet (<span id="traceLengthMi" class="traceResults">{{traceLengthMi}}</span> miles) through the sewer network before reaching the ALCOSAN treatment
-                            facility.
+                            facility. <small><a href="http://www.wolframalpha.com/input/?i={{traceLengthMi}}+miles" target="_blank">Just how far is this?</a></small>
                         </h4>
                     </div>
                 </div>
@@ -345,7 +345,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="legend-line-1">
-                        <p><i class="fa fa-minus"></i> Regionalization Extents <small>(August 2017, Subject to Change)</small></p>
+                        <p><i class="fa fa-minus"></i> Regionalization Extents <small>(August 2018, Subject to Change)</small></p>
                     </div>
                     <div class="legend-line-2">
                         <p><i class="fa fa-minus"></i> ALCOSAN-owned infrastructure</p>

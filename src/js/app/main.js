@@ -71,7 +71,7 @@ var atlas = {
         }
     },
     rsi_tilelayer: {
-        url: 'https://geodata.civicmapper.com/arcgis/rest/services/flushit/rsi_tilelayer_composite/MapServer',
+        url: 'https://arcgis4.roktech.net/arcgis/rest/services/rsi/trww_flush_it/MapServer',
         token: { "token": "", "expires": 0 },
         layer: null,
         /**
@@ -85,9 +85,13 @@ var atlas = {
                 minZoom: 10,
                 maxZoom: 19,
                 zIndex: 5,
-                opacity: 0.9,
-                attribution: ''
+                opacity: 0.75,
+                attribution: '',
             });
+            // console.log(trwwPipes.metadata(function(error, metadata){
+            //     console.log(error, metadata);
+            //   })
+            // );
             this.layer = trwwPipes;
             return trwwPipes;
         }
@@ -130,7 +134,7 @@ var atlas = {
                 console.log("Token Acquired", response);
                 atlas.rsi_featurelayer.token = response.rsi_token;
                 atlas.rsi_networktrace.token = response.rsi_token;
-                atlas.rsi_tilelayer.token = response.cmags_token;
+                atlas.rsi_tilelayer.token = response.rsi_token;
 
                 console.log("Initializing services....");
                 atlas.rsi_featurelayer.init();
@@ -299,7 +303,7 @@ var messageControl = {
         //		$('#inchMiles').html(traceSummary.inchmiles.toFixed(2));
         //		$.each(traceSummary.places, function(i, v) {
         //			$('#munihoods').append('<li>' + v + '</li>');
-        //		});		
+        //		});
     },
     onAboutModalOpen: function() {
         if (traceSummary.length === 0) {
@@ -440,7 +444,7 @@ var muniLayer = esri.featureLayer({
 // get a geojson of the loaded feature layer for trace summary (used by Turf)
 var muniFC;
 muniLayer.query().where("MUNI_NAME IS NOT NULL").run(function(error, featureCollection) {
-    console.log(error, featureCollection);
+    // console.log(error, featureCollection);
     muniFC = featureCollection;
 });
 
@@ -1065,7 +1069,7 @@ $(document).ready(function() {
     //	$('#legend').tab('show');
     //	$(".navbar-collapse.in").collapse("hide");
     //	return false;
-    //});	
+    //});
 
     $(document).on("click", "#resultsButton", function() {
         $("#resultsModal").modal("show");
