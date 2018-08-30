@@ -20,3 +20,4 @@ node_modules/
 project/test.db
 *.ai
 project/static/js/bundle.js
+.vscode/settings.json
