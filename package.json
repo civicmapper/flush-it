@@ -37,6 +37,7 @@
         "jquery": "^3.0.0",
         "leaflet": "^1.2.0",
         "leaflet-customctrl": "git+https://git@github.com/ConstLhq/Leaflet.Control.Custom.git#615dc10062cdf1c5e478053d74850b74768ccc76",
+        "moment": "^2.22.2",
         "natives": "^1.1.4",
         "terraformer": "^1.0.8",
         "terraformer-arcgis-parser": "^1.0.5",
