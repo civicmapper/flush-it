@@ -315,8 +315,20 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-sm-12">
+                        <h4>
+                            It could take anywhere between <span class="traceResults">{{timeMin}}</span> and <span class="traceResults">{{timeMax}}</span> for your flush to reach the treatment plant during typical dry-weather operations.
+                            <!-- <small><button id="flowrateButton" type="button" class="btn btn-default" data-toggle="popover">Explain.</button></small> -->
+                            <br><br>
+                            <small>
+                                There are a lot of factors that might contribute to rate of flow; this coarse estimate assumes flow of between 1 and 2 feet/second. If it's raining or has rained recently, and especially if your flush passes through pipes that are part of a <i>combined sewer system</i>, this estimate might not be applicable. <a href="http://www.3riverswetweather.org/about-wet-weather-issue/understanding-sewer-collection-system/inflow-infiltration-overflow" target="_blank">Why?</a>
+                            </small>
+                        </h4>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-sm-5">
-                        <h4>It passes underneath a number of places:</h4>
+                        <h4>Your flush passes underneath a number of places:</h4>
                     </div>
                     <div class="col-sm-7">
                         <!--<ul id="munihoods" class="traceResults">-->
@@ -328,8 +340,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
-                        <p>The flush passes through pipes with an approximate total capacity of <span id="inchMiles" class="traceResults">{{inchMiles}}</span> Inch-Miles.</p>
-                        <p></p>
+                        <h4>The flush passes through pipes with an approximate total capacity of <span id="inchMiles" class="traceResults">{{inchMiles}}</span> Inch-Miles.</p>
                     </div>
                 </div>
             </div>

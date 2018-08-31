@@ -21,6 +21,7 @@ var tag = require("@turf/tag");
 var turfHelpers = require("@turf/helpers");
 
 // Misc
+var moment = require('moment');
 var Handlebars = require("handlebars");
 // var typeahead = require("corejs-typeahead/dist/typeahead.jquery.js");
 // var Bloodhound = require("corejs-typeahead/dist/bloodhound.js");
@@ -168,15 +169,37 @@ atlas.initServices(appInit);
 var traceSummary = {
     length: 0,
     inchmiles: 0,
+    timeMin: 0,
+    timeMax: 0,
     places: [],
     datum: {},
+    /**
+     * reset the trace summary values
+     */
     reset: function() {
         // reset values
         this.length = 0;
         this.inchmiles = 0;
+        this.timeMin = 0;
+        this.timeMax = 0;
         this.munihoods = [];
         this.datum = {};
         $('.traceResults').empty();
+    },
+    /**
+     * Coarsely estimate time to plant based on assumption about normal slow and fast flow rates (feet/second).
+     *
+     * Note that this really varies pretty dramatically depending on pipe type, usage, capacity, slope...the subject
+     * of complex engineering models that we are not purporting to represent here. This here is the epitome of
+     * back-of-the-envelope.
+     *
+     * To that end, the flow rate assumptions here of 1 and 2 are very loose; additionally, the "humanize" method from Moment.js
+     * we use for displaying time duration rounds to the nearest hour.
+     */
+    calcTime: function() {
+
+        this.timeMin = moment.duration((this.length / 2.0 / 60), 'minutes').humanize()
+        this.timeMax = moment.duration((this.length / 1.0 / 60), 'minutes').humanize()
     }
 };
 
@@ -246,6 +269,12 @@ var messageControl = {
             template: '<div class="popover legend-popover" role="tooltip"><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
         });
 
+        // $('#flowrateButton').popover({
+        //     content: 'The time to plant can vary dramatically depending on pipe material, size, slope, and how many other people are flushing the toilet. A more precise calculation requires engineering models of a complexity not possible to run here. This is purely back-of-the-envelope.',
+        //     placement: 'bottom',
+        //     template: '<div class="popover legend-popover" role="tooltip"><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
+        // });
+
         //L.control.custom({
         //	id: 'msg-results',
         //	classes: 'after-trace',
@@ -292,7 +321,9 @@ var messageControl = {
             traceLength: traceSummary.length.toFixed(2),
             traceLengthMi: (traceSummary.length * 0.0001893939).toFixed(2),
             inchMiles: traceSummary.inchmiles.toFixed(2),
-            munihoods: traceSummary.places
+            munihoods: traceSummary.places,
+            timeMin: traceSummary.timeMin,
+            timeMax: traceSummary.timeMax
         });
         // push it to the modal
         $('#resultsModalContent').html(resultsContent);
@@ -676,6 +707,9 @@ function appInit() {
             traceSummary.inchmiles += v.properties.INCHMILES;
         });
 
+        // calculate flow time
+        traceSummary.calcTime();
+
         // generate a list of summary geographies
         var exploded = explode(featureCollection);
         var tagged = tag(exploded, summaryGeography, 'LABEL', 'places');
@@ -1042,7 +1076,11 @@ function appInit() {
     messageControl.init(map);
 
     // enable popovers
-    $('.legend-popovers').popover();
+    // $('.legend-popovers').popover();
+    // $('.result-popovers').popover();
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+      })
 
 }
 

@@ -113,9 +113,7 @@ body,
     text-shadow: 5px 5px 10px rgba(25, 25, 25, 0.9);
 }
 
-#traceLength,
-#traceLengthMi,
-#inchMiles {
+.traceResults {
     /*color: #B0BB01;*/
     color: #48CBDB;
 }
