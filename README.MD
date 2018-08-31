@@ -7,7 +7,7 @@
 ![](https://raw.githubusercontent.com/civicmapper/flush-the-toilet/master/docs/results.png?token=AJkMRFdwh_wA9Yab4h6IwreHnTvl5iR8ks5awn5vwA%3D%3D)
 
 
-It was built for ALCOSAN's 2017 Open House, where it was set up as an interactive demo.
+It was first built for ALCOSAN's 2017 Open House, where it was set up as an interactive demo.
 
 ![](https://raw.githubusercontent.com/civicmapper/flush-the-toilet/master/docs/open-house.jpg?token=AJkMRHCjts9SZLuB2k_Hu4MaCUTUG5Vwks5awnoEwA%3D%3D)
 
@@ -22,13 +22,13 @@ It was built for ALCOSAN's 2017 Open House, where it was set up as an interactiv
 
 # Development and Deployment
 
-> **Note**: this application requires access to secured web services containing multi-municipal infrastructure data. We don't yet have a way to offer secured access to those services (FWIW, it's not a technical limitation). If you're interested in the software behind the site you should still be able to get the basic map running following steps below; tracing, however, will not work.
+> **Note**: this application requires access to secured web services containing multi-municipal infrastructure data. We don't yet have a way to offer secured access to those services (FWIW, it's not a technical limitation). If you're interested in the software behind the site you should still be able to get the basic map running following steps below; however, the sewer network won't appear and the downstream network trace will not work.
 
-"Flush-It" is a Python-Flask application with a basic Twitter Bootstrap- and jQuery-based UI. It utilizes LeafletJS and Esri-Leaflet for web mapping. The base map (not including the sewer data) comes from OpenStreetMap via Mapbox. Mapbox provides geocoding functionality. Some client-side geoprocessing is performed with Mapbox's TurfJS library.
+"Flush-It" is a Python-Flask web application with a basic Twitter Bootstrap- and jQuery-supported UI. It utilizes LeafletJS and Esri-Leaflet for web mapping. The base map (not including the sewer data) comes from OpenStreetMap via Mapbox. Mapbox provides geocoding functionality. Some client-side geoprocessing is performed with Mapbox's TurfJS library.
 
-We're using a combination of `pip` and `npm` for package management (for python and javascript, respectively); Gulp is handling builds and will spin up a development environment for you.
+We're using a combination of `pipenv` and `npm` for package management (for python and javascript, respectively); GulpJS is handling client-side site builds and will spin up a development environment for you.
 
-We developed this in a Windows environment; it should also work in `*nix` environments. If you want to attempt developing on this in Windows, we strongly recommend:
+We developed this in a Windows environment; it should also work in POSIX environments. If you want to attempt developing on this in Windows, we strongly recommend:
 
 * using Cmder (the full installation flavor that includes Git-for-Windows) for a shell
 * running the official Python 3 installer (to ensure Python is accessible on system the path)
@@ -36,7 +36,7 @@ We developed this in a Windows environment; it should also work in `*nix` enviro
 
 ## Installation
 
-This assumes you already have working Python 3 (w/ pip) and working NodeJS (w/ npm) installations locally, and that you have no problem running those things from the command line (see above)
+This assumes you already have working Python 3+ (w/ `pip`) and working NodeJS (w/ `npm`) installations locally, and that you have no problem running those things from the command line (see above)
 
 In a shell in the root of the repository, run the following commands to setup the python environment.
 
@@ -64,13 +64,12 @@ To get a development environment running, run these commands in one console:
 * `pipenv shell` - this will activate the virtual environment for Python
 * then run `gulp` - this will run the python web app, build the client side app, listen for changes to the source code, and turn on browser synchronization w/live reload.
 
-See the site at `http://127.0.0.1:3000/`
+You'll see the site at `http://127.0.0.1:3000/`
 
-...and this command in a second console:
 
 ### Shutting down the development environment
 
-When you're ready to stop developing, `ctrl-c` will shut the development server both the python-flask dev server and the watchify process. 
+When you're ready to stop developing, `ctrl-c` will shut the development server both the python-flask dev server and the Gulp watch/build/synchronization process.
 
 In the console running `pipenv shell`, type `exit` to shut down the python virtual environment.
 
@@ -78,14 +77,11 @@ In the console running `pipenv shell`, type `exit` to shut down the python virtu
 
 Build the site with `gulp build`.
 
-The site is currently being deployed to Python Anywhere.
+The site is currently being deployed to [PythonAnywhere](https://www.pythonanywher.com).
+
 
 ### Python-Flask re-configuration
 
-In the config file, the `*_CLIENT_TYPE` parameters for ArcGIS Server token generation must be changed
-from `requestip` to `referrer` in production.
+When deploying you'll need to add credentials for the ArcGIS Server services to the `config.py` file (or rewrite that to pull those things from your deployment environment - whatever you like)
 
-
-## License
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fcivicmapper%2Fflush-it.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fcivicmapper%2Fflush-it?ref=badge_shield)
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fcivicmapper%2Fflush-it.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fcivicmapper%2Fflush-it?ref=badge_large)
+In the config file, the `*_CLIENT_TYPE` parameters for ArcGIS Server token generation must be changed from `requestip` to `referrer` in production.
