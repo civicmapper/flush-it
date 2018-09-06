@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <title>Flush the Toilet</title>
+    <title>Flush It!</title>
     <link href="{{ url_for('static', filename='css/bundle.css') }}" type="text/css" rel="stylesheet" />
 
     <style>
@@ -50,12 +50,12 @@
         <span class="icon-bar"></span>
       </button>
                 <span class="hidden-xs hidden-sm">
-        <h1 class="title"><img class="brand-logo" src="{{ url_for('static', filename='assets/marker-alcosan-50px.png') }}"/> Flush the Toilet!<br>
+        <h1 class="title"><img class="brand-logo" src="{{ url_for('static', filename='assets/marker-alcosan-50px.png') }}"/> Flush It!<br>
         <span class="subtitle">See where your wastewater goes when you flush!</span>
                 </h1>
                 </span>
                 <span class="hidden-md hidden-lg">
-        <h3 class="title"><img class="brand-logo-sm" src="{{ url_for('static', filename='assets/marker-alcosan-50px.png') }}"/>Flush the Toilet!</h3>
+        <h3 class="title"><img class="brand-logo-sm" src="{{ url_for('static', filename='assets/marker-alcosan-50px.png') }}"/>Flush It!</h3>
         <div id="addressSearch-nav" class="text-center addressSearch">
             <span id="nav-searchbox-container">
                 <form role="search">
@@ -115,7 +115,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h1 class="modal-title">Flush the Toilet!<small>is brought to you by:</small></h1>
+                    <h1 class="modal-title">Flush It!<small>is brought to you by:</small></h1>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -150,7 +150,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h1 class="modal-title">Flush the Toilet!</h1>
+                    <h1 class="modal-title">Flush It!</h1>
                 </div>
                 <div class="modal-body">
                     <ul class="nav nav-tabs nav-justified" id="aboutTabs">
@@ -167,16 +167,15 @@
                                     <h2>What is this map showing and what does it do?</h2>
                                 </div>
                                 <div class="col-sm-5">
-                                    <p class="lead">This map shows how far and where the wastewater from a specific address goes before getting to the ALCOSAN treatement facility.</p>
+                                    <p class="lead">This map shows the path wastewater takes to the ALCOSAN treatment facility from an address you enter.</p>
                                 </div>
                                 <div class="col-sm-7">
-                                    <p>On the map, you'll see a representation of the complete sewer infrastructure network in the ALCOSAN service area. This represents a composite of data from 82 municipalities, with the color of the pipe indicating broadly
-                                        who owns the pipes.</p>
-
-                                    <p>Notably, this map shows the extents of the infrastructure that may be <em>regionalized</em> by ALCOSAN. This process, called <em>Regionalization</em> entails the transferring of ownership of trunk sewers, wet weather
-                                        control facilities, and related infrastructure from customer municipalities to ALCOSAN. <em>Note that regionalization extents shown here are preliminary and subject to change.</em> <a href="http://www.3riverswetweather.org/regional-solutions/regional-progress/sewer-regionalization-implementation-project">Learn more about regionalization from 3 Rivers Wet Weather.</a></p>
-
-                                    <p>In addition to showing where your toilet flushes to, this map demonstrates the power of using open data standards and open source technology designed for the modern web.</p>
+                                    <p>
+                                        On the map, you'll see the sewer infrastructure network in the ALCOSAN service area. This represents a composite of data from 82 municipalities and authorities, with the color of the pipe indicating who owns the pipes.
+                                    </p>
+                                    <p>
+                                        Notably, this map shows the municipal sewer lines that may be taken over by ALCOSAN. This process, called regionalization, entails the transfer of ownership of multi-municipal trunk sewers, wet weather control facilities, and related infrastructure from customer municipalities to ALCOSAN. Note that regionalization extents shown here are preliminary and subject to change. <a href="http://www.alcosan.org/WetWeatherIssues/tabid/73/Default.aspx" target="_blank">Learn more about the regionalization process from the ALCOSAN website</a>.
+                                    </p>
                                 </div>
                             </div>
                             <hr>
@@ -185,14 +184,15 @@
                                     <h2>How does it work?</h2>
                                 </div>
                                 <div class="col-sm-5">
-                                    <p class="lead">Using an address, we're able to find the nearest sewer infrastructure&mdash;usually a manhole&mdash;and follow the network all the way downstream to the ALCOSAN treatment facility.</p>
+                                    <p class="lead">Using an address, the map searches for the nearest sewer infrastructure and follows the network all the way downstream to the ALCOSAN treatment facility.</p>
                                 </div>
                                 <div class="col-sm-7">
-                                    <p>When you type an address, we use a <em>geocoder</em> to figure out the latitude and longitude of the address: the addresses's location in real-world coordinates. From that location, we determine where the nearest sewer
-                                        structure (e.g., manhole) is, and then trace the pipes downstream to the ALCOSAN treatment facility.</p>
-
-                                    <p>This map utilizes an existing database of sewer pipe infrastruture in the region. That database is maintained by 3 Rivers Wet Weather, with support from ALCOSAN, AECOM, a few other consultants, and the 82 communities
-                                        within ALCOSAN's service area.</p>
+                                    <p>
+                                        When you type in an address, the mapping program uses a geocoder to calculate the latitude and longitude of the address: the address's location in real-world coordinates. From that location, it determines where the nearest sewer structure is, and then traces the pipes downstream to the ALCOSAN treatment facility.  On its way to ALCOSAN’s plant, wastewater passes through many miles of pipe and often through several municipalities.  This highlights the inter-municipal nature of regional wet weather management, and the challenges that municipalities face in maintaining many miles of sewer line.
+                                    </p>
+                                    <p>
+                                        This map utilizes an existing database of sewer pipe infrastructure in the region. That database is maintained by 3 Rivers Wet Weather,with support from ALCOSAN and the 82 communities within ALCOSAN's service area.
+                                    </p>
                                 </div>
                             </div>
                             <hr>
@@ -200,15 +200,8 @@
                                 <div class="col-sm-12">
                                     <h2>Any caveats? <small>"I ran a trace from my house and it doesn't start where I know my sewer connects."</small></h2>
                                 </div>
-                                <div class="col-sm-5">
-                                    <p class="lead">Generally, this will give you a good sense of where and how far your toilet flushes go. However, there are some limitations, and it should not be used for planning or official use!</p>
-                                </div>
-                                <div class="col-sm-7">
-                                    <p>Please note that the accuracy of the trace is limited by a combination of two factors: the varying spatial accuracy of the geocoder, and the lack of consistently documented service line locations (the connections from
-                                        a building to the sewer). Consequently, you may find that the trace doesn't start quite where you think or know it should. To keep things simple (and fast) for this demonstration, we only look for the <em>nearest sewer structure</em>                                        to the <em>geocoded location</em>.</p>
-                                    <p>Since the <em>geocoded location</em> is likely not the point at which the sewer service line attaches the building at the address, and because we don't have control over where specifically that address gets put on the
-                                        map (we're using a geocoding service from Mapbox), the starting point for the trace is an approximation. Furthermore, the <em>nearest structure</em> to the geocoded address is not likely where the service line actually
-                                        ties into the sewers&mdash;it likely connected directly to a pipe.</p>
+                                <div class="col-sm-12">
+                                    <p class="lead">Generally, Flush-It! will give you a good sense of where and how far your toilet flushes go. However, the starting point is an approximation, and it should not be used for planning or official use.</p>
                                 </div>
                             </div>
                             <hr>
@@ -220,21 +213,36 @@
                                     <p class="lead">You can check out the source code for this project on <a href="https://github.com/civicmapper/flush-the-toilet">GitHub</a>.</p>
                                 </div>
                                 <div class="col-sm-7">
-                                    <p>The sewer database is managed in a geographic information systems (GIS): a PostGIS-enabled PostgreSQL database, from which the data is provided as a geo-aware web service via Esri ArcGIS Server software. The tracing
+                                    <h2>Technology</h2>
+                                    <p>
+                                        The sewer database is managed in a geographic information systems (GIS): a PostGIS-enabled PostgreSQL database, from which the data is provided as a geo-aware web service via Esri ArcGIS Server software. The tracing
                                         functionality comes from a geoprocessing service that runs on that software and taps the database. The client-side web application makes calls to to both the database and the geoprocessing service via the ArcGIS
-                                        REST API to do it's thing.</p>
-
-                                    <p>On the front-end (the map), we're using a the Leaflet web mapping library, with an Open Street Map-sourced basemap service from Mapbox that we custom designed. Together, these things handles the display of all the contextual
-                                        information, sewer data, and trace results you see on the map.</p>
-
-                                    <p>The rest of the application utilizes some other typical web and server libraries: Python Flask on the back-end, and Bootstrap and jQuery on the front-end.</p>
-
-                                    <h2>Why is that important?</h2>
-
-                                    <p>All the GIS technology utilized by the map is already in place and is used on a daily basis; we merely interfaced with it in a different way to make this little mapping application. With the exception of Esri ArcGIS
-                                        Server, all of the software used by the application is free and open source.</p>
-
-                                    <p>In addition to showing where your toilet flushes go, this map demonstrates the power of using open data standards and open-source technology designed for the modern web.</p>
+                                        REST API to do it's thing.
+                                    </p>
+                                    <p>
+                                        On the front-end (the map), we're using the Leaflet web mapping library, with an Open Street Map-sourced basemap service from Mapbox that we custom designed. Together, this software assembles all the contextual information, sewer data, and trace results onto the web map.
+                                    </p>
+                                    <p>
+                                        The rest of the application utilizes some other typical web and server libraries: Python Flask on the back-end, and Bootstrap and jQuery on the front-end.
+                                    </p>
+                                    <h2>Accuracy</h2>
+                                    <p>
+                                        The accuracy of the trace is limited by a combination of two factors: the varying spatial accuracy of the <em>geocoder</em>, and the lack of consistently documented service line locations (the connections from a building to the sewer). Consequently, you may find that the trace doesn't start quite where you think or know it should. To keep things simple (and fast) for this demonstration, we only look for the <em>nearest sewer structure</em> to the <em>geocoded location</em>.
+                                    </p>
+                                    <p>
+                                        Since the <em>geocoded location</em> is likely not the point at which the sewer service line attaches the building at the address, and because we don't have control over where specifically that address gets put on the
+                                        map (we're using a geocoding service from Mapbox), the starting point for the trace is an approximation. Furthermore, the <em>nearest structure</em> to the geocoded address is not likely where the service line actually
+                                        ties into the sewers&mdash;it likely connected directly to a pipe.
+                                    </p>
+                                    <h2>
+                                        Epilogue
+                                    </h2>
+                                    <p>
+                                        The underlying GIS technology and data utilized by the map is already in place and is used on a daily basis; we merely interfaced with it in a different way to make this little mapping application. With the exception of Esri ArcGIS Server, all of the software used by this application is free and open source.
+                                    </p>
+                                    <p>
+                                        In addition to showing where your toilet flushes go, this map demonstrates the power of using open data standards and open-source technology designed for the modern web.
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -317,18 +325,18 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <h4>
-                            It could take anywhere between <span class="traceResults">{{timeMin}}</span> and <span class="traceResults">{{timeMax}}</span> for your flush to reach the treatment plant during typical dry-weather operations.
+                            It could take anywhere between <span class="traceResults">{{timeMin}}</span> to <span class="traceResults">{{timeMax}}</span> for your flush to reach the treatment plant during typical dry-weather operations.
                             <!-- <small><button id="flowrateButton" type="button" class="btn btn-default" data-toggle="popover">Explain.</button></small> -->
                             <br><br>
                             <small>
                                 There are a lot of factors that might contribute to rate of flow; this coarse estimate assumes flow of between 1 and 2 feet/second. If it's raining or has rained recently, and especially if your flush passes through pipes that are part of a <i>combined sewer system</i>, this estimate might not be applicable. <a href="http://www.3riverswetweather.org/about-wet-weather-issue/understanding-sewer-collection-system/inflow-infiltration-overflow" target="_blank">Why?</a>
-                            </small>
+                            </small><br>
                         </h4>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-5">
-                        <h4>Your flush passes underneath a number of places:</h4>
+                        <h4>Your flush passes through pipes in these communities:</h4>
                     </div>
                     <div class="col-sm-7">
                         <!--<ul id="munihoods" class="traceResults">-->
@@ -338,11 +346,11 @@
                         <!--</ul>-->
                     </div>
                 </div>
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-sm-12">
                         <h4>The flush passes through pipes with an approximate total capacity of <span id="inchMiles" class="traceResults">{{inchMiles}}</span> Inch-Miles.</p>
                     </div>
-                </div>
+                </div> -->
             </div>
             <div class="modal-footer">
                 <p>Close this window to see the path your flush takes on the map!</p>

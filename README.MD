@@ -22,7 +22,7 @@ It was first built for ALCOSAN's 2017 Open House, where it was set up as an inte
 
 # Development and Deployment
 
-> **Note**: this application requires access to secured web services containing multi-municipal infrastructure data. We don't yet have a way to offer secured access to those services (FWIW, it's not a technical limitation). If you're interested in the software behind the site you should still be able to get the basic map running following steps below; however, the sewer network won't appear and the downstream network trace will not work.
+> **Note**: this application requires access to secured web services containing multi-municipal infrastructure data. We don't yet have a way to offer secured access to those services. If you're interested in the software behind the site you should still be able to get the basic map running following steps below; however, the sewer network won't appear and the downstream network trace will not work.
 
 "Flush-It" is a Python-Flask web application with a basic Twitter Bootstrap- and jQuery-supported UI. It utilizes LeafletJS and Esri-Leaflet for web mapping. The base map (not including the sewer data) comes from OpenStreetMap via Mapbox. Mapbox provides geocoding functionality. Some client-side geoprocessing is performed with Mapbox's TurfJS library.
 
