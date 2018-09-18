@@ -308,7 +308,8 @@ var messageControl = {
         $('#msg-tracing').fadeIn(100);
     },
     onTraceComplete: function() {
-        ///turn on/off msgs
+        ///turn on/off modals and msgs
+        $('.modal').modal('hide')
         $('#msg-tracing').fadeOut(200);
         $('.resultsButtons').fadeIn();
 
@@ -797,10 +798,11 @@ function appInit() {
                     trwwTraceResult.addTo(map);
                     // adjust the map position and zoom to definitely fit the results
                     map.fitBounds(
-                        trwwTraceResult.getBounds(), {
-                            paddingTopLeft: L.point(300, 75),
-                            paddingBottomRight: L.point(300, 75)
-                        }
+                        trwwTraceResult.getBounds()
+                        // {
+                        //     paddingTopLeft: L.point(300, 75),
+                        //     paddingBottomRight: L.point(300, 75)
+                        // }
                     );
                     //map.setZoom(map.getZoom() - 2);
 
