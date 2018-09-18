@@ -944,12 +944,12 @@ function appInit() {
             },
             ajax: {
                 beforeSend: function(jqXhr, settings) {
-                    console.log("beforeSend", jqXhr, settings);
+                    // console.log("beforeSend", jqXhr, settings);
                     $("#searchicon").removeClass("fa-search").addClass("fa-refresh fa-spin");
                     // settings.url += "&boundary.rect.min_lat=40.1243&boundary.rect.min_lon=-80.5106&boundary.rect.max_lat=40.7556&boundary.rect.max_lon=-79.4064";
                 },
                 complete: function(jqXHR, status) {
-                    console.log("afterSend", status);
+                    // console.log("afterSend", status);
                     $('#searchicon').removeClass("fa-refresh fa-spin").addClass("fa-search");
 
                 }
