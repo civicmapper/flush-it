@@ -115,7 +115,9 @@ var atlas = {
                 console.log(error);
                 traceError(error);
             }).on("requestsuccess", function(success) {
-                console.log("trace service status:", success.response.jobStatus, "(", success.response.jobId, ")");
+                if (success.response.jobStatus) {
+                    console.log("trace status:", success.response.jobStatus, success.response.jobId);
+                }
                 atlas.rsi_networktrace.service = traceService;
             });
             atlas.rsi_networktrace.service = traceService;
@@ -416,7 +418,7 @@ var basemap = L.tileLayer( //"https://api.mapbox.com/styles/v1/cbgthor624/cipq73
     "https://api.mapbox.com/styles/v1/cbgthor624/cj7m885wh91zm2rn3j6g8et8q/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2JndGhvcjYyNCIsImEiOiJjajdtOGk0ZDIydThuMnducDNwZmU5NGJkIn0.ZISQHLPj0Yt1AudOgApIww", {
         maxZoom: 20,
         zIndex: 1,
-        //attribution: 'Basemap &copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a><span> and &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a></span>'
+        // attribution: 'Basemap &copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a><span> and &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a></span>'
         attribution: ''
     });
 /**
@@ -599,8 +601,11 @@ function appInit() {
 
 
     L.control.attribution({ prefix: "Not for official use or planning" })
-        .addAttribution("<a href='#' onclick='$(\"#attributionModal\").modal(\"show\"); return false;'>Credits</a>")
+        .addAttribution("<a href='#' onclick='jQuery(\"#attributionModal\").modal(\"show\"); return false;'>Credits</a>")
         .addTo(map);
+    // L.control.attribution()
+    //     .addAttribution("Not for official use or planning | Data from 3RWW")
+    //     .addTo(map);
 
     L.control.zoom({ position: 'bottomleft' }).addTo(map);
 
@@ -719,7 +724,7 @@ function appInit() {
         $.each(places, function(i, v) {
             traceSummary.places.push({ "name": v });
         });
-        console.log(traceSummary);
+        // console.log(traceSummary);
     }
 
     /**
@@ -770,7 +775,7 @@ function appInit() {
 
             console.log("Trace initialized. Submitting request to tracing service...");
             traceTask.run(function(error, result, response) {
-                console.log("Request completed:", response);
+                console.log("Trace completed.");
                 if (error) {
                     console.log("There was an error: ", error);
                     traceError(error);
@@ -784,7 +789,7 @@ function appInit() {
                     // dissolve the lines
                     console.log("dissolving results...");
                     var gc1 = dissolve(fc1);
-                    console.log("Adding data to layer...", gc1);
+                    console.log("Adding data to layer..."); //, gc1);
                     // add to the data to the waiting Leaflet object
                     trwwTraceResult.addData(gc1);
                     // add that to the map
@@ -814,7 +819,7 @@ function appInit() {
 
                     // Display completion messages, results, etc.
                     traceSuccess();
-                    console.log("Trace Results:", gc1);
+                    // console.log("Trace Results:", gc1);
                 }
             });
         });
