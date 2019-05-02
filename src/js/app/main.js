@@ -144,7 +144,7 @@ var atlas = {
                 atlas.rsi_networktrace.init();
                 atlas.rsi_tilelayer.init();
 
-                console.log("3RWW Atlas services are ready to go!", atlas);
+                console.log("3RWW Atlas services are ready to go!");
 
                 //return response;
                 callback();
