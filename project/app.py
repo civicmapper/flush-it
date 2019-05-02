@@ -90,16 +90,6 @@ def token():
         session=session,
         token_name='rsi_token'
     )
-    #t2 = get_agol_token()
-    # t3 = get_ags_token(
-    #     url=app.config['CMAGS_AUTH_URL'],
-    #     username=app.config['CMAGS_USER'],
-    #     password=app.config['CMAGS_PW'],
-    #     client=app.config['CMAGS_CLIENT_TYPE'],
-    #     referer=app.config['CMAGS_REFERER_URL'],
-    #     session=session,
-    #     token_name='cmags_token'
-    # )
     # build the response
     t = {"rsi_token": t1, "cmags_token": None}
     r = make_response(jsonify(t), 200)

@@ -23,14 +23,6 @@ ROK_CLIENT_TYPE = 'requestip'
 #ROK_CLIENT_TYPE = 'referer'
 ROK_REFERER_URL = 'flush-it.civicmapper.com'
 
-# AGS CREDS for accessing CivicMapper demo services
-CMAGS_USER = ''
-CMAGS_PW = ''
-CMAGS_AUTH_URL = 'https://geodata.civicmapper.com/arcgis/tokens/generateToken'
-CMAGS_CLIENT_TYPE = 'requestip'
-#CMAGS_CLIENT_TYPE = 'referer'
-CMAGS_REFERER_URL = 'flush-it.civicmapper.com'
-
 # AGOL CREDS for accessing 3RWW ArcGIS Online
 ESRI_APP_CLIENT_ID = ''
 ESRI_APP_CLIENT_SECRET = ''
