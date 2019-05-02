@@ -1,23 +1,13 @@
-*.pyc
-.DS_Store
-*.psd
+# ide/editor stuff
+.komodotools
+*.komodoproject
+.vscode/
+
+# dependency directories
+node_modules/
 
 # production files with secrets
 config.py
 
-# virtualenv directories
-env/
-venv/
-ENV/
-
-# extra project directories
-extras/
-node_modules/
-
-# komodo project stuff
-.komodotools
-*.komodoproject
+# testing and build files
 project/test.db
-*.ai
-project/static/js/bundle.js
-.vscode/settings.json
