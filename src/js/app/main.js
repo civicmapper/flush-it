@@ -31,7 +31,7 @@ require("typeahead.js/dist/typeahead.bundle.js");
  * GIS, geoprocessing, and services config
  */
 
-var mapbox_key = 'pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2pjY2d2N2dhMDBraDMzbXRhOXpiZXJsayJ9.8JfoANBxEIrySG5avX4PWQ';
+var mapbox_key = 'pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2p6ZDNvNWZwMDYzMzNsbGl2NzVvMDYxMiJ9.CYmF6asaUR8R1zqT8UFBPA';
 
 $('#msg-tracing').hide();
 $('#msg-error').hide();
@@ -415,8 +415,8 @@ var traceResultStyle = {
 /**
  * base map (custom mapbox tileset with no labels!)
  */
-var basemap = L.tileLayer( //"https://api.mapbox.com/styles/v1/cbgthor624/cipq73zea0010brnl8jlui4dz/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2JndGhvcjYyNCIsImEiOiJzZ2NaNmo4In0.hbXzZPAvaCO5GLu45bptTw", {
-    "https://api.mapbox.com/styles/v1/cbgthor624/cj7m885wh91zm2rn3j6g8et8q/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2JndGhvcjYyNCIsImEiOiJjajdtOGk0ZDIydThuMnducDNwZmU5NGJkIn0.ZISQHLPj0Yt1AudOgApIww", {
+var basemap = L.tileLayer(
+    "https://api.mapbox.com/styles/v1/civicmapper/cjzd3g2y22qsk1cqnj2a0z0xr/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2p6ZDNvNWZwMDYzMzNsbGl2NzVvMDYxMiJ9.CYmF6asaUR8R1zqT8UFBPA", {
         maxZoom: 20,
         zIndex: 1,
         // attribution: 'Basemap &copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a><span> and &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a></span>'
@@ -427,7 +427,7 @@ var basemap = L.tileLayer( //"https://api.mapbox.com/styles/v1/cbgthor624/cipq73
  * top of all other layers)
  */
 var labels = L.tileLayer(
-    "https://api.mapbox.com/styles/v1/cbgthor624/cj7m84goh91lq2sofjiqfbby7/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2JndGhvcjYyNCIsImEiOiJjajdtOGk0ZDIydThuMnducDNwZmU5NGJkIn0.ZISQHLPj0Yt1AudOgApIww", {
+    "https://api.mapbox.com/styles/v1/civicmapper/cjzd3gn5d2qzu1dpf4ytlmwe7/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2p6ZDNvNWZwMDYzMzNsbGl2NzVvMDYxMiJ9.CYmF6asaUR8R1zqT8UFBPA", {
         pane: 'labels',
         maxZoom: 20,
         zIndex: 1,
