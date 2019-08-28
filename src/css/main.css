@@ -15,7 +15,7 @@ body,
 
 #loadingScreen {
     z-index: 50000;
-    background-color: #212121;
+    background-color: #fff;
     color: #FCB318;
 }
 
@@ -36,8 +36,8 @@ body,
     padding: 10px;
     border-radius: 5px !important;
     background-color: rgba(255, 255, 255, 0.85);
-    box-shadow: 5px 5px 10px rgba(25, 25, 25, 0.9);
-    color: #000;
+    /* box-shadow: 5px 5px 10px rgba(25, 25, 25, 0.25); */
+    color: rgb(50, 50, 50);
 }
 
 @media (max-width: 768px) {
@@ -77,8 +77,8 @@ body,
 
 .modal-content {
     background-color: rgba(255, 255, 255, 1);
-    box-shadow: 5px 5px 10px rgba(25, 25, 25, 0.9);
-    color: #000;
+    box-shadow: 5px 5px 10px rgba(25, 25, 25, 0.25);
+    color: rgb(50, 50, 50);
 }
 
 #aboutBlock {
@@ -87,7 +87,7 @@ body,
     padding-bottom: 10px;
     padding-left: 10px;
     padding-right: 10px;
-    color: #fff;
+    color: #323232;
 }
 
 .navbar-inverse {
@@ -109,11 +109,11 @@ body,
 
 #msg-results,
 #msg-tracing {
-    color: #fff;
+    color: #323232;
 }
 
 #msg-tracing {
-    text-shadow: 5px 5px 10px rgba(25, 25, 25, 0.9);
+    text-shadow: 5px 5px 10px rgba(25, 25, 25, 0.25);
 }
 
 .traceResults {
@@ -136,7 +136,7 @@ a {
 #legendButton,
 .leaflet-control-zoom-in,
 .leaflet-control-zoom-out {
-    color: #000 !important;
+    color: rgb(50, 50, 50) !important;
     background-color: rgba(255, 255, 255, 1) !important;
     /*border-color: rgba(20, 20, 20, 0.9) !important;*/
     /*border-style: solid !important;*/
@@ -144,13 +144,13 @@ a {
 }
 
 .title {
-    color: #000;
+    color: rgb(50, 50, 50);
     /*text-shadow: 5px 5px 10px rgba(25, 25, 25, 0.9);*/
     margin-top: 10px;
 }
 
 .subtitle {
-    color: #000;
+    color: rgb(50, 50, 50);
     font-size: 0.5em !important;
     /*text-shadow: 5px 5px 10px rgba(25, 25, 25, 0.9);*/
 }
@@ -188,7 +188,7 @@ a {
 }
 
 .messages {
-    color: #fff;
+    color: #323232;
 }
 
 .leaflet-bottom .leaflet-right .leaflet-control-attribution .leaflet-control {
@@ -199,7 +199,7 @@ a {
 #aboutButton,
 #legendButton #resetButton,
 .twitter-typeahead {
-    box-shadow: 5px 5px 10px rgba(25, 25, 25, 0.9);
+    box-shadow: 5px 5px 10px rgba(25, 25, 25, 0.25);
 }
 
 
@@ -212,18 +212,17 @@ a {
 }
 
 input.searchbox {
-    color: #000;
+    color: rgb(50, 50, 50);
     background-color: #fff;
-    border-color: #3377a9;
-    box-shadow: 5px 5px 10px rgba(25, 25, 25, 0.9);
+    box-shadow: 5px 5px 10px rgba(25, 25, 25, 0.25);
 }
 
 .tt-dropdown-menu {
-    color: #fff;
-    background-color: rgba(25, 25, 25, 0.85);
-    border: 1px solid rgba(0, 0, 0, 0.2);
+    color: #323232;
+    background-color: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(50, 50, 50, 0.25);
     border-radius: 4px 4px 4px 4px;
-    box-shadow: 5px 5px 10px rgba(25, 25, 25, 0.9);
+    box-shadow: 5px 5px 10px rgba(25, 25, 25, 0.25);
     margin-top: 4px;
     padding: 4px 0;
     width: 100%;
