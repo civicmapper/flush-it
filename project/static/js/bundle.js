@@ -57162,17 +57162,17 @@ var messageControl = {
   messages: {
     facts: [
       "ALCOSAN’s 59-acre treatment plan is one of the largest wastewater treatment facilities in the Ohio River Valley",
-      "Can process up to 250 million gallons of wastewater a day (enough to fill 5 million bathtubs!)",
+      "ALCOSAN can process up to 250 million gallons of wastewater a day (enough to fill 5 million bathtubs!)",
       "On average, ALCOSAN treats about 216 million gallons of wastewater a day",
-      "Serves 83 municipalities in Allegheny County, including the City of Pittsburgh",
-      "Employs 416 employees",
-      "Manages over 90 miles of sewers",
+      "ALCOSAN serves 83 municipalities in Allegheny County, including the City of Pittsburgh",
+      "ALCOSAN employs 416 employees",
+      "ALCOSAN manages over 90 miles of sewers",
       "More than one million people benefit from ALCOSAN’s wastewater treatment services",
       "ALCOSAN was created in 1946 under the Pennsylvania Municipal Authorities Act and began treating wastewater in 1959",
-      "Processed 78.8 billion gallons of wastewater and stormwater in 2018",
-      "Removed 77.7 million pounds of solid waste in 2018",
-      "Recycled 39.4 tons of scrap metal in 2018",
-      "Employees participated in nearly 100 community events in 2018",
+      "ALCOSAN processed 78.8 billion gallons of wastewater and stormwater in 2018",
+      "ALCOSAN removed 77.7 million pounds of solid waste in 2018",
+      "ALCOSAN recycled 39.4 tons of scrap metal in 2018",
+      "ALCOSAN employees participated in nearly 100 community events in 2018",
       "More than 2,000 people attend ALCOSAN’s annual Open House in September",
       "Wastewater is collected in a 120-foot deep wet well and pumped into the treatment process at a rate of 128,000 gallons per minute.",
       "ALCOSAN has awarded more than $22 million to local municipalities and authorities through its Green Revitalization of Our Waterways (GROW) program.",
@@ -57374,25 +57374,13 @@ var traceResultStyle = {
  * base map (custom mapbox tileset with no labels!)
  */
 var basemap = L.tileLayer(
-  "https://api.mapbox.com/styles/v1/civicmapper/cjzd3g2y22qsk1cqnj2a0z0xr/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2p6ZDNvNWZwMDYzMzNsbGl2NzVvMDYxMiJ9.CYmF6asaUR8R1zqT8UFBPA", {
-    maxZoom: 20,
-    zIndex: 1,
-    // attribution: 'Basemap &copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a><span> and &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a></span>'
-    attribution: ''
-  });
-/**
- * reference layer (custom mapbox tileset with labels only - we put this over
- * top of all other layers)
- */
-var labels = L.tileLayer(
-  "https://api.mapbox.com/styles/v1/civicmapper/cjzd3gn5d2qzu1dpf4ytlmwe7/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2p6ZDNvNWZwMDYzMzNsbGl2NzVvMDYxMiJ9.CYmF6asaUR8R1zqT8UFBPA", {
-    pane: 'labels',
-    maxZoom: 20,
-    zIndex: 1,
-    opacity: 0.75,
-    //attribution: 'Basemap Labels &copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a><span> and &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a></span>'
-    attribution: ''
-  });
+  "https://api.mapbox.com/styles/v1/civicmapper/cjzunfnvt0dzc1cleg4ewogw4/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2p6ZDNvNWZwMDYzMzNsbGl2NzVvMDYxMiJ9.CYmF6asaUR8R1zqT8UFBPA", {
+  maxZoom: 20,
+  zIndex: 1,
+  // attribution: 'Basemap &copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a><span> and &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a></span>'
+  attribution: ''
+  }
+);
 
 // reference layers
 
@@ -57531,21 +57519,13 @@ function appInit() {
   // Reference
   serviceArea.addTo(map);
   muniLayer.addTo(map);
-
-  // Sewer Atlas
-  atlas.rsi_tilelayer.layer.addTo(map);
-  //atlas.rsi_featurelayer.layer.addTo(map);
-
+  
   // Trace Search, Source, and Results
   trwwTraceResult.addTo(map);
   //trwwTracePoints.addTo(map);
   trwwTraceSource.addTo(map);
   addressPoint.addTo(map);
   trwwTraceDestin.addTo(map);
-
-  // lastly...create a new map pane, then add the labels tile layer to it.
-  map.createPane("labels");
-  labels.addTo(map);
 
 
   // set map view to the service area layer extents
