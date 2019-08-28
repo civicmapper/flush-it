@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Fjalla+One');
+@import url('https://fonts.googleapis.com/css?family=Oswald:400,500,700&display=swap');
 body {
     padding: 0;
     margin: 0;
@@ -10,7 +10,7 @@ body,
 #loadingScreen {
     height: 100%;
     width: 100%;
-    font-family: 'Fjalla One', sans-serif !important;
+    font-family: Oswald,-apple-system,system-ui,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif !important;
 }
 
 #loadingScreen {
@@ -23,7 +23,9 @@ body,
     padding-top: 6px;
     padding-right: 7px;
 }
-
+.nav-tabs.nav-justified{
+    font-size:18px !important;
+}
 #credits,
 #titleBlock,
 #msg-results,
@@ -32,9 +34,10 @@ body,
 .legend-popover {
     margin-top: 20px;
     padding: 10px;
-    background-color: rgba(25, 25, 25, 0.85);
+    border-radius: 5px !important;
+    background-color: rgba(255, 255, 255, 0.85);
     box-shadow: 5px 5px 10px rgba(25, 25, 25, 0.9);
-    color: #fff;
+    color: #000;
 }
 
 @media (max-width: 768px) {
@@ -73,9 +76,9 @@ body,
 }
 
 .modal-content {
-    background-color: rgba(25, 25, 25, 0.85);
+    background-color: rgba(255, 255, 255, 1);
     box-shadow: 5px 5px 10px rgba(25, 25, 25, 0.9);
-    color: #fff;
+    color: #000;
 }
 
 #aboutBlock {
@@ -115,11 +118,11 @@ body,
 
 .traceResults {
     /*color: #B0BB01;*/
-    color: #48CBDB;
+    color: #3377a9;
 }
 
 a {
-    color: #48CBDB;
+    color: #3377a9;
 }
 
 #munihoods,
@@ -133,23 +136,23 @@ a {
 #legendButton,
 .leaflet-control-zoom-in,
 .leaflet-control-zoom-out {
-    color: #fff !important;
-    background-color: rgba(25, 25, 25, 0.85) !important;
-    border-color: rgba(20, 20, 20, 0.9) !important;
-    border-style: solid !important;
-    border-width: 1px !important;
+    color: #000 !important;
+    background-color: rgba(255, 255, 255, 1) !important;
+    /*border-color: rgba(20, 20, 20, 0.9) !important;*/
+    /*border-style: solid !important;*/
+    /*border-width: 1px !important;*/
 }
 
 .title {
-    color: #fff;
-    text-shadow: 5px 5px 10px rgba(25, 25, 25, 0.9);
+    color: #000;
+    /*text-shadow: 5px 5px 10px rgba(25, 25, 25, 0.9);*/
     margin-top: 10px;
 }
 
 .subtitle {
-    color: #fff;
+    color: #000;
     font-size: 0.5em !important;
-    text-shadow: 5px 5px 10px rgba(25, 25, 25, 0.9);
+    /*text-shadow: 5px 5px 10px rgba(25, 25, 25, 0.9);*/
 }
 
 #messageControl {
@@ -209,9 +212,10 @@ a {
 }
 
 input.searchbox {
-    color: #fff;
-    background-color: rgba(25, 25, 25, 0.85);
-    border-color: #50A8B0;
+    color: #000;
+    background-color: #fff;
+    border-color: #3377a9;
+    box-shadow: 5px 5px 10px rgba(25, 25, 25, 0.9);
 }
 
 .tt-dropdown-menu {
@@ -270,11 +274,11 @@ input.searchbox {
 }
 
 .legend-line-2 {
-    color: #B4C035 !important;
+    color: #fbb317 !important;
 }
 
 .legend-line-3 {
-    color: #50A8B0 !important;
+    color: #3377a9 !important;
 }
 
 .fa-minus {
@@ -283,7 +287,7 @@ input.searchbox {
 
 .legend-popover {
     width: 250px;
-    font-family: 'Fjalla One', sans-serif !important;
+    font-family: Oswald,-apple-system,system-ui,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif !important;
 }
 
 .arrow {
