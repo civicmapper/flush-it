@@ -427,25 +427,13 @@ var traceResultStyle = {
  * base map (custom mapbox tileset with no labels!)
  */
 var basemap = L.tileLayer(
-  "https://api.mapbox.com/styles/v1/civicmapper/cjzd3g2y22qsk1cqnj2a0z0xr/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2p6ZDNvNWZwMDYzMzNsbGl2NzVvMDYxMiJ9.CYmF6asaUR8R1zqT8UFBPA", {
-    maxZoom: 20,
-    zIndex: 1,
-    // attribution: 'Basemap &copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a><span> and &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a></span>'
-    attribution: ''
-  });
-/**
- * reference layer (custom mapbox tileset with labels only - we put this over
- * top of all other layers)
- */
-var labels = L.tileLayer(
-  "https://api.mapbox.com/styles/v1/civicmapper/cjzd3gn5d2qzu1dpf4ytlmwe7/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2p6ZDNvNWZwMDYzMzNsbGl2NzVvMDYxMiJ9.CYmF6asaUR8R1zqT8UFBPA", {
-    pane: 'labels',
-    maxZoom: 20,
-    zIndex: 1,
-    opacity: 0.75,
-    //attribution: 'Basemap Labels &copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a><span> and &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a></span>'
-    attribution: ''
-  });
+  "https://api.mapbox.com/styles/v1/civicmapper/cjzunfnvt0dzc1cleg4ewogw4/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2p6ZDNvNWZwMDYzMzNsbGl2NzVvMDYxMiJ9.CYmF6asaUR8R1zqT8UFBPA", {
+  maxZoom: 20,
+  zIndex: 1,
+  // attribution: 'Basemap &copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a><span> and &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a></span>'
+  attribution: ''
+  }
+);
 
 // reference layers
 
@@ -584,21 +572,13 @@ function appInit() {
   // Reference
   serviceArea.addTo(map);
   muniLayer.addTo(map);
-
-  // Sewer Atlas
-  atlas.rsi_tilelayer.layer.addTo(map);
-  //atlas.rsi_featurelayer.layer.addTo(map);
-
+  
   // Trace Search, Source, and Results
   trwwTraceResult.addTo(map);
   //trwwTracePoints.addTo(map);
   trwwTraceSource.addTo(map);
   addressPoint.addTo(map);
   trwwTraceDestin.addTo(map);
-
-  // lastly...create a new map pane, then add the labels tile layer to it.
-  map.createPane("labels");
-  labels.addTo(map);
 
 
   // set map view to the service area layer extents
