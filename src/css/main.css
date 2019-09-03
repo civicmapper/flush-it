@@ -118,7 +118,7 @@ body,
 
 .traceResults {
     /*color: #B0BB01;*/
-    color: #3377a9;
+    color: #bb0014;
 }
 
 a {
@@ -277,7 +277,7 @@ input.searchbox {
 }
 
 .legend-line-3 {
-    color: #3377a9 !important;
+    color: #bb0014 !important;
 }
 
 .fa-minus {
@@ -287,8 +287,21 @@ input.searchbox {
 .legend-popover {
     width: 250px;
     font-family: Oswald,-apple-system,system-ui,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif !important;
+    font-weight: 700;
+    opacity: 1 !important;
 }
 
 .arrow {
     color: rgba(25, 25, 25, 0.85) !important;
+}
+.navbar-inverse .navbar-toggle{
+    background-color:#333;
+}
+#resultsModalContent h2.modal-title{
+    font-size:22px;
+}
+
+#resultsModalContent .modal-footer p{
+    font-size: 16px;
+    font-weight: 700;
 }

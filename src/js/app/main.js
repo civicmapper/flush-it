@@ -218,8 +218,8 @@ var messageControl = {
       "ALCOSAN can process up to 250 million gallons of wastewater a day (enough to fill 5 million bathtubs!)",
       "On average, ALCOSAN treats about 216 million gallons of wastewater a day",
       "ALCOSAN serves 83 municipalities in Allegheny County, including the City of Pittsburgh",
-      "ALCOSAN employs 416 employees",
-      "ALCOSAN manages over 90 miles of sewers",
+      "ALCOSAN employs approximately 416 employees",
+      "ALCOSAN manages over approximately 90 miles of sewers",
       "More than one million people benefit from ALCOSAN’s wastewater treatment services",
       "ALCOSAN was created in 1946 under the Pennsylvania Municipal Authorities Act and began treating wastewater in 1959",
       "ALCOSAN processed 78.8 billion gallons of wastewater and stormwater in 2018",
@@ -261,6 +261,12 @@ var messageControl = {
       style: {
         width: '250px',
       }
+    }).addTo(leafletMap);
+    // moving about button
+    L.control.custom({
+      id: '#'+this.aboutButton.id,
+      position:'bottomleft',
+      content: this.aboutButton.text
     }).addTo(leafletMap);
 
     // legend button
@@ -305,6 +311,10 @@ var messageControl = {
     id: 'legendButton',
     text: '<button id="legendButton" type="button" class="btn btn-default" data-toggle="popover">Legend</button>',
   },
+  aboutButton:{
+    id: 'aboutButton',
+    text: '<button id="aboutButton" type="button" class="aboutButton btn btn-default btn-lg"><span>About</span></button>'
+  },
   resultsButton: {
     id: 'resultsButton',
     text: '<button id="resultsButton" type="button" class="btn btn-default btn-lg btn-block resultsButtons">Results!</button>',
@@ -324,6 +334,8 @@ var messageControl = {
     $('#msg-tracing').fadeOut(200);
     $('.resultsButtons').fadeIn();
 
+    //Hiding Title block per client request
+    $('#titleBlock').fadeOut(200);
     // populate content for the results modal, and show the modal
     // ...get the template from the page
     var resultsTemplate = $("#handlebars-results").html();
