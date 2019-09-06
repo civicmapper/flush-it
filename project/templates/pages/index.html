@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <title>Flush It!</title>
+    <title>Follow the Flush!</title>
     <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet"> 
     <link href="{{ url_for('static', filename='css/bundle.css') }}" type="text/css" rel="stylesheet" />
 
@@ -51,12 +51,12 @@
         <span class="icon-bar"></span>
       </button>
                 <span class="hidden-xs hidden-sm">
-        <h1 class="title"><img class="brand-logo" src="{{ url_for('static', filename='assets/marker-alcosan-50px.png') }}"/> Flush It!<br>
+        <h1 class="title"><img class="brand-logo" src="{{ url_for('static', filename='assets/marker-alcosan-50px.png') }}"/> Follow the Flush!<br>
         <span class="subtitle">See where your wastewater goes when you flush!</span>
                 </h1>
                 </span>
                 <span class="hidden-md hidden-lg">
-        <h3 class="title"><img class="brand-logo-sm" src="{{ url_for('static', filename='assets/marker-alcosan-50px.png') }}"/>Flush It!</h3>
+        <h3 class="title"><img class="brand-logo-sm" src="{{ url_for('static', filename='assets/marker-alcosan-50px.png') }}"/>Follow the Flush!</h3>
         <div id="addressSearch-nav" class="text-center addressSearch">
             <span id="nav-searchbox-container">
                 <form role="search">
@@ -73,19 +73,14 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <!--<li><span class="small"style="color:#fff;">A project by:</span></li>-->
-                <!--<li><img class="credit-logos" src="static/assets/logo_alcosan.png"/></li>-->
-                <!--<li><img class="credit-logos" src="static/assets/logo_3rww.png"/></li>-->
-                <!--<li><img class="credit-logos" src="static/assets/logo_civicmapper.png"/></li>-->
-                <li id="aboutBlock">
+                <!-- <li id="aboutBlock">
                     <button id="aboutButton" type="button" class="aboutButton btn btn-default btn-lg"><span>About</span></button>
-                    <!--<a id="aboutButton" href="#"><i class="fa fa-info"></i><span class="sr-only">About this thing</span></a>-->
-                </li>
+                </li> -->
                 <li class="hidden-sm" id="credits">
                     <p class="small" style="color:#323232;">A project by:</p>
-                    <img class="credit-logos" src="static/assets/logo_alcosan.png" />
-                    <img class="credit-logos" src="static/assets/logo_3rww.png" />
-                    <img class="credit-logos" src="static/assets/logo_civicmapper.png" />
+                    <img class="credit-logos" src="static/assets/logo_alcosan.png" alt="ALCOSAN logo" />
+                    <img class="credit-logos" src="static/assets/logo_3rww.png" alt="3 Rivers Wet Weather Inc. logo" />
+                    <img class="credit-logos" src="static/assets/logo_civicmapper.png" alt="CivicMapper logo"/>
                 </li </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -116,7 +111,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h1 class="modal-title">Flush It! <small>is brought to you by:</small></h1>
+                    <h1 class="modal-title">Follow the Flush! <small>is brought to you by:</small></h1>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -132,7 +127,7 @@
                             <ul>
                                 <li>Basemap data: &copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a><span> & &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors</span>.</li>
                                 <li>Sewer Infrastructure network data and tracing services: <a href="http://www.3riverswetweather.org">3 Rivers Wet Weather</a> (the same data and tracing tools used on this map can be accessed on the <a href="http://mds.3riverswetweather.org/">3RWW Sewer Atlas</a>)</li>
-                                <li>Regionalization Data: <a href="http://www.alcosan.org" target="_blank">ALCOSAN</a> and <a href="http://www.aecom.com/co/offices/?qi=Pittsburgh" target="_blank">AECOM</a>.</li>
+                                <!--<li>Regionalization Data: <a href="http://www.alcosan.org" target="_blank">ALCOSAN</a> and <a href="http://www.aecom.com/co/offices/?qi=Pittsburgh" target="_blank">AECOM</a>.</li>-->
                                 <li>Web mapping: <a href='http://leafletjs.com' target="_blank">Leaflet</a> with <a href='http://esri.github.io/esri-leaflet/' target="_blank">Esri-Leaflet</a></li>
                                 <li>Geocoding: <a href='https://www.mapbox.com/' target="_blank">Mapbox</a></li>
                             </ul>
@@ -156,7 +151,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h1 class="modal-title">Flush It!</h1>
+                    <h1 class="modal-title">Follow the Flush!</h1>
                 </div>
                 <div class="modal-body">
                     <ul class="nav nav-tabs nav-justified" id="aboutTabs">
@@ -180,8 +175,11 @@
                                         On the map, you'll see the sewer infrastructure network in the ALCOSAN service area. This represents a composite of data from 82 municipalities and authorities, with the color of the pipe indicating who owns the pipes.
                                     </p>
                                     <p>
-                                        Notably, this map shows the municipal sewer lines that may be taken over by ALCOSAN. This process, called regionalization, entails the transfer of ownership of multi-municipal trunk sewers, wet weather control facilities, and related infrastructure from customer municipalities to ALCOSAN. Note that regionalization extents shown here are preliminary and subject to change. <a href="http://www.alcosan.org/WetWeatherIssues/tabid/73/Default.aspx" target="_blank">Learn more about the regionalization process from the ALCOSAN website</a>.
+                                        Enter an address or a place name, and this map will determine the approximate path a "flush" from that location would take through the sewer network on its way to the ALCOSAN treatment facility. It show which municipalities and neighborhoods in the City of Pittsburgh that the flush passes under, and provides an estimate of how far the flush travels and how long it takes.
                                     </p>
+                                    <!-- <p>
+                                        Notably, this map shows the municipal sewer lines that may be taken over by ALCOSAN. This process, called regionalization, entails the transfer of ownership of multi-municipal trunk sewers, wet weather control facilities, and related infrastructure from customer municipalities to ALCOSAN. Note that regionalization extents shown here are preliminary and subject to change. <a href="http://www.alcosan.org/WetWeatherIssues/tabid/73/Default.aspx" target="_blank">Learn more about the regionalization process from the ALCOSAN website</a>.
+                                    </p> -->
                                 </div>
                             </div>
                             <hr>
@@ -199,26 +197,6 @@
                                     <p>
                                         This map utilizes an existing database of sewer pipe infrastructure in the region. That database is maintained by 3 Rivers Wet Weather,with support from ALCOSAN and the 82 communities within ALCOSAN's service area.
                                     </p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <h2>Any caveats? <small>"I ran a trace from my house and it doesn't start where I know my sewer connects."</small></h2>
-                                </div>
-                                <div class="col-sm-12">
-                                    <p class="lead">Generally, Flush-It! will give you a good sense of where and how far your toilet flushes go. However, the starting point is an approximation, and it should not be used for planning or official use.</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <h2>How does this thing work? <small>"I'm curious about some of the technology used here."</small></h2>
-                                </div>
-                                <div class="col-sm-5">
-                                    <p class="lead">You can check out the source code for this project on <a href="https://github.com/civicmapper/flush-it">GitHub</a>.</p>
-                                </div>
-                                <div class="col-sm-7">
                                     <h2>Technology</h2>
                                     <p>
                                         The sewer database is managed in a geographic information systems (GIS): a PostGIS-enabled PostgreSQL database, from which the data is provided as a geo-aware web service via Esri ArcGIS Server software. The tracing
@@ -251,17 +229,28 @@
                                     </p>
                                 </div>
                             </div>
-                        </div>
-                        <div id="legendTab" class="tab-pane">
-                            <div class="row legend-line-1">
-                                <div class="col-sm-2">
-                                    <h3 class="text-right"><i class="fa fa-minus"></i></h3>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <h2>Any caveats? <small>"I ran a trace from my house and it doesn't start where I know my sewer connects."</small></h2>
                                 </div>
-                                <div class="col-sm-10">
-                                    <h3>Regionalization Extents <small>(August 2018, Subject to Change)</small></h3>
-                                    <p><strong>What does this mean?</strong> Regionalization entails the transfer of ownership of trunk sewers, wet weather control facilities, and related infrastructure from customer municipalities to ALCOSAN. <a href="http://www.3riverswetweather.org/regional-solutions/regional-progress/sewer-regionalization-implementation-project">Learn more about regionalization from 3 Rivers Wet Weather.</a></p>
+                                <div class="col-sm-12">
+                                    <p class="lead">Generally, Follow the Flush! will give you a good sense of where and how far your toilet flushes go. However, the starting point is an approximation, and it should not be used for planning or official use.</p>
                                 </div>
                             </div>
+                            <hr>
+
+                        </div>
+                        <div id="legendTab" class="tab-pane">
+                            <!--<div class="row legend-line-1">-->
+                                <!--<div class="col-sm-2">-->
+                                    <!--<h3 class="text-right"><i class="fa fa-minus"></i></h3>-->
+                                <!--</div>-->
+                                <!--<div class="col-sm-10">-->
+                                    <!--<h3>Regionalization Extents <small>(August 2018, Subject to Change)</small></h3>-->
+                                    <!--<p><strong>What does this mean?</strong> Regionalization entails the transfer of ownership of trunk sewers, wet weather control facilities, and related infrastructure from customer municipalities to ALCOSAN. <a href="http://www.3riverswetweather.org/regional-solutions/regional-progress/sewer-regionalization-implementation-project">Learn more about regionalization from 3 Rivers Wet Weather.</a></p>-->
+                                <!--</div>-->
+                            <!--</div>-->
                             <div class="row legend-line-2">
                                 <div class="col-sm-2">
                                     <h3 class="text-right"><i class="fa fa-minus"></i></h3>
@@ -278,13 +267,22 @@
                                     <h3>Municipal-owned infrastructure</h3>
                                 </div>
                             </div>
+                            <div class="row legend-line-4">
+                                <div class="col-sm-2">
+                                    <h3 class="text-right"><i class="fa fa-minus"></i></h3>
+                                </div>
+                                <div class="col-sm-10">
+                                    <h3>The path your flush takes</h3>
+                                </div>
+                            </div>                            
                         </div>
                         <div id="creditsTab" class="tab-pane">
                             <div class="row">
                                 <div class="col-sm-12">
                                     <h3>This web map was built by <a href="http://www.civicmapper.com">CivicMapper</a> with support from <a href="http://www.3riverswetweather.org">3 Rivers Wet Weather</a>.</h3>
+                                    <h4>Updates contributed by <a href="https://marcusa.com/">MarcUSA</a> on behalf of <a href="https://3riversproud.com/">ALCOSAN</a></h4>
                                     <h4>Sewer Infrastructure network data and tracing services come from <a href="http://www.3riverswetweather.org">3 Rivers Wet Weather</a>. The same data and tracing tools used on this map are provided to municipalities through <a href="http://mds.3riverswetweather.org/">3RWW Sewer Atlas</a></h4>
-                                    <h4>Regionalization Data comes from <a href="http://www.alcosan.org">ALCOSAN</a> and <a href="http://www.aecom.com/co/offices/?qi=Pittsburgh">AECOM</a>.</h4>
+                                    <!--<h4>Regionalization Data comes from <a href="http://www.alcosan.org">ALCOSAN</a> and <a href="http://www.aecom.com/co/offices/?qi=Pittsburgh">AECOM</a>.</h4>-->
                                     <h4>Basemap data is &copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a><span> and &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors</span>.</h4>
                                     <h4>Web mapping software from <a href='http://leafletjs.com'>Leaflet</a> and <a href='http://esri.github.io/esri-leaflet/'>Esri-Leaflet</a>.</h4>
                                 </div>
@@ -335,7 +333,7 @@
                             <!-- <small><button id="flowrateButton" type="button" class="btn btn-default" data-toggle="popover">Explain.</button></small> -->
                             <br><br>
                             <small>
-                                There are a lot of factors that might contribute to rate of flow; this coarse estimate assumes flow of between 1 and 2 feet/second. If it's raining or has rained recently, and especially if your flush passes through pipes that are part of a <i>combined sewer system</i>, this estimate might not be applicable. <a href="http://www.3riverswetweather.org/about-wet-weather-issue/understanding-sewer-collection-system/inflow-infiltration-overflow" target="_blank">Why?</a>
+                                There are a lot of factors that might contribute to rate of flow; this estimate assumes flow of between 1 and 2 feet/second. If it's raining or has rained recently, and especially if your flush passes through pipes that are part of a <i>combined sewer system</i>, this estimate might not be applicable. <a href="http://www.3riverswetweather.org/about-wet-weather-issue/understanding-sewer-collection-system/inflow-infiltration-overflow" target="_blank">Why?</a>
                             </small><br>
                         </h4>
                     </div>
@@ -345,11 +343,9 @@
                         <h4>Your flush passes through pipes in these communities:</h4>
                     </div>
                     <div class="col-sm-7">
-                        <!--<ul id="munihoods" class="traceResults">-->
                         {{#each munihoods}}
                         <p class="munihood">{{name}}</p>
                         {{/each}}
-                        <!--</ul>-->
                     </div>
                 </div>
                 <!-- <div class="row">
@@ -369,45 +365,26 @@
         <div id="legend-popover-content">
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="legend-line-1">
-                        <p><i class="fa fa-minus"></i> Regionalization Extents <small>(August 2018, Subject to Change)</small></p>
-                    </div>
+                    <!--<div class="legend-line-1">-->
+                        <!--<p><i class="fa fa-minus"></i> Regionalization Extents <small>(August 2018, Subject to Change)</small></p>-->
+                    <!--</div>-->
                     <div class="legend-line-2">
                         <p><i class="fa fa-minus"></i> ALCOSAN-owned infrastructure</p>
                     </div>
                     <div class="legend-line-3">
                         <p><i class="fa fa-minus"></i> Municipal-owned infrastructure</p>
                     </div>
+                    <div class="legend-line-4">
+                        <p><i class="fa fa-minus"></i> The path your flush takes</p>
+                    </div>                    
                 </div>
             </div>
-            <!--<div class="row">-->
-            <!--  <div class="col-sm-12">-->
-            <!--    <button id="legendAboutButton" class="aboutButton btn btn-default btn-block" type="submit">Learn More</button>-->
-            <!--  </div>-->
-            <!--</div>-->
         </div>
     </script>
 
     {% endraw %}
 
     <div id="map"></div>
-
-    <!-- jQuery + Bootstrap -->
-    <!-- <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
-    <!-- Leaflet + Esri-Leaflet -->
-    <!-- <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script> -->
-    <!-- <script src="{{ url_for('static', filename='libs/Leaflet.Control.Custom/Leaflet.Control.Custom.js') }}"></script> -->
-    <!-- <script src="{{ url_for('static', filename='libs/esri-leaflet/dist/esri-leaflet.js') }}"></script>
-<script src="{{ url_for('static', filename='libs/esri-leaflet-gp/dist/esri-leaflet-gp.js') }}"></script> -->
-    <!-- supporting scripts -->
-    <!-- <script src="https://unpkg.com/terraformer@1.0.7"></script>
-<script src="https://unpkg.com/terraformer-arcgis-parser@1.0.5"></script> -->
-    <!--<script src="http://d3js.org/d3.v3.min.js" type="text/javascript"></script>-->
-    <!--<script src="https://npmcdn.com/@turf/turf/turf.min.js"></script>-->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script> -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.5/typeahead.bundle.min.js"></script> -->
-    <!-- application logic -->
     <script type="text/javascript" src="{{ url_for('static', filename='js/bundle.js') }}" defer></script>
 
 </body>

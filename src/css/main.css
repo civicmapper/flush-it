@@ -36,7 +36,7 @@ body,
     padding: 10px;
     border-radius: 5px !important;
     background-color: rgba(255, 255, 255, 0.85);
-    /* box-shadow: 5px 5px 10px rgba(25, 25, 25, 0.25); */
+    box-shadow: 5px 5px 10px rgba(25, 25, 25, 0.25);
     color: rgb(50, 50, 50);
 }
 
@@ -117,8 +117,7 @@ body,
 }
 
 .traceResults {
-    /*color: #B0BB01;*/
-    color: #3377a9;
+    color: #bb0014;
 }
 
 a {
@@ -197,7 +196,9 @@ a {
 
 .leaflet-control-zoom,
 #aboutButton,
-#legendButton #resetButton,
+#legendButton,
+#resetButton,
+#resultsButton,
 .twitter-typeahead {
     box-shadow: 5px 5px 10px rgba(25, 25, 25, 0.25);
 }
@@ -277,7 +278,11 @@ input.searchbox {
 }
 
 .legend-line-3 {
-    color: #3377a9 !important;
+    color: #498cbc !important;
+}
+
+.legend-line-4 {
+    color: #bb0014 !important;
 }
 
 .fa-minus {
@@ -287,8 +292,22 @@ input.searchbox {
 .legend-popover {
     width: 250px;
     font-family: Oswald,-apple-system,system-ui,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif !important;
+    font-weight: 700;
+    opacity: 1 !important;
 }
 
 .arrow {
     color: rgba(25, 25, 25, 0.85) !important;
+}
+.navbar-inverse, 
+.navbar-toggle{
+    background-color:#333;
+}
+#resultsModalContent h2.modal-title{
+    font-size:22px;
+}
+
+#resultsModalContent .modal-footer p{
+    font-size: 16px;
+    font-weight: 700;
 }

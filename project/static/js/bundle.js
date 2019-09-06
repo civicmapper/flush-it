@@ -47283,6 +47283,8 @@ window.L = exports;
         } else {
             hooks.createFromInputFallback(config);
         }
+
+        return res;
     }
 
     function createLocalOrUTC (input, format, locale, strict, isUTC) {
@@ -47581,6 +47583,14 @@ window.L = exports;
         } else {
             return this._isUTC ? offset : getDateOffset(this);
         }
+
+        var chunk   = matches[matches.length - 1] || [];
+        var parts   = (chunk + '').match(chunkOffset) || ['-', 0, 0];
+        var minutes = +(parts[1] * 60) + toInt(parts[2]);
+
+        return minutes === 0 ?
+          0 :
+          parts[0] === '+' ? minutes : -minutes;
     }
 
     function getSetZone (input, keepLocalTime) {
@@ -48452,7 +48462,6 @@ window.L = exports;
         config._dayOfYear = toInt(input);
     });
 
-    // HELPERS
 
     // MOMENTS
 
@@ -49107,6 +49116,8 @@ window.L = exports;
         if (!this.isValid()) {
             return this.localeData().invalidDate();
         }
+        return false;
+    }
 
         var seconds = abs$1(this._milliseconds) / 1000;
         var days         = abs$1(this._days);
@@ -49347,6 +49358,8 @@ function runClearTimeout(marker) {
             // Some versions of I.E. have different rules for clearTimeout vs setTimeout
             return cachedClearTimeout.call(this, marker);
         }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
     }
 
 
@@ -50836,6 +50849,9 @@ BasicSourceMapConsumer.prototype.sourceContentFor =
         return this.sourcesContent[this._sources.indexOf("/" + relativeSource)];
       }
     }
+    return this.sourcesContent.length >= this._sources.size() &&
+      !this.sourcesContent.some(function (sc) { return sc == null; });
+  };
 
     // This function is used recursively from
     // IndexedSourceMapConsumer.prototype.sourceContentFor. In that case, we
@@ -57855,22 +57871,22 @@ var messageControl = {
   messages: {
     facts: [
       "ALCOSAN’s 59-acre treatment plan is one of the largest wastewater treatment facilities in the Ohio River Valley",
-      "Can process up to 250 million gallons of wastewater a day (enough to fill 5 million bathtubs!)",
+      "ALCOSAN can process up to 250 million gallons of wastewater a day (enough to fill 5 million bathtubs!)",
       "On average, ALCOSAN treats about 216 million gallons of wastewater a day",
-      "Serves 83 municipalities in Allegheny County, including the City of Pittsburgh",
-      "Employs 416 employees",
-      "Manages over 90 miles of sewers",
+      "ALCOSAN serves 83 municipalities in Allegheny County, including the City of Pittsburgh",
+      "ALCOSAN employs approximately 416 employees",
+      "ALCOSAN manages over approximately 90 miles of sewers",
       "More than one million people benefit from ALCOSAN’s wastewater treatment services",
       "ALCOSAN was created in 1946 under the Pennsylvania Municipal Authorities Act and began treating wastewater in 1959",
-      "Processed 78.8 billion gallons of wastewater and stormwater in 2018",
-      "Removed 77.7 million pounds of solid waste in 2018",
-      "Recycled 39.4 tons of scrap metal in 2018",
-      "Employees participated in nearly 100 community events in 2018",
+      "ALCOSAN processed 78.8 billion gallons of wastewater and stormwater in 2018",
+      "ALCOSAN removed 77.7 million pounds of solid waste in 2018",
+      "ALCOSAN recycled 39.4 tons of scrap metal in 2018",
+      "ALCOSAN employees participated in nearly 100 community events in 2018",
       "More than 2,000 people attend ALCOSAN’s annual Open House in September",
       "Wastewater is collected in a 120-foot deep wet well and pumped into the treatment process at a rate of 128,000 gallons per minute.",
       "ALCOSAN has awarded more than $22 million to local municipalities and authorities through its Green Revitalization of Our Waterways (GROW) program.",
       "1,828 Individuals took advantage of ALCOSAN’s Clean Water Assistance Fund in 2018."
-
+      
     ],
   },
   randomMsg: function(msgList) {
@@ -57903,12 +57919,20 @@ var messageControl = {
       }
     }).addTo(leafletMap);
 
+    // moving about button
+    L.control.custom({
+      id: '#control-' + this.aboutButton.id,
+      position:'bottomleft',
+      content: this.aboutButton.text
+    }).addTo(leafletMap);
+
     // legend button
     L.control.custom({
-      id: '#' + this.legendButton.id,
+      id: '#control-' + this.legendButton.id,
       position: 'bottomleft',
       content: this.legendButton.text
     }).addTo(leafletMap);
+
     // for the legend popover
     // ...get the template from the page
     var legendTemplate = $("#handlebars-legend").html();
@@ -57943,7 +57967,11 @@ var messageControl = {
   },
   legendButton: {
     id: 'legendButton',
-    text: '<button id="legendButton" type="button" class="btn btn-default" data-toggle="popover">Legend</button>',
+    text: '<button id="legendButton" type="button" class="btn btn-default btn-block" data-toggle="popover">Legend</button>',
+  },
+  aboutButton:{
+    id: 'aboutButton',
+    text: '<button id="aboutButton" type="button" class="btn btn-default btn-block">About</button>'
   },
   resultsButton: {
     id: 'resultsButton',
@@ -57964,6 +57992,8 @@ var messageControl = {
     $('#msg-tracing').fadeOut(200);
     $('.resultsButtons').fadeIn();
 
+    //Hiding Title block per client request
+    // $('#titleBlock').fadeOut(200); 
     // populate content for the results modal, and show the modal
     // ...get the template from the page
     var resultsTemplate = $("#handlebars-results").html();
@@ -57991,6 +58021,7 @@ var messageControl = {
     //		});
   },
   onAboutModalOpen: function() {
+    console.log('onAboutModalOpen')
     if (traceSummary.length === 0) {
       $('.addressSearch').fadeOut();
     }
@@ -58056,9 +58087,9 @@ var traceResultStyle = {
   fillOpacity: 0.7,
   radius: 8,
   stroke: true,
-  color: "#00FFFF",
+  color: "#bb0014",
   weight: 12,
-  opacity: 0.75
+  opacity: 0.6
 };
 
 // basemap layers
@@ -58067,7 +58098,6 @@ var traceResultStyle = {
  * base map (custom mapbox tileset with no labels!)
  */
 var basemap = L.tileLayer(
-    // "https://api.mapbox.com/styles/v1/civicmapper/cjzd3g2y22qsk1cqnj2a0z0xr/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2p6ZDNvNWZwMDYzMzNsbGl2NzVvMDYxMiJ9.CYmF6asaUR8R1zqT8UFBPA", {
   "https://api.mapbox.com/styles/v1/civicmapper/cjzunfnvt0dzc1cleg4ewogw4/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2p6ZDNvNWZwMDYzMzNsbGl2NzVvMDYxMiJ9.CYmF6asaUR8R1zqT8UFBPA", {
   maxZoom: 20,
   zIndex: 1,
@@ -58075,19 +58105,6 @@ var basemap = L.tileLayer(
   attribution: ''
   }
 );
-/**
- * reference layer (custom mapbox tileset with labels only - we put this over
- * top of all other layers)
- */
-// var labels = L.tileLayer(
-//   "https://api.mapbox.com/styles/v1/civicmapper/cjzd3gn5d2qzu1dpf4ytlmwe7/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2p6ZDNvNWZwMDYzMzNsbGl2NzVvMDYxMiJ9.CYmF6asaUR8R1zqT8UFBPA", {
-//     pane: 'labels',
-//     maxZoom: 20,
-//     zIndex: 1,
-//     opacity: 0.75,
-//     //attribution: 'Basemap Labels &copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a><span> and &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a></span>'
-//     attribution: ''
-//   });
 
 // reference layers
 
@@ -58226,21 +58243,13 @@ function appInit() {
   // Reference
   serviceArea.addTo(map);
   muniLayer.addTo(map);
-
-  // Sewer Atlas
-  // atlas.rsi_tilelayer.layer.addTo(map);
-  //atlas.rsi_featurelayer.layer.addTo(map);
-
+  
   // Trace Search, Source, and Results
   trwwTraceResult.addTo(map);
   //trwwTracePoints.addTo(map);
   trwwTraceSource.addTo(map);
   addressPoint.addTo(map);
   trwwTraceDestin.addTo(map);
-
-  // lastly...create a new map pane, then add the labels tile layer to it.
-  // map.createPane("labels");
-  // labels.addTo(map);
 
 
   // set map view to the service area layer extents
@@ -58750,9 +58759,11 @@ $(document).ready(function() {
 
 
   // modal buttons
-  $("#aboutButton").click(function() {
+  // $("#aboutButton").click(function() {
+  $(document).on("click", '#aboutButton', function() {
+    console.log('$("#aboutButton").click')
     messageControl.onAboutModalOpen();
-    $(".navbar-collapse.in").collapse("hide");
+    // $(".navbar-collapse.in").collapse("hide");
     return false;
   });
 
