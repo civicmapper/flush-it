@@ -47283,8 +47283,6 @@ window.L = exports;
         } else {
             hooks.createFromInputFallback(config);
         }
-
-        return res;
     }
 
     function createLocalOrUTC (input, format, locale, strict, isUTC) {
@@ -47583,14 +47581,6 @@ window.L = exports;
         } else {
             return this._isUTC ? offset : getDateOffset(this);
         }
-
-        var chunk   = matches[matches.length - 1] || [];
-        var parts   = (chunk + '').match(chunkOffset) || ['-', 0, 0];
-        var minutes = +(parts[1] * 60) + toInt(parts[2]);
-
-        return minutes === 0 ?
-          0 :
-          parts[0] === '+' ? minutes : -minutes;
     }
 
     function getSetZone (input, keepLocalTime) {
@@ -48462,6 +48452,7 @@ window.L = exports;
         config._dayOfYear = toInt(input);
     });
 
+    // HELPERS
 
     // MOMENTS
 
@@ -49116,8 +49107,6 @@ window.L = exports;
         if (!this.isValid()) {
             return this.localeData().invalidDate();
         }
-        return false;
-    }
 
         var seconds = abs$1(this._milliseconds) / 1000;
         var days         = abs$1(this._days);
@@ -49358,8 +49347,6 @@ function runClearTimeout(marker) {
             // Some versions of I.E. have different rules for clearTimeout vs setTimeout
             return cachedClearTimeout.call(this, marker);
         }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
     }
 
 
@@ -50849,9 +50836,6 @@ BasicSourceMapConsumer.prototype.sourceContentFor =
         return this.sourcesContent[this._sources.indexOf("/" + relativeSource)];
       }
     }
-    return this.sourcesContent.length >= this._sources.size() &&
-      !this.sourcesContent.some(function (sc) { return sc == null; });
-  };
 
     // This function is used recursively from
     // IndexedSourceMapConsumer.prototype.sourceContentFor. In that case, we
