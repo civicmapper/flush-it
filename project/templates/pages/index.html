@@ -73,14 +73,9 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <!--<li><span class="small"style="color:#fff;">A project by:</span></li>-->
-                <!--<li><img class="credit-logos" src="static/assets/logo_alcosan.png"/></li>-->
-                <!--<li><img class="credit-logos" src="static/assets/logo_3rww.png"/></li>-->
-                <!--<li><img class="credit-logos" src="static/assets/logo_civicmapper.png"/></li>-->
-                <!--<li id="aboutBlock">-->
-                    <!--<button id="aboutButton" type="button" class="aboutButton btn btn-default btn-lg"><span>About</span></button>-->
-                    <!--&lt;!&ndash;<a id="aboutButton" href="#"><i class="fa fa-info"></i><span class="sr-only">About this thing</span></a>&ndash;&gt;-->
-                <!--</li>-->
+                <!-- <li id="aboutBlock">
+                    <button id="aboutButton" type="button" class="aboutButton btn btn-default btn-lg"><span>About</span></button>
+                </li> -->
                 <li class="hidden-sm" id="credits">
                     <p class="small" style="color:#323232;">A project by:</p>
                     <img class="credit-logos" src="static/assets/logo_alcosan.png" alt="ALCOSAN logo" />
@@ -180,8 +175,11 @@
                                         On the map, you'll see the sewer infrastructure network in the ALCOSAN service area. This represents a composite of data from 82 municipalities and authorities, with the color of the pipe indicating who owns the pipes.
                                     </p>
                                     <p>
-                                        Notably, this map shows the municipal sewer lines that may be taken over by ALCOSAN. This process, called regionalization, entails the transfer of ownership of multi-municipal trunk sewers, wet weather control facilities, and related infrastructure from customer municipalities to ALCOSAN. Note that regionalization extents shown here are preliminary and subject to change. <a href="http://www.alcosan.org/WetWeatherIssues/tabid/73/Default.aspx" target="_blank">Learn more about the regionalization process from the ALCOSAN website</a>.
+                                        Enter an address or a place name, and this map will determine the approximate path a "flush" from that location would take through the sewer network on its way to the ALCOSAN treatment facility. It show which municipalities and neighborhoods in the City of Pittsburgh that the flush passes under, and provides an estimate of how far the flush travels and how long it takes.
                                     </p>
+                                    <!-- <p>
+                                        Notably, this map shows the municipal sewer lines that may be taken over by ALCOSAN. This process, called regionalization, entails the transfer of ownership of multi-municipal trunk sewers, wet weather control facilities, and related infrastructure from customer municipalities to ALCOSAN. Note that regionalization extents shown here are preliminary and subject to change. <a href="http://www.alcosan.org/WetWeatherIssues/tabid/73/Default.aspx" target="_blank">Learn more about the regionalization process from the ALCOSAN website</a>.
+                                    </p> -->
                                 </div>
                             </div>
                             <hr>
@@ -269,11 +267,20 @@
                                     <h3>Municipal-owned infrastructure</h3>
                                 </div>
                             </div>
+                            <div class="row legend-line-4">
+                                <div class="col-sm-2">
+                                    <h3 class="text-right"><i class="fa fa-minus"></i></h3>
+                                </div>
+                                <div class="col-sm-10">
+                                    <h3>The path your flush takes</h3>
+                                </div>
+                            </div>                            
                         </div>
                         <div id="creditsTab" class="tab-pane">
                             <div class="row">
                                 <div class="col-sm-12">
                                     <h3>This web map was built by <a href="http://www.civicmapper.com">CivicMapper</a> with support from <a href="http://www.3riverswetweather.org">3 Rivers Wet Weather</a>.</h3>
+                                    <h4>Updates contributed by <a href="https://marcusa.com/">MarcUSA</a> on behalf of <a href="https://3riversproud.com/">ALCOSAN</a></h4>
                                     <h4>Sewer Infrastructure network data and tracing services come from <a href="http://www.3riverswetweather.org">3 Rivers Wet Weather</a>. The same data and tracing tools used on this map are provided to municipalities through <a href="http://mds.3riverswetweather.org/">3RWW Sewer Atlas</a></h4>
                                     <!--<h4>Regionalization Data comes from <a href="http://www.alcosan.org">ALCOSAN</a> and <a href="http://www.aecom.com/co/offices/?qi=Pittsburgh">AECOM</a>.</h4>-->
                                     <h4>Basemap data is &copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a><span> and &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors</span>.</h4>
@@ -336,11 +343,9 @@
                         <h4>Your flush passes through pipes in these communities:</h4>
                     </div>
                     <div class="col-sm-7">
-                        <!--<ul id="munihoods" class="traceResults">-->
                         {{#each munihoods}}
                         <p class="munihood">{{name}}</p>
                         {{/each}}
-                        <!--</ul>-->
                     </div>
                 </div>
                 <!-- <div class="row">
@@ -369,36 +374,17 @@
                     <div class="legend-line-3">
                         <p><i class="fa fa-minus"></i> Municipal-owned infrastructure</p>
                     </div>
+                    <div class="legend-line-4">
+                        <p><i class="fa fa-minus"></i> The path your flush takes</p>
+                    </div>                    
                 </div>
             </div>
-            <!--<div class="row">-->
-            <!--  <div class="col-sm-12">-->
-            <!--    <button id="legendAboutButton" class="aboutButton btn btn-default btn-block" type="submit">Learn More</button>-->
-            <!--  </div>-->
-            <!--</div>-->
         </div>
     </script>
 
     {% endraw %}
 
     <div id="map"></div>
-
-    <!-- jQuery + Bootstrap -->
-    <!-- <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
-    <!-- Leaflet + Esri-Leaflet -->
-    <!-- <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script> -->
-    <!-- <script src="{{ url_for('static', filename='libs/Leaflet.Control.Custom/Leaflet.Control.Custom.js') }}"></script> -->
-    <!-- <script src="{{ url_for('static', filename='libs/esri-leaflet/dist/esri-leaflet.js') }}"></script>
-<script src="{{ url_for('static', filename='libs/esri-leaflet-gp/dist/esri-leaflet-gp.js') }}"></script> -->
-    <!-- supporting scripts -->
-    <!-- <script src="https://unpkg.com/terraformer@1.0.7"></script>
-<script src="https://unpkg.com/terraformer-arcgis-parser@1.0.5"></script> -->
-    <!--<script src="http://d3js.org/d3.v3.min.js" type="text/javascript"></script>-->
-    <!--<script src="https://npmcdn.com/@turf/turf/turf.min.js"></script>-->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script> -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.5/typeahead.bundle.min.js"></script> -->
-    <!-- application logic -->
     <script type="text/javascript" src="{{ url_for('static', filename='js/bundle.js') }}" defer></script>
 
 </body>

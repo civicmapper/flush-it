@@ -230,7 +230,7 @@ var messageControl = {
       "Wastewater is collected in a 120-foot deep wet well and pumped into the treatment process at a rate of 128,000 gallons per minute.",
       "ALCOSAN has awarded more than $22 million to local municipalities and authorities through its Green Revitalization of Our Waterways (GROW) program.",
       "1,828 Individuals took advantage of ALCOSAN’s Clean Water Assistance Fund in 2018."
-
+      
     ],
   },
   randomMsg: function(msgList) {
@@ -262,19 +262,21 @@ var messageControl = {
         width: '250px',
       }
     }).addTo(leafletMap);
+
     // moving about button
     L.control.custom({
-      id: '#'+this.aboutButton.id,
+      id: '#control-' + this.aboutButton.id,
       position:'bottomleft',
       content: this.aboutButton.text
     }).addTo(leafletMap);
 
     // legend button
     L.control.custom({
-      id: '#' + this.legendButton.id,
+      id: '#control-' + this.legendButton.id,
       position: 'bottomleft',
       content: this.legendButton.text
     }).addTo(leafletMap);
+
     // for the legend popover
     // ...get the template from the page
     var legendTemplate = $("#handlebars-legend").html();
@@ -309,11 +311,11 @@ var messageControl = {
   },
   legendButton: {
     id: 'legendButton',
-    text: '<button id="legendButton" type="button" class="btn btn-default" data-toggle="popover">Legend</button>',
+    text: '<button id="legendButton" type="button" class="btn btn-default btn-block" data-toggle="popover">Legend</button>',
   },
   aboutButton:{
     id: 'aboutButton',
-    text: '<button id="aboutButton" type="button" class="aboutButton btn btn-default btn-lg"><span>About</span></button>'
+    text: '<button id="aboutButton" type="button" class="btn btn-default btn-block">About</button>'
   },
   resultsButton: {
     id: 'resultsButton',
@@ -335,7 +337,7 @@ var messageControl = {
     $('.resultsButtons').fadeIn();
 
     //Hiding Title block per client request
-    $('#titleBlock').fadeOut(200);
+    // $('#titleBlock').fadeOut(200); 
     // populate content for the results modal, and show the modal
     // ...get the template from the page
     var resultsTemplate = $("#handlebars-results").html();
@@ -363,6 +365,7 @@ var messageControl = {
     //		});
   },
   onAboutModalOpen: function() {
+    console.log('onAboutModalOpen')
     if (traceSummary.length === 0) {
       $('.addressSearch').fadeOut();
     }
@@ -428,9 +431,9 @@ var traceResultStyle = {
   fillOpacity: 0.7,
   radius: 8,
   stroke: true,
-  color: "#00FFFF",
+  color: "#bb0014",
   weight: 12,
-  opacity: 0.75
+  opacity: 0.6
 };
 
 // basemap layers
@@ -1100,9 +1103,11 @@ $(document).ready(function() {
 
 
   // modal buttons
-  $("#aboutButton").click(function() {
+  // $("#aboutButton").click(function() {
+  $(document).on("click", '#aboutButton', function() {
+    console.log('$("#aboutButton").click')
     messageControl.onAboutModalOpen();
-    $(".navbar-collapse.in").collapse("hide");
+    // $(".navbar-collapse.in").collapse("hide");
     return false;
   });
 

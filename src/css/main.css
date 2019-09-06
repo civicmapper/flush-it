@@ -36,7 +36,7 @@ body,
     padding: 10px;
     border-radius: 5px !important;
     background-color: rgba(255, 255, 255, 0.85);
-    /* box-shadow: 5px 5px 10px rgba(25, 25, 25, 0.25); */
+    box-shadow: 5px 5px 10px rgba(25, 25, 25, 0.25);
     color: rgb(50, 50, 50);
 }
 
@@ -117,7 +117,6 @@ body,
 }
 
 .traceResults {
-    /*color: #B0BB01;*/
     color: #bb0014;
 }
 
@@ -197,7 +196,9 @@ a {
 
 .leaflet-control-zoom,
 #aboutButton,
-#legendButton #resetButton,
+#legendButton,
+#resetButton,
+#resultsButton,
 .twitter-typeahead {
     box-shadow: 5px 5px 10px rgba(25, 25, 25, 0.25);
 }
@@ -277,6 +278,10 @@ input.searchbox {
 }
 
 .legend-line-3 {
+    color: #498cbc !important;
+}
+
+.legend-line-4 {
     color: #bb0014 !important;
 }
 
@@ -294,7 +299,8 @@ input.searchbox {
 .arrow {
     color: rgba(25, 25, 25, 0.85) !important;
 }
-.navbar-inverse .navbar-toggle{
+.navbar-inverse, 
+.navbar-toggle{
     background-color:#333;
 }
 #resultsModalContent h2.modal-title{

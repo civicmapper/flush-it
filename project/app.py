@@ -75,6 +75,7 @@ def get_agol_token():
 # pages (rendered from templates)
 ## map view
 @app.route('/')
+@app.route('/trp')
 def main():
     return render_template('pages/index.html')
 
