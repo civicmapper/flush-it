@@ -74,10 +74,13 @@ def get_agol_token():
 # ---------------------------------------------------
 # pages (rendered from templates)
 ## map view
-@app.route('/')
 @app.route('/trp')
 def main():
     return render_template('pages/index.html')
+
+@app.route('/')
+def legacy():
+    return render_template('pages/@legacy/legacy.html')
 
 @app.route('/generateToken/')
 def token():
