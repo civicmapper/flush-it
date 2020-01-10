@@ -490,6 +490,17 @@
     <!-- application logic -->
     <script type="text/javascript" src="{{ url_for('static', filename='@legacy/js/bundle.js') }}" defer></script>
 
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-81005076-5"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-81005076-5');
+    </script>
+
+
 </body>
 
 </html>
