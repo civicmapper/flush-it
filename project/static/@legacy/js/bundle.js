@@ -58074,8 +58074,8 @@ var basemap = L.tileLayer(
   "https://api.mapbox.com/styles/v1/civicmapper/cjzd3d5h32qks1cla4vkhfdvq/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2l0bjMyMGN2MDJ3MTJ5bjBxajNwamw2cyJ9.K-5Q3F2q-8g9k-eIRlV9Yw", {
     maxZoom: 20,
     zIndex: 1,
-    // attribution: 'Basemap &copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a><span> and &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a></span>'
-    attribution: ''
+    attribution: '', // added through modal
+    bounds: L.latLngBounds(L.latLng(40.9404, -80.5133), L.latLng(40.05074, -79.4201))
   });
 /**
  * reference layer (custom mapbox tileset with labels only - we put this over
@@ -58086,9 +58086,9 @@ var labels = L.tileLayer(
         pane: 'labels',
         maxZoom: 20,
         zIndex: 1,
-        opacity: 0.75,
-        //attribution: 'Basemap Labels &copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a><span> and &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a></span>'
-        attribution: ''
+        opacity: 0.9,
+        attribution: '', // added through modal
+        bounds: L.latLngBounds(L.latLng(40.9404, -80.5133), L.latLng(40.05074, -79.4201))
     });
 
 // reference layers
