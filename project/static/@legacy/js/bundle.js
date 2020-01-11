@@ -57711,32 +57711,32 @@ var atlas = {
             return trwwStructures;
         }
     },
-    rsi_tilelayer: {
-        url: 'https://arcgis4.roktech.net/arcgis/rest/services/rsi/trww_flush_it/MapServer',
-        token: { "token": "", "expires": 0 },
-        layer: null,
-        /**
-         * function to init the trww Pipes layer, which requires a token first
-         */
-        init: function() {
-            console.log("Initializing tile service...");
-            var trwwPipes = esri.tiledMapLayer({
-                url: this.url,
-                token: this.token.token,
-                minZoom: 10,
-                maxZoom: 19,
-                zIndex: 5,
-                opacity: 0.75,
-                attribution: '',
-            });
-            // console.log(trwwPipes.metadata(function(error, metadata){
-            //     console.log(error, metadata);
-            //   })
-            // );
-            this.layer = trwwPipes;
-            return trwwPipes;
-        }
-    },
+    // rsi_tilelayer: {
+    //     url: 'https://arcgis4.roktech.net/arcgis/rest/services/rsi/trww_flush_it/MapServer',
+    //     token: { "token": "", "expires": 0 },
+    //     layer: null,
+    //     /**
+    //      * function to init the trww Pipes layer, which requires a token first
+    //      */
+    //     init: function() {
+    //         console.log("Initializing tile service...");
+    //         var trwwPipes = esri.tiledMapLayer({
+    //             url: this.url,
+    //             token: this.token.token,
+    //             minZoom: 10,
+    //             maxZoom: 19,
+    //             zIndex: 5,
+    //             opacity: 0.75,
+    //             attribution: '',
+    //         });
+    //         // console.log(trwwPipes.metadata(function(error, metadata){
+    //         //     console.log(error, metadata);
+    //         //   })
+    //         // );
+    //         this.layer = trwwPipes;
+    //         return trwwPipes;
+    //     }
+    // },
     rsi_networktrace: {
         url: 'https://arcgis4.roktech.net/arcgis/rest/services/rsi/NetworkTrace/GPServer/NetworkTrace/',
         token: { "token": "", "expires": 0 },
@@ -57777,12 +57777,12 @@ var atlas = {
                 console.log("Token Acquired", response);
                 atlas.rsi_featurelayer.token = response.rsi_token;
                 atlas.rsi_networktrace.token = response.rsi_token;
-                atlas.rsi_tilelayer.token = response.rsi_token;
+                // atlas.rsi_tilelayer.token = response.rsi_token;
 
                 console.log("Initializing services....");
                 atlas.rsi_featurelayer.init();
                 atlas.rsi_networktrace.init();
-                atlas.rsi_tilelayer.init();
+                // atlas.rsi_tilelayer.init();
 
                 console.log("3RWW Atlas services are ready to go!");
 
@@ -58067,29 +58067,37 @@ var traceResultStyle = {
 
 // basemap layers
 
-/**
- * base map (custom mapbox tileset with no labels!)
- */
 var basemap = L.tileLayer(
-  "https://api.mapbox.com/styles/v1/civicmapper/cjzd3d5h32qks1cla4vkhfdvq/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2l0bjMyMGN2MDJ3MTJ5bjBxajNwamw2cyJ9.K-5Q3F2q-8g9k-eIRlV9Yw", {
+  "https://api.mapbox.com/styles/v1/civicmapper/ck5a4a9k628ci1co6jrxow057/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2l0bjMyMGN2MDJ3MTJ5bjBxajNwamw2cyJ9.K-5Q3F2q-8g9k-eIRlV9Yw", {
     maxZoom: 20,
     zIndex: 1,
     attribution: '', // added through modal
     bounds: L.latLngBounds(L.latLng(40.9404, -80.5133), L.latLng(40.05074, -79.4201))
   });
+
+/**
+ * base map (custom mapbox tileset with no labels!)
+ */
+// var basemap = L.tileLayer(
+//   "https://api.mapbox.com/styles/v1/civicmapper/cjzd3d5h32qks1cla4vkhfdvq/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2l0bjMyMGN2MDJ3MTJ5bjBxajNwamw2cyJ9.K-5Q3F2q-8g9k-eIRlV9Yw", {
+//     maxZoom: 20,
+//     zIndex: 1,
+//     attribution: '', // added through modal
+//     bounds: L.latLngBounds(L.latLng(40.9404, -80.5133), L.latLng(40.05074, -79.4201))
+//   });
 /**
  * reference layer (custom mapbox tileset with labels only - we put this over
  * top of all other layers)
  */
-var labels = L.tileLayer(
-    "https://api.mapbox.com/styles/v1/civicmapper/cjzd3dp1l2qv01cq2xs7vo1r1/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2l0bjMyMGN2MDJ3MTJ5bjBxajNwamw2cyJ9.K-5Q3F2q-8g9k-eIRlV9Yw", {
-        pane: 'labels',
-        maxZoom: 20,
-        zIndex: 1,
-        opacity: 0.9,
-        attribution: '', // added through modal
-        bounds: L.latLngBounds(L.latLng(40.9404, -80.5133), L.latLng(40.05074, -79.4201))
-    });
+// var labels = L.tileLayer(
+//     "https://api.mapbox.com/styles/v1/civicmapper/cjzd3dp1l2qv01cq2xs7vo1r1/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2l0bjMyMGN2MDJ3MTJ5bjBxajNwamw2cyJ9.K-5Q3F2q-8g9k-eIRlV9Yw", {
+//         pane: 'labels',
+//         maxZoom: 20,
+//         zIndex: 1,
+//         opacity: 0.9,
+//         attribution: '', // added through modal
+//         bounds: L.latLngBounds(L.latLng(40.9404, -80.5133), L.latLng(40.05074, -79.4201))
+//     });
 
 // reference layers
 
@@ -58230,7 +58238,7 @@ function appInit() {
     muniLayer.addTo(map);
 
     // Sewer Atlas
-    atlas.rsi_tilelayer.layer.addTo(map);
+    // atlas.rsi_tilelayer.layer.addTo(map);
     //atlas.rsi_featurelayer.layer.addTo(map);
 
     // Trace Search, Source, and Results
@@ -58241,8 +58249,8 @@ function appInit() {
     trwwTraceDestin.addTo(map);
 
     // lastly...create a new map pane, then add the labels tile layer to it.
-    map.createPane("labels");
-    labels.addTo(map);
+    // map.createPane("labels");
+    // labels.addTo(map);
 
 
     // set map view to the service area layer extents
