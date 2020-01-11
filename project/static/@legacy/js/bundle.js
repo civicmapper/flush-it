@@ -57671,7 +57671,7 @@ require("typeahead.js/dist/typeahead.bundle.js");
  * GIS, geoprocessing, and services config
  */
 
-var mapbox_key = 'pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2pjY2d2N2dhMDBraDMzbXRhOXpiZXJsayJ9.8JfoANBxEIrySG5avX4PWQ';
+var mapbox_key = 'pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2p6ZDNvNWZwMDYzMzNsbGl2NzVvMDYxMiJ9.CYmF6asaUR8R1zqT8UFBPA';
 
 $('#msg-tracing').hide();
 $('#msg-error').hide();
@@ -57859,7 +57859,22 @@ var messageControl = {
             "It takes 9-12 hours for flow to travel through treatment processes at the ALCOSAN plant.",
             "ALOCSAN recycles approximately 3 billion gallons of our own effluent water annually.",
             "ALCOSAN's monthly electric bill averages $450,000.",
-            "The ALCOSAN plant sits on 59 acres."
+            "ALCOSAN’s 59-acre treatment plan is one of the largest wastewater treatment facilities in the Ohio River Valley",
+            "ALCOSAN can process up to 250 million gallons of wastewater a day (enough to fill 5 million bathtubs!)",
+            "On average, ALCOSAN treats about 216 million gallons of wastewater a day",
+            "ALCOSAN serves 83 municipalities in Allegheny County, including the City of Pittsburgh",
+            "ALCOSAN employs approximately 416 employees",
+            "ALCOSAN manages over approximately 90 miles of sewers",
+            "More than one million people benefit from ALCOSAN’s wastewater treatment services",
+            "ALCOSAN was created in 1946 under the Pennsylvania Municipal Authorities Act and began treating wastewater in 1959",
+            "ALCOSAN processed 78.8 billion gallons of wastewater and stormwater in 2018",
+            "ALCOSAN removed 77.7 million pounds of solid waste in 2018",
+            "ALCOSAN recycled 39.4 tons of scrap metal in 2018",
+            "ALCOSAN employees participated in nearly 100 community events in 2018",
+            "More than 2,000 people attend ALCOSAN’s annual Open House in September",
+            "Wastewater is collected in a 120-foot deep wet well and pumped into the treatment process at a rate of 128,000 gallons per minute.",
+            "ALCOSAN has awarded more than $22 million to local municipalities and authorities through its Green Revitalization of Our Waterways (GROW) program.",
+            "1,828 Individuals took advantage of ALCOSAN’s Clean Water Assistance Fund in 2018."            
         ],
     },
     randomMsg: function(msgList) {
@@ -58055,19 +58070,19 @@ var traceResultStyle = {
 /**
  * base map (custom mapbox tileset with no labels!)
  */
-var basemap = L.tileLayer( //"https://api.mapbox.com/styles/v1/cbgthor624/cipq73zea0010brnl8jlui4dz/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2JndGhvcjYyNCIsImEiOiJzZ2NaNmo4In0.hbXzZPAvaCO5GLu45bptTw", {
-    "https://api.mapbox.com/styles/v1/cbgthor624/cj7m885wh91zm2rn3j6g8et8q/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2JndGhvcjYyNCIsImEiOiJjajdtOGk0ZDIydThuMnducDNwZmU5NGJkIn0.ZISQHLPj0Yt1AudOgApIww", {
-        maxZoom: 20,
-        zIndex: 1,
-        // attribution: 'Basemap &copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a><span> and &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a></span>'
-        attribution: ''
-    });
+var basemap = L.tileLayer(
+  "https://api.mapbox.com/styles/v1/civicmapper/cjzd3d5h32qks1cla4vkhfdvq/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2l0bjMyMGN2MDJ3MTJ5bjBxajNwamw2cyJ9.K-5Q3F2q-8g9k-eIRlV9Yw", {
+    maxZoom: 20,
+    zIndex: 1,
+    // attribution: 'Basemap &copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a><span> and &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a></span>'
+    attribution: ''
+  });
 /**
  * reference layer (custom mapbox tileset with labels only - we put this over
  * top of all other layers)
  */
 var labels = L.tileLayer(
-    "https://api.mapbox.com/styles/v1/cbgthor624/cj7m84goh91lq2sofjiqfbby7/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2JndGhvcjYyNCIsImEiOiJjajdtOGk0ZDIydThuMnducDNwZmU5NGJkIn0.ZISQHLPj0Yt1AudOgApIww", {
+    "https://api.mapbox.com/styles/v1/civicmapper/cjzd3dp1l2qv01cq2xs7vo1r1/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2l0bjMyMGN2MDJ3MTJ5bjBxajNwamw2cyJ9.K-5Q3F2q-8g9k-eIRlV9Yw", {
         pane: 'labels',
         maxZoom: 20,
         zIndex: 1,
