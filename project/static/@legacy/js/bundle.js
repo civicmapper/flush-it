@@ -58353,7 +58353,7 @@ function appInit() {
     function traceError(error) {
         var msg = "Trace: " + error.message + "(code: " + error.code + ")";
         console.log(msg);
-        messageControl.onError("<p><i class='fa fa-frown-o'></i> The pipes are full, so we weren't able to handle your flush. You might need to wait a minute and try again (Jiggle the handle, maybe? Thankfully this is just a web app and not the real thing.)" //<br>' + msg + '<p>');
+        messageControl.onError("<p><i class='fa fa-frown-o'></i> The pipes are full, so we weren't able to handle your flush. You might need to wait a minute and try again (Jiggle the handle, maybe? Thankfully this is just a web app and not the real thing.)") //<br>' + msg + '<p>');
     }
 
     /**
