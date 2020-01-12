@@ -57859,22 +57859,22 @@ var messageControl = {
             "It takes 9-12 hours for flow to travel through treatment processes at the ALCOSAN plant.",
             "ALOCSAN recycles approximately 3 billion gallons of our own effluent water annually.",
             "ALCOSAN's monthly electric bill averages $450,000.",
-            "ALCOSAN’s 59-acre treatment plan is one of the largest wastewater treatment facilities in the Ohio River Valley",
-            "ALCOSAN can process up to 250 million gallons of wastewater a day (enough to fill 5 million bathtubs!)",
-            "On average, ALCOSAN treats about 216 million gallons of wastewater a day",
-            "ALCOSAN serves 83 municipalities in Allegheny County, including the City of Pittsburgh",
-            "ALCOSAN employs approximately 416 employees",
-            "ALCOSAN manages over approximately 90 miles of sewers",
-            "More than one million people benefit from ALCOSAN’s wastewater treatment services",
-            "ALCOSAN was created in 1946 under the Pennsylvania Municipal Authorities Act and began treating wastewater in 1959",
-            "ALCOSAN processed 78.8 billion gallons of wastewater and stormwater in 2018",
-            "ALCOSAN removed 77.7 million pounds of solid waste in 2018",
-            "ALCOSAN recycled 39.4 tons of scrap metal in 2018",
-            "ALCOSAN employees participated in nearly 100 community events in 2018",
-            "More than 2,000 people attend ALCOSAN’s annual Open House in September",
+            "ALCOSAN’s 59-acre treatment plant is one of the largest wastewater treatment facilities in the Ohio River Valley.",
+            "ALCOSAN can process up to 250 million gallons of wastewater a day--enough to fill 5 million bathtubs!",
+            "On average, ALCOSAN treats about 216 million gallons of wastewater a day.",
+            "ALCOSAN serves 83 municipalities in Allegheny County, including the City of Pittsburgh.",
+            "ALCOSAN employs approximately 416 employees.",
+            "ALCOSAN manages over approximately 90 miles of sewers.",
+            "More than one million people benefit from ALCOSAN’s wastewater treatment services.",
+            "ALCOSAN was created in 1946 under the Pennsylvania Municipal Authorities Act and began treating wastewater in 1959.",
+            "ALCOSAN processed 78.8 billion gallons of wastewater and stormwater in 201.8",
+            "ALCOSAN removed 77.7 million pounds of solid waste in 2018.",
+            "ALCOSAN recycled 39.4 tons of scrap metal in 2018.",
+            "ALCOSAN employees participated in nearly 100 community events in 2018.",
+            "More than 2,000 people attend ALCOSAN’s annual Open House in September.",
             "Wastewater is collected in a 120-foot deep wet well and pumped into the treatment process at a rate of 128,000 gallons per minute.",
             "ALCOSAN has awarded more than $22 million to local municipalities and authorities through its Green Revitalization of Our Waterways (GROW) program.",
-            "1,828 Individuals took advantage of ALCOSAN’s Clean Water Assistance Fund in 2018."            
+            "1,828 Individuals took advantage of ALCOSAN’s Clean Water Assistance Fund in 2018."
         ],
     },
     randomMsg: function(msgList) {
@@ -58353,7 +58353,7 @@ function appInit() {
     function traceError(error) {
         var msg = "Trace: " + error.message + "(code: " + error.code + ")";
         console.log(msg);
-        messageControl.onError('<p><i class="fa fa-frown-o"></i> There was an error with the trace:<br>' + msg + '<p>');
+        messageControl.onError("<p><i class='fa fa-frown-o'></i> The pipes are full, so we weren't able to handle your flush. You might need to wait a minute and try again (Jiggle the handle, maybe? Thankfully this is just a web app and not the real thing.)" //<br>' + msg + '<p>');
     }
 
     /**
