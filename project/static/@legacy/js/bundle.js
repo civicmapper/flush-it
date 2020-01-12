@@ -57667,6 +57667,8 @@ var Handlebars = require("handlebars");
 // var Bloodhound = require("corejs-typeahead/dist/bloodhound.js");
 require("typeahead.js/dist/typeahead.bundle.js");
 
+function roundNumber (value, decimals) { return Number(Math.round(value+'e'+decimals)+'e-'+decimals) }
+
 /** -------------------------------------------------------------------------
  * GIS, geoprocessing, and services config
  */
@@ -57753,7 +57755,10 @@ var atlas = {
             }).on("requesterror", function(error) {
                 // if there is an error authenticating, we'll find it here:
                 console.log(error);
-                traceError(error);
+                var msg = "Trace: " + error.message + "(code: " + error.code + ")";
+                console.log(msg);
+                messageControl.onError("<p><i class='fa fa-frown-o'></i> The pipes are full, so we weren't able to handle your flush. You might need to wait a minute and try again (Jiggle the handle, maybe? Thankfully this is just a web app and not the real thing.)")
+                // traceError(error);
             }).on("requestsuccess", function(success) {
                 if (success.response.jobStatus) {
                     console.log("trace status:", success.response.jobStatus, success.response.jobId);
@@ -58068,7 +58073,7 @@ var traceResultStyle = {
 // basemap layers
 
 var basemap = L.tileLayer(
-  "https://api.mapbox.com/styles/v1/civicmapper/ck5a4a9k628ci1co6jrxow057/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2l0bjMyMGN2MDJ3MTJ5bjBxajNwamw2cyJ9.K-5Q3F2q-8g9k-eIRlV9Yw", {
+  "https://api.mapbox.com/styles/v1/civicmapper/ck5a4a9k628ci1co6jrxow057/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2l0bjMyMGN2MDJ3MTJ5bjBxajNwamw2cyJ9.K-5Q3F2q-8g9k-eIRlV9Yw", {
     maxZoom: 20,
     zIndex: 1,
     attribution: '', // added through modal
@@ -58157,7 +58162,8 @@ var addressPoint = L.geoJSON(null, {
     },
     onEachFeature: function(feature, layer) {
         //layer.bindPopup("<h4>" + feature.properties.name + "</h4><p>" + feature.geometry.coordinates[0] + ", " + feature.geometry.coordinates[1] + '</p><p><button id="networkTrace" type="button" class="btn btn-default btn-lg btn-block">Flush! <i class="fa fa-caret-square-o-down"></i></button>').openPopup();
-        layer.bindPopup("<h4>" + feature.properties.name + "</h4><p>" + feature.geometry.coordinates[0] + ", " + feature.geometry.coordinates[1] + '</p>').openPopup();
+
+        layer.bindPopup("<h4>" + feature.properties.name + "</h4><p>" + roundNumber(feature.geometry.coordinates[0], 5) + ", " + roundNumber(feature.geometry.coordinates[1], 5) + '</p>').openPopup();
     }
 });
 /**
@@ -58353,7 +58359,7 @@ function appInit() {
     function traceError(error) {
         var msg = "Trace: " + error.message + "(code: " + error.code + ")";
         console.log(msg);
-        messageControl.onError("<p><i class='fa fa-frown-o'></i> The pipes are full, so we weren't able to handle your flush. You might need to wait a minute and try again (Jiggle the handle, maybe? Thankfully this is just a web app and not the real thing.)") //<br>' + msg + '<p>');
+        messageControl.onError("<p><i class='fa fa-frown-o'></i> The pipes are full, so we weren't able to handle your flush. You might need to wait a minute and try again (Jiggle the handle, maybe? Thankfully this is just a web app and not the real thing.)")
     }
 
     /**
@@ -58442,7 +58448,10 @@ function appInit() {
                 console.log("Trace completed.");
                 if (error) {
                     console.log("There was an error: ", error);
-                    traceError(error);
+                    var msg = "Trace: " + error.message + "(code: " + error.code + ")";
+                    console.log(msg);
+                    messageControl.onError("<p><i class='fa fa-frown-o'></i> The pipes are full, so we weren't able to handle your flush. You might need to wait a minute and try again (Jiggle the handle, maybe? Thankfully this is just a web app and not the real thing.)")                    
+                    // traceError(error);
                 } else {
                     /**
                      * Derive a simplified trace from the GP results for display
@@ -58702,8 +58711,7 @@ function appInit() {
                     }
                 }]
             })
-            //.bindPopup("<h4>" + datum.name + "</h4><p>" + datum.lng + ", " + datum.lat + '</p><p><button id="networkTrace" type="button" class="btn btn-default btn-lg btn-block">Flush! <i class="fa fa-caret-square-o-down"></i></button>')
-            .bindPopup("<h4>" + datum.name + "</h4><p>" + datum.lng + ", " + datum.lat + '</p>')
+            .bindPopup("<h4>" + datum.name + "</h4><p>" + roundNumber(datum.lng, 5) + ", " + roundNumber(datum.lat, 5) + '</p>')
             .openPopup();
         // from that point, automatically find the nearest sewer structure
         findNearestStructure(latlng);
