@@ -18,7 +18,7 @@
         "babel-core": "^6.26.3",
         "babelify": "^8.0.0",
         "bloodhound-js": "^1.2.3",
-        "bootstrap": "^3.3.7",
+        "bootstrap": "^3.4.1",
         "browser-sync": "^2.24.7",
         "browserify": "^15.2.0",
         "child_process": "^1.0.2",
