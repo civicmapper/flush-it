@@ -57671,7 +57671,7 @@ require("typeahead.js/dist/typeahead.bundle.js");
  * GIS, geoprocessing, and services config
  */
 
-var mapbox_key = 'pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2p6ZDNvNWZwMDYzMzNsbGl2NzVvMDYxMiJ9.CYmF6asaUR8R1zqT8UFBPA';
+var mapbox_key = 'pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2pjY2d2N2dhMDBraDMzbXRhOXpiZXJsayJ9.8JfoANBxEIrySG5avX4PWQ';
 
 $('#msg-tracing').hide();
 $('#msg-error').hide();
@@ -58082,7 +58082,7 @@ var traceResultStyle = {
  * base map (custom mapbox tileset with no labels!)
  */
 var basemap = L.tileLayer(
-  "https://api.mapbox.com/styles/v1/civicmapper/cjzunfnvt0dzc1cleg4ewogw4/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2p6ZDNvNWZwMDYzMzNsbGl2NzVvMDYxMiJ9.CYmF6asaUR8R1zqT8UFBPA", {
+  "https://api.mapbox.com/styles/v1/civicmapper/cjzunfnvt0dzc1cleg4ewogw4/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2pjY2d2N2dhMDBraDMzbXRhOXpiZXJsayJ9.8JfoANBxEIrySG5avX4PWQ", {
   maxZoom: 20,
   zIndex: 1,
   // attribution: 'Basemap &copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a><span> and &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a></span>'

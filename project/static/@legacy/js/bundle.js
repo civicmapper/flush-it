@@ -58068,36 +58068,12 @@ var traceResultStyle = {
 // basemap layers
 
 var basemap = L.tileLayer(
-  "https://api.mapbox.com/styles/v1/civicmapper/ck5a4a9k628ci1co6jrxow057/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2l0bjMyMGN2MDJ3MTJ5bjBxajNwamw2cyJ9.K-5Q3F2q-8g9k-eIRlV9Yw", {
+  "https://api.mapbox.com/styles/v1/civicmapper/ck5a4a9k628ci1co6jrxow057/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2p6ZDNvNWZwMDYzMzNsbGl2NzVvMDYxMiJ9.CYmF6asaUR8R1zqT8UFBPA", {
     maxZoom: 20,
     zIndex: 1,
     attribution: '', // added through modal
     bounds: L.latLngBounds(L.latLng(40.9404, -80.5133), L.latLng(40.05074, -79.4201))
   });
-
-/**
- * base map (custom mapbox tileset with no labels!)
- */
-// var basemap = L.tileLayer(
-//   "https://api.mapbox.com/styles/v1/civicmapper/cjzd3d5h32qks1cla4vkhfdvq/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2l0bjMyMGN2MDJ3MTJ5bjBxajNwamw2cyJ9.K-5Q3F2q-8g9k-eIRlV9Yw", {
-//     maxZoom: 20,
-//     zIndex: 1,
-//     attribution: '', // added through modal
-//     bounds: L.latLngBounds(L.latLng(40.9404, -80.5133), L.latLng(40.05074, -79.4201))
-//   });
-/**
- * reference layer (custom mapbox tileset with labels only - we put this over
- * top of all other layers)
- */
-// var labels = L.tileLayer(
-//     "https://api.mapbox.com/styles/v1/civicmapper/cjzd3dp1l2qv01cq2xs7vo1r1/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2l0bjMyMGN2MDJ3MTJ5bjBxajNwamw2cyJ9.K-5Q3F2q-8g9k-eIRlV9Yw", {
-//         pane: 'labels',
-//         maxZoom: 20,
-//         zIndex: 1,
-//         opacity: 0.9,
-//         attribution: '', // added through modal
-//         bounds: L.latLngBounds(L.latLng(40.9404, -80.5133), L.latLng(40.05074, -79.4201))
-//     });
 
 // reference layers
 
@@ -58564,7 +58540,7 @@ function appInit() {
         remote: {
             // rateLimitWait: 1000,
             // wildcard: '%QUERY',
-            url: 'https://api.mapbox.com/geocoding/v5/mapbox.places/%QUERY.json?bbox=-80.2863,40.2984,-79.6814,40.5910&access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2pjY2d2N2dhMDBraDMzbXRhOXpiZXJsayJ9.8JfoANBxEIrySG5avX4PWQ',
+            url: 'https://api.mapbox.com/geocoding/v5/mapbox.places/%QUERY.json?bbox=-80.2863,40.2984,-79.6814,40.5910&access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2p6ZDNvNWZwMDYzMzNsbGl2NzVvMDYxMiJ9.CYmF6asaUR8R1zqT8UFBPA',
             // prepare: function(query, settings) {
             //     console.log(settings);
             //     // $("#searchicon").removeClass("fa-search").addClass("fa-refresh fa-spin");
