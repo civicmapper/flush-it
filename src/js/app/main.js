@@ -47,7 +47,7 @@ function authCallback(thing) {
  */
 var atlas = {
   rsi_featurelayer: {
-    url: 'https://arcgis4.roktech.net/arcgis/rest/services/rsi/rsi_featurelayer/MapServer',
+    url: 'https://arcgis5.roktech.net/arcgis/rest/services/rsi/rsi_featurelayer/MapServer',
     token: { "token": "", "expires": 0 },
     layers: [0, 2, 3, 4, 5],
     //layerDefs: {0:"LBS_TAG='LBs_1319249'"},
@@ -72,7 +72,7 @@ var atlas = {
     }
   },
   rsi_tilelayer: {
-    url: 'https://arcgis4.roktech.net/arcgis/rest/services/rsi/trww_flush_it/MapServer',
+    url: 'https://arcgis5.roktech.net/arcgis/rest/services/rsi/trww_flush_it/MapServer',
     token: { "token": "", "expires": 0 },
     layer: null,
     /**
@@ -98,7 +98,7 @@ var atlas = {
     }
   },
   rsi_networktrace: {
-    url: 'https://arcgis4.roktech.net/arcgis/rest/services/rsi/NetworkTrace/GPServer/NetworkTrace/',
+    url: 'https://arcgis5.roktech.net/arcgis/rest/services/rsi/NetworkTrace/GPServer/NetworkTrace/',
     token: { "token": "", "expires": 0 },
     service: null,
     /**
