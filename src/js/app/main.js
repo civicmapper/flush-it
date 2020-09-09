@@ -151,7 +151,7 @@ var atlas = {
 
       },
       error: function(error) {
-        var msg = "There was an error acquiring the Sewer Atlas token and initializing Sewer Atlas data and analysis services";
+        var msg = "Uh-oh! There was an error acquiring the Sewer Atlas token and initializing the 3RWW Sewer Atlas data and analysis services that power this map. Waiting a minute and then refreshing your browser should fix this issue.";
         console.log(msg, error);
         messageControl.onError(msg);
       }
@@ -230,7 +230,6 @@ var messageControl = {
       "Wastewater is collected in a 120-foot deep wet well and pumped into the treatment process at a rate of 128,000 gallons per minute.",
       "ALCOSAN has awarded more than $22 million to local municipalities and authorities through its Green Revitalization of Our Waterways (GROW) program.",
       "1,828 Individuals took advantage of ALCOSAN’s Clean Water Assistance Fund in 2018."
-      
     ],
   },
   randomMsg: function(msgList) {

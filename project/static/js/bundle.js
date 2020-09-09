@@ -57791,7 +57791,7 @@ var atlas = {
 
       },
       error: function(error) {
-        var msg = "There was an error acquiring the Sewer Atlas token and initializing Sewer Atlas data and analysis services";
+        var msg = "Uh-oh! There was an error acquiring the Sewer Atlas token and initializing the 3RWW Sewer Atlas data and analysis services that power this map. Waiting a minute and then refreshing your browser should fix this issue.";
         console.log(msg, error);
         messageControl.onError(msg);
       }
