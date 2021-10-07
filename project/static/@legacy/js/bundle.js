@@ -57689,7 +57689,7 @@ function authCallback(thing) {
  */
 var atlas = {
     rsi_featurelayer: {
-        url: 'https://arcgis5.roktech.net/arcgis/rest/services/rsi/rsi_featurelayer/MapServer',
+        url: 'https://gis.3riverswetweather.org/arcgis/rest/services/rsi/rsi_featurelayer/MapServer',
         token: { "token": "", "expires": 0 },
         layers: [0, 2, 3, 4, 5],
         //layerDefs: {0:"LBS_TAG='LBs_1319249'"},
@@ -57714,7 +57714,7 @@ var atlas = {
         }
     },
     // rsi_tilelayer: {
-    //     url: 'https://arcgis5.roktech.net/arcgis/rest/services/rsi/trww_flush_it/MapServer',
+    //     url: 'https://gis.3riverswetweather.org/arcgis/rest/services/rsi/trww_flush_it/MapServer',
     //     token: { "token": "", "expires": 0 },
     //     layer: null,
     //     /**
@@ -57740,7 +57740,7 @@ var atlas = {
     //     }
     // },
     rsi_networktrace: {
-        url: 'https://arcgis5.roktech.net/arcgis/rest/services/rsi/NetworkTrace/GPServer/NetworkTrace/',
+        url: 'https://gis.3riverswetweather.org/arcgis/rest/services/rsi/NetworkTrace/GPServer/NetworkTrace/',
         token: { "token": "", "expires": 0 },
         service: null,
         /**
