@@ -27,7 +27,7 @@
         "esri-leaflet-gp": "^2.0.3",
         "font-awesome": "^4.7.0",
         "geojson-dissolve": "^3.1.0",
-        "gulp": "^3.9.1",
+        "gulp": "^4.0.2",
         "gulp-clean-css": "^3.10.0",
         "gulp-concat": "^2.6.1",
         "gulp-sourcemaps": "^2.6.4",
