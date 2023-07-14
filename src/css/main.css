@@ -57,7 +57,8 @@ body,
 }
 
 .credit-logos {
-    width: 150px;
+    max-width: 150px;
+    max-height: 90px;
     padding-right: 5px;
     padding-left: 5px;
     /*width:100%;*/

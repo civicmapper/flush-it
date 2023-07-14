@@ -57671,7 +57671,7 @@ require("typeahead.js/dist/typeahead.bundle.js");
  * GIS, geoprocessing, and services config
  */
 
-var mapbox_key = 'pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2p6ZDNvNWZwMDYzMzNsbGl2NzVvMDYxMiJ9.CYmF6asaUR8R1zqT8UFBPA';
+var mapbox_key = 'pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2pjY2d2N2dhMDBraDMzbXRhOXpiZXJsayJ9.8JfoANBxEIrySG5avX4PWQ';
 
 $('#msg-tracing').hide();
 $('#msg-error').hide();
@@ -57687,7 +57687,7 @@ function authCallback(thing) {
  */
 var atlas = {
   rsi_featurelayer: {
-    url: 'https://arcgis4.roktech.net/arcgis/rest/services/rsi/rsi_featurelayer/MapServer',
+    url: 'https://gis.3riverswetweather.org/arcgis/rest/services/rsi/rsi_featurelayer/MapServer',
     token: { "token": "", "expires": 0 },
     layers: [0, 2, 3, 4, 5],
     //layerDefs: {0:"LBS_TAG='LBs_1319249'"},
@@ -57712,7 +57712,7 @@ var atlas = {
     }
   },
   rsi_tilelayer: {
-    url: 'https://arcgis4.roktech.net/arcgis/rest/services/rsi/trww_flush_it/MapServer',
+    url: 'https://gis.3riverswetweather.org/arcgis/rest/services/rsi/trww_flush_it/MapServer',
     token: { "token": "", "expires": 0 },
     layer: null,
     /**
@@ -57738,7 +57738,7 @@ var atlas = {
     }
   },
   rsi_networktrace: {
-    url: 'https://arcgis4.roktech.net/arcgis/rest/services/rsi/NetworkTrace/GPServer/NetworkTrace/',
+    url: 'https://gis.3riverswetweather.org/arcgis/rest/services/rsi/NetworkTrace/GPServer/NetworkTrace/',
     token: { "token": "", "expires": 0 },
     service: null,
     /**
@@ -57791,7 +57791,7 @@ var atlas = {
 
       },
       error: function(error) {
-        var msg = "There was an error acquiring the Sewer Atlas token and initializing Sewer Atlas data and analysis services";
+        var msg = "Uh-oh! There was an error acquiring the Sewer Atlas token and initializing the 3RWW Sewer Atlas data and analysis services that power this map. Waiting a minute and then refreshing your browser should fix this issue.";
         console.log(msg, error);
         messageControl.onError(msg);
       }
@@ -58082,7 +58082,7 @@ var traceResultStyle = {
  * base map (custom mapbox tileset with no labels!)
  */
 var basemap = L.tileLayer(
-  "https://api.mapbox.com/styles/v1/civicmapper/cjzunfnvt0dzc1cleg4ewogw4/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2p6ZDNvNWZwMDYzMzNsbGl2NzVvMDYxMiJ9.CYmF6asaUR8R1zqT8UFBPA", {
+  "https://api.mapbox.com/styles/v1/civicmapper/cjzunfnvt0dzc1cleg4ewogw4/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2pjY2d2N2dhMDBraDMzbXRhOXpiZXJsayJ9.8JfoANBxEIrySG5avX4PWQ", {
   maxZoom: 20,
   zIndex: 1,
   // attribution: 'Basemap &copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a><span> and &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a></span>'

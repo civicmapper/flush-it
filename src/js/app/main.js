@@ -47,7 +47,7 @@ function authCallback(thing) {
  */
 var atlas = {
   rsi_featurelayer: {
-    url: 'https://arcgis4.roktech.net/arcgis/rest/services/rsi/rsi_featurelayer/MapServer',
+    url: 'https://gis.3riverswetweather.org/arcgis/rest/services/rsi/rsi_featurelayer/MapServer',
     token: { "token": "", "expires": 0 },
     layers: [0, 2, 3, 4, 5],
     //layerDefs: {0:"LBS_TAG='LBs_1319249'"},
@@ -72,7 +72,7 @@ var atlas = {
     }
   },
   rsi_tilelayer: {
-    url: 'https://arcgis4.roktech.net/arcgis/rest/services/rsi/trww_flush_it/MapServer',
+    url: 'https://gis.3riverswetweather.org/arcgis/rest/services/rsi/trww_flush_it/MapServer',
     token: { "token": "", "expires": 0 },
     layer: null,
     /**
@@ -98,7 +98,7 @@ var atlas = {
     }
   },
   rsi_networktrace: {
-    url: 'https://arcgis4.roktech.net/arcgis/rest/services/rsi/NetworkTrace/GPServer/NetworkTrace/',
+    url: 'https://gis.3riverswetweather.org/arcgis/rest/services/rsi/NetworkTrace/GPServer/NetworkTrace/',
     token: { "token": "", "expires": 0 },
     service: null,
     /**
@@ -151,7 +151,7 @@ var atlas = {
 
       },
       error: function(error) {
-        var msg = "There was an error acquiring the Sewer Atlas token and initializing Sewer Atlas data and analysis services";
+        var msg = "Uh-oh! There was an error acquiring the Sewer Atlas token and initializing the 3RWW Sewer Atlas data and analysis services that power this map. Waiting a minute and then refreshing your browser should fix this issue.";
         console.log(msg, error);
         messageControl.onError(msg);
       }
