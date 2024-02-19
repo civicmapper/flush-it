@@ -57673,7 +57673,7 @@ function roundNumber (value, decimals) { return Number(Math.round(value+'e'+deci
  * GIS, geoprocessing, and services config
  */
 
-var mapbox_key = 'pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2p6ZDNvNWZwMDYzMzNsbGl2NzVvMDYxMiJ9.CYmF6asaUR8R1zqT8UFBPA';
+var mapbox_key = 'pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2xzcnh0djd0MWdqNjJycHB4cHpndWRsZyJ9.ny5hT84bBv6o65F4KLyWeQ';
 
 $('#msg-tracing').hide();
 $('#msg-error').hide();
@@ -58072,7 +58072,7 @@ var traceResultStyle = {
 // basemap layers
 
 var basemap = L.tileLayer(
-  "https://api.mapbox.com/styles/v1/civicmapper/ck5a4a9k628ci1co6jrxow057/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2p6ZDNvNWZwMDYzMzNsbGl2NzVvMDYxMiJ9.CYmF6asaUR8R1zqT8UFBPA", {
+  "https://api.mapbox.com/styles/v1/civicmapper/ck5a4a9k628ci1co6jrxow057/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2xzcnh0djd0MWdqNjJycHB4cHpndWRsZyJ9.ny5hT84bBv6o65F4KLyWeQ", {
     maxZoom: 20,
     zIndex: 1,
     attribution: '', // added through modal
@@ -58548,7 +58548,7 @@ function appInit() {
         remote: {
             // rateLimitWait: 1000,
             // wildcard: '%QUERY',
-            url: 'https://api.mapbox.com/geocoding/v5/mapbox.places/%QUERY.json?bbox=-80.2863,40.2984,-79.6814,40.5910&access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2p6ZDNvNWZwMDYzMzNsbGl2NzVvMDYxMiJ9.CYmF6asaUR8R1zqT8UFBPA',
+            url: 'https://api.mapbox.com/geocoding/v5/mapbox.places/%QUERY.json?bbox=-80.2863,40.2984,-79.6814,40.5910&access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2xzcnh0djd0MWdqNjJycHB4cHpndWRsZyJ9.ny5hT84bBv6o65F4KLyWeQ',
             // prepare: function(query, settings) {
             //     console.log(settings);
             //     // $("#searchicon").removeClass("fa-search").addClass("fa-refresh fa-spin");

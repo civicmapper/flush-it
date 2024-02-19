@@ -57671,7 +57671,7 @@ require("typeahead.js/dist/typeahead.bundle.js");
  * GIS, geoprocessing, and services config
  */
 
-var mapbox_key = 'pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2pjY2d2N2dhMDBraDMzbXRhOXpiZXJsayJ9.8JfoANBxEIrySG5avX4PWQ';
+var mapbox_key = 'pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2xzcnh0bGJqMWg5dTJrcGJzaTVyOXEyYiJ9.p_HYrHLSjkVuf8fC706soQ';
 
 $('#msg-tracing').hide();
 $('#msg-error').hide();
@@ -58085,7 +58085,7 @@ var traceResultStyle = {
  * base map (custom mapbox tileset with no labels!)
  */
 var basemap = L.tileLayer(
-  "https://api.mapbox.com/styles/v1/civicmapper/cjzunfnvt0dzc1cleg4ewogw4/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2pjY2d2N2dhMDBraDMzbXRhOXpiZXJsayJ9.8JfoANBxEIrySG5avX4PWQ", {
+  "https://api.mapbox.com/styles/v1/civicmapper/cjzunfnvt0dzc1cleg4ewogw4/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2xzcnh0bGJqMWg5dTJrcGJzaTVyOXEyYiJ9.p_HYrHLSjkVuf8fC706soQ", {
   maxZoom: 20,
   zIndex: 1,
   // attribution: 'Basemap &copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a><span> and &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a></span>'
@@ -58550,7 +58550,7 @@ function appInit() {
     remote: {
       // rateLimitWait: 1000,
       // wildcard: '%QUERY',
-      url: 'https://api.mapbox.com/geocoding/v5/mapbox.places/%QUERY.json?bbox=-80.2863,40.2984,-79.6814,40.5910&access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2pjY2d2N2dhMDBraDMzbXRhOXpiZXJsayJ9.8JfoANBxEIrySG5avX4PWQ',
+      url: 'https://api.mapbox.com/geocoding/v5/mapbox.places/%QUERY.json?bbox=-80.2863,40.2984,-79.6814,40.5910&access_token=pk.eyJ1IjoiY2l2aWNtYXBwZXIiLCJhIjoiY2xzcnh0bGJqMWg5dTJrcGJzaTVyOXEyYiJ9.p_HYrHLSjkVuf8fC706soQ',
       // prepare: function(query, settings) {
       //     console.log(settings);
       //     // $("#searchicon").removeClass("fa-search").addClass("fa-refresh fa-spin");

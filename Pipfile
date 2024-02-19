@@ -1,23 +1,20 @@
 [[source]]
-
 verify_ssl = true
 url = "https://pypi.python.org/simple"
 name = "pypi"
 
-
 [requires]
-
-python_version = "3.7"
-
+python_version = "3.10"
 
 [dev-packages]
-
-
+pylint = "2.3.1"
+rope = "0.14.0"
 
 [packages]
-
-flask = "*"
-requests = "*"
-watchdog = "*"
-pylint = "*"
-rope = "*"
+flask = "==1.1.1"
+requests = "==2.21"
+watchdog = "==2"
+jinja2 = "==2.10.3"
+werkzeug = "==0.16"
+itsdangerous = "==1.1"
+markupsafe = "==1.1.1"
