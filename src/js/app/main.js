@@ -226,8 +226,8 @@ var messageControl = {
       "ALCOSAN processed about 65 billion gallons of wastewater and stormwater in 2024.",
       "ALCOSAN removed 74 million pounds of solid waste in 2024.",
       "Nearly 1,500 people participated in ALCOSAN's 2024 Open House.",
-      "ALCOSAN has awarded approximately over $77.5 million in grant funding for source control projects such as green infrastructure, infiltration and inflow, ",sewer separation and direct stream inflow removal to local municipalities and authorities through its Green Revitalization of Our Waterways (GROW) program.
-      "The completed GROW projects are estimated to have removed over 1.1 billion gallons of water per year from the system and reduced overflow by over 200 ",million gallons per year.
+      "ALCOSAN has awarded approximately over $77.5 million in grant funding for source control projects such as green infrastructure, infiltration and inflow, sewer separation and direct stream inflow removal to local municipalities and authorities through its Green Revitalization of Our Waterways (GROW) program.",
+      "The completed GROW projects are estimated to have removed over 1.1 billion gallons of water per year from the system and reduced overflow by over 200,million gallons per year.",
       "ALCOSAN's Clean Water Assistance Fund assisted over 1,450 families in 2024.",
       "ALCOSAN employees visited more than 147 schools, daycares, and afterschool programs in 2024.",
       "Approximately 21,424 students in grades Pre-K through 12 participated in a hands-on activity facility by ALCOSAN in 2024.",
