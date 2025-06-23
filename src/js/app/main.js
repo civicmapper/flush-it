@@ -214,26 +214,26 @@ var messageControl = {
   },
   messages: {
     facts: [
-      "ALCOSAN’s 59-acre treatment plan is one of the largest wastewater treatment facilities in the Ohio River Valley.",
+      "ALCOSAN's 59-acre treatment plan is one of the largest wastewater treatment facilities in the Ohio River Valley.",
       "ALCOSAN can process up to 250 million gallons of wastewater a day (enough to fill 5 million bathtubs!).",
-      "On average, ALCOSAN treats about 200 million gallons of wastewater a day. ",
+      "ALCOSAN treats an average of 200 million gallons of wastewater a day. ",
       "ALCOSAN serves 83 municipalities in Allegheny County, including the City of Pittsburgh.",
-      "ALCOSAN employs approximately 424 employees. ",
+      "ALCOSAN has more than 430 employees. ",
       "ALCOSAN manages approximately 90 miles of sewers.",
-      "More than one million people benefit from ALCOSAN’s wastewater treatment services.",
+      "More than one million people benefit from ALCOSA's wastewater treatment services.",
       "ALCOSAN was created in 1946 under the Pennsylvania Municipal Authorities Act and began treating wastewater in 1959.",
-      "ALCOSAN processed 71 billion gallons of wastewater and stormwater in 2022.",
-      "ALCOSAN removed 83 million pounds of solid waste in 2022.",
-      "ALCOSAN employees attended approximately 100 municipal meetings in 2022. ",
-      "ALCOSAN’s 2022 Open House event was scaled down due to plant expansion yet over 1000 people were in attendance)",
-      "Wastewater is collected in a 120-foot deep wet well and pumped into the treatment process at a rate of 128,000 gallons per minute.",
-      "ALCOSAN has awarded approximately $70 million to local municipalities and authorities through its Green Revitalization of Our Waterways (GROW) program.",
-      "ALCOSAN’s Clean Water Assistance Fund assisted over 2,000 families in 2022.",
-      "ALCOSAN employees visited more than 125 schools, daycares, and afterschool programs.",
-      "Approximately 21,250 students in grades Pre-K through 12 participated in a hands-on activity facility by ALCOSAN.",
-      "ALCOSAN offered engaging hands-on STEAM activities to nearly 100 children (ages 3-6); by providing a virtual Pre-K Explore Day quarterly. ",
+      "Wastewater is collected in a 120-foot deep wet well and pumped into the treatment plant at an average rate of 12,328 gallons per minute.",
+      "ALCOSAN processed about 65 billion gallons of wastewater and stormwater in 2024.",
+      "ALCOSAN removed 74 million pounds of solid waste in 2024.",
+      "Nearly 1,500 people participated in ALCOSAN's 2024 Open House.",
+      "ALCOSAN has awarded approximately over $77.5 million in grant funding for source control projects such as green infrastructure, infiltration and inflow, ",sewer separation and direct stream inflow removal to local municipalities and authorities through its Green Revitalization of Our Waterways (GROW) program.
+      "The completed GROW projects are estimated to have removed over 1.1 billion gallons of water per year from the system and reduced overflow by over 200 ",million gallons per year.
+      "ALCOSAN's Clean Water Assistance Fund assisted over 1,450 families in 2024.",
+      "ALCOSAN employees visited more than 147 schools, daycares, and afterschool programs in 2024.",
+      "Approximately 21,424 students in grades Pre-K through 12 participated in a hands-on activity facility by ALCOSAN in 2024.",
+      "ALCOSAN offered engaging hands-on STEAM activities to over 200 children (ages 3-6) by providing a virtual Pre-K Explore Day quarterly in 2024. ",
       "ALCOSAN provides internships and career shadowing opportunities to local high school and college students.  ",
-      "Approximately 75 students attended Summer Programming held at ALCOSAN to learn more about the environment and our Clean Water Plan."
+      "Approximately 125 students attended summer programming held at ALCOSAN to learn more about the environment and our Clean Water Plan in 2024."
     ],
   },
   randomMsg: function(msgList) {
